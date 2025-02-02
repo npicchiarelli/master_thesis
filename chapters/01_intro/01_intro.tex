@@ -22,17 +22,35 @@
 	
 	%There are several model features and properties that can be exploited to develop both analysis methods and new technologies based on active matter, e.g.\ self organization and clustering are relevant in the study of bacterial and algae colonies, while in the artificial world much use can be made of properties like chaining, clustering or vortices.
 	
-	\section{Micro Scale Robotics and CELLOIDS}
-	The first one to bring the concept of robotics at micro scale, especially for medical applications into a scientific context was Richard Feynman in the famous 1959 CalTech conference \citetitle{Feynman} \cite{Feynman}, from which the following quote is taken:
+	\section{Microrobotics and CELLOIDS}
+	The first one to bring the concept of robotics at the micro scale, especially for medical applications, into a scientific context was Richard Feynman in the famous 1959 CalTech seminar \citetitle{Feynman} \cite{Feynman}:
 	\begin{displayquote}
 		Many of the cells are very tiny, but they are very active \omissis Consider the possibility that we too can make a thing very small which does what we want — that we can manufacture an object that maneuvers at that level!
 		
 		\omissis it would be interesting in surgery if you could swallow the surgeon. You put the mechanical surgeon inside the blood vessel and it goes into the heart and "looks" around. \omissis It finds out which valve is the faulty one and takes a little knife and slices it out. Other small machines might be permanently incorporated in the body to assist some inadequately functioning organ.
 	\end{displayquote}
 	
-	The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot which is just a miniaturized version of a macroscopic one. Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in-meaning, at low Reynolds number $\mathrm{Re} \equiv \rho v L/\eta$-requires quite a different approach than what we are used to in the macroscopic world. When inertia is negligible, it is impossible to swim using a \emph{reciprocal motion}, that is, a cyclic motion that follows the same path forward and back \cite{purcell_life_1977}. Needles to say that turning a propeller with a miniaturized macroscopic motor won't be optimal at this scale, since its starting torque would be extremely large. These huge difficulties are encountered if one just wants to swim in a simple fluid. Using a micro robot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.
+	The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot that is just a miniaturized version of a macroscopic one. 
+	Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in --- meaning, at low Reynolds number $\mathrm{Re} \equiv \rho v L/\eta$ --- requires quite a different approach than what we are used to in the macroscopic world. 
+	When inertia is negligible, it is impossible to swim using a \emph{reciprocal motion}, that is, a cyclic motion that follows the same path forward and back \cite{purcell_life_1977}. 
+	Needles to say that turning a propeller with a miniaturized macroscopic motor will not be optimal at this scale, since its starting torque would be extremely large. 
+	These huge difficulties are encountered if one just wants to swim in a simple fluid. 
+	Using a microrobot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. 
+	Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. 
+	When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.
+	\begin{quote}
+		QUI FAI UN PO' UN GIRO STRANO, DA Feynman ALLO SCALING DELLE GRANDEZZE ALLE CELLULE IMMUNITARIE. DOVRESTI PIUTTOSTO DEFINIRE COSA INTENDIAMO PER MICROROBOT, MAGARI CITANDO ANCHE UN ARTICOLO DI RIFERIMENTO IN MICROROBOTICA.
+	\end{quote}
 	
-	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system that takes inspiration from the amoeboid propulsion of immune cells. CELLOIDS’ concept for a microrobot is using a phospholipids GUV (Giant Unilamellar Vesicle), filled with ABPs, as robot's body. GUV’s walls are deformable and can be pushed from the inside by ABPs, leading to further deformation and, in the end, motility, mimicking the behavior of living cells that can shrink through a biological tissue. A single ABP is a Janus sphere, with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity; this makes the solvent flow around the particle causing it to move. In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposed using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
+	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a microscale intelligent robotic system that takes inspiration from the amoeboid locomotion of immune cells. 
+	CELLOIDS' concept for a microrobot is using a phospholipids Giant Unilamellar Vesicle (GUV), filled with active particles, as robot's body. 
+	GUVs' membranes are deformable and can be pushed from the inside by active particles, leading to active deformation and, in the end, motility, mimicking the behavior of living cells that can shrink and move through the interstices of biological tissues (interstitial migration). 
+	A single active particle is a Janus sphere with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity. 
+	This makes the solvent flow around the particle causing it to move. 
+	\begin{quote}
+		QUESTO LO PUOI SPIEGARE UN PO' MEGLIO... A LEZIONE ABBIAMO PARLATO DI FORESI, VELOCITÀ DI SLIP APPARENTE, ...
+	\end{quote}
+	In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposited using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
 	\begin{align}
 		\ch{2 H2O2 ->[Pt] 2 H2O + O2}
 	\end{align}
