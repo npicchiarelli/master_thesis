@@ -36,23 +36,23 @@
 			\textbf{Variable} & \textbf{Type} & \textbf{Description} \\
 			\hline
 			\texttt{Np}  & \texttt{Int64} & Number of particles \\
-			\texttt{L}   & \texttt{Float64} & Size of observation space ($\mu$m) \\
-			\texttt{R}   & \texttt{Float64} & Particle radius ($\mu$m) \\
-			\texttt{T}   & \texttt{Float64} & Temperature (K) \\
-			\texttt{v}   & \texttt{Vector\{Float64\}} & Self-Propulsion Velocity ($\mu$m/s) \\
-			\texttt{$\mathtt{\omega}$}   & \texttt{Vector\{Float64\}} & Self-Propulsion Angular velocity (rad/s) \\
-			$\mathtt{D_T}$  & \texttt{Float64} & Translational diffusion coefficient ($\mu$m$^2$/s) \\
-			$\mathtt{D_R}$  & \texttt{Float64} & Rotational diffusion coefficient (rad$^2$/s) \\
-			\texttt{x}   & \texttt{Vector\{Float64\}} & Particle X position ($\mu$m) \\
-			\texttt{y}   & \texttt{Vector\{Float64\}} & Particle Y position ($\mu$m) \\
-			\texttt{$\mathtt{\theta}$}   & \texttt{Vector\{Float64\}} & Particle orientation (rad) \\
+			\texttt{L}   & \texttt{Float64} & Size of observation space (\unit{\micro\meter}) \\
+			\texttt{R}   & \texttt{Float64} & Particle radius (\unit{\micro\meter}) \\
+			\texttt{T}   & \texttt{Float64} & Temperature (\unit{\kelvin}) \\
+			\texttt{v}   & \texttt{Vector\{Float64\}} & Self-Propulsion Velocity (\unit{\micro\meter\per\second}) \\
+			\texttt{$\mathtt{\omega}$}   & \texttt{Vector\{Float64\}} & Self-Propulsion Angular velocity (\unit{\radian\per\second}) \\
+			$\mathtt{D_T}$  & \texttt{Float64} & Translational diffusion coefficient (\unit{\square\micro\meter\per\second}) \\
+			$\mathtt{D_R}$  & \texttt{Float64} & Rotational diffusion coefficient (\unit{\square\radian\per\second}) \\
+			\texttt{x}   & \texttt{Vector\{Float64\}} & Particle X position (\unit{\micro\meter}) \\
+			\texttt{y}   & \texttt{Vector\{Float64\}} & Particle Y position (\unit{\micro\meter}) \\
+			\texttt{$\mathtt{\theta}$}   & \texttt{Vector\{Float64\}} & Particle orientation (\unit{\radian}) \\
 		\end{tabular}
 		\caption{Structure definition of \texttt{ABPE} in Julia}
 		\label{tab:ABPE2}
 	\end{table}
 	Global variables are numbers and all single particle variables, such as positions, are vectors of Np elements. %Some of variables are redundant, e.g.\ diffusion coefficients can be easily found starting from $T\text{ and } R$, as in \ref{eq:diff_coeff}, but it is useful to have them pre-computed for speed sake.
 	
-	In point 3.\ positions and orientations get updated with both the deterministic and stochastic parts of the dynamics. This operation can be done either by updating a single instance of ABPE class or by appending to a pre-allocated vector one instance for every time step. The first method is more memory efficient, and it is the one to prefer if no memory is needed, i.e.\ only step $n$ counts to determine what happens at step $n+1$. A minimal example of this workflow is in pseudo code \ref{alg:sim1}, with Euler as an integrator.
+	In point 3.\ positions and orientations get updated with both the deterministic and stochastic parts of the dynamics. This operation can be done either by updating a single instance of ABPE class or by appending to a pre-allocated vector one instance for every time step. The first method is more memory efficient, and it is the one to prefer if no memory is needed, i.e.\ only step $n$ counts to determine what happens at step $n+1$. A minimal example of this workflow, with Euler as an integrator, is in pseudo code \ref{alg:sim1}.
 	
 	\begin{algorithm}
 		\caption{The simulation algorithm} \label{alg:sim1}	
@@ -74,10 +74,11 @@
 		\end{algorithmic}
 	\end{algorithm}  
 	
-		\section{Methods}
-	All the simulation and analysis code for this thesis was written in \julia\ \cite{julia}, except for the machine learning and inference part, where the Graph Network definition and training makes use of Python libraries like PyTorch \citeauthor{pytorch} and PyTorch-geometric \citeauthor{pyg}, along with standard scientific computing tools like NumPy \citeauthor{numpy} and Pandas \citeauthor{pandas}.
+	\section{Methods}
+	All the simulation and analysis code for this thesis was written in \julia\ \cite{julia}, except for the machine learning and inference part, where the Graph Network definition and training makes use of Python libraries like PyTorch \cite{pytorch} and PyTorch-geometric \cite{pyg}, along with standard scientific computing tools like NumPy \cite{numpy} and Pandas \cite{pandas}.
 	
-	Heun was chosen as the standard integration scheme for all the simulations, integration steps vary with the different potentials and are indicated case by case. All the simulations were performed with real units, so that particles have a radius of $2\text{ }\mathrm{\mu m}$ and the value for solvent viscosity is kept fixed at $\eta = 10^{-3}$ P. If not indicated, standard temperature for simulations is held fixed at $300$ K.
+
+	Heun was chosen as the standard integration scheme for all the simulations, integration steps vary with the different potentials and are indicated case by case. All the simulations were performed with real units, so that particles have a radius of \SI{2}{\um} and the value for solvent viscosity is kept fixed at \SI{1e-3}{\pascal\second}. If not indicated, standard temperature for simulations is held fixed at \SI{300}{\kelvin}.
 	
 	All simulations were performed in a 2 dimensional square environment, where particles are disks, featuring periodic boundary conditions and a non-superposition condition (hard sphere correction). Given that positions are simulated in open periodic boundary, all interactions are calculated periodically too, taking the shortest between the in-box and the periodic distance.
 
@@ -100,8 +101,8 @@
 		
 	We give here the expressions and parameters explanation for the potentials tested in this thesis. Spring force has two parameters, elastic constant $k$ and rest length $r_0$, so that 
 	\begin{equation}
-		V(r) = \frac{1}{2}k (r-r_0)^2 \rightarrow F(r) = -k(r-r_0)
-	\end{equation}.
+		V(r) = \frac{1}{2}k (r-r_0)^2 \rightarrow F(r) = -k(r-r_0).
+	\end{equation}
 	What we will often call Coulomb force is actually a $r^-2$ order potential with a constant $k$ that does not involve charges and it is present only to adjust the strength of interaction, that writes
 	\begin{equation}
 		V(r) = -\frac{k}{r} \rightarrow F(r) = \frac{k}{r^2}
@@ -112,7 +113,15 @@
 	\end{equation}
 	where $\sigma$ is a location parameter that in our simulations will be fixed at the value of particle's diameter $2R$, and $\varepsilon$ adjusts the strength of interaction. This potential has an absolute minimum for $r = 2^{1/6}\sigma$.
 	
-	%PLOTS?
+	\begin{figure}[htp]
+		\centering
+		\subfloat[][]{\includegraphics[width=\subfigwidth]{spring.png}}\quad
+		\subfloat[][]{\includegraphics[width=\subfigwidth]{coulomb.png}}\quad
+		\subfloat[][]{\includegraphics[width=\subfigwidth]{lj.png}}
+		\caption{Tested interaction forces for given values of their parameters.}
+		\label{fig:potentials}
+	\end{figure}
+
 	
 	\subsection{Interactions Range} \label{intrange}
 	In some situations is useful to have a way to restrict the force computation only to particles closer than a threshold distance.
@@ -133,7 +142,7 @@
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=\textwidth]{periodic_interaction.png}
-		\caption{Red: original points with Z as central point and its interaction box sticking out on the opposite side. Blue: shifted points (blue) w.r.t.\ Z, Green: shifted points with PBC applied.}
+		\caption{Red: original points with Z as central point and its interaction box sticking out on the opposite side. Blue: shifted points w.r.t.\ Z. Green: shifted points with PBC applied.}
 		\label{fig:periodicint}
 	\end{figure}
 	
@@ -164,7 +173,7 @@
 		\label{fig:geom_model}
 	\end{figure}
 	
-		\section{Boundary Conditions and Hard Sphere Correction}
+	\section{Boundary Conditions and Hard Sphere Correction}
 	\subsection{Boundary Conditions}
 	Original code featured open, periodic or hard boundary conditions. We will not go through all of them, but briefly, open boundary conditions means just doing nothing, while a hard wall involves computing boundary's gradient in any point and using it as a locally straight wall condition.
 	
@@ -185,6 +194,7 @@
 	\end{algorithm}
 	
 	\subsection{Hard Sphere Correction}
+	\label{hs}
 	Interactions among particles were steric hard sphere correction, which are enough to study clustering, MIPS and boundary accumulation. The hard sphere correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
 	
 	
@@ -205,7 +215,7 @@
 	
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width = 0.7\textwidth]{callegari_volpe_2019_hardsphere.png}
+		\includegraphics[width = \textwidth]{callegari_volpe_2019_hardsphere.png}
 		\label{fig:hardsphere}
 		\caption{If in one step two particles superimpose, hard sphere correction moves them at one diameter distance \cite{callegari_numerical_2019}}
 	\end{figure}
@@ -219,11 +229,18 @@
 	\subsection{Modified Periodic Boundary Steric Interactions}
 	Since hard sphere corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
 	
-	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct. With the hard sphere correction as it was described in section \ref{prevdev}, particles are separated when their distance is less than their diameter. With periodic boundary conditions, a particles is reflected e.g., on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$). This may leave a \emph{frame} of size $R$ around the boundary where inter particle periodic distance can be less then $2R$. 
+	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct. With the hard sphere correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter. With periodic boundary conditions, a particles is reflected e.g., on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$). This may leave a \emph{frame} of size $R$ around the boundary where inter particle periodic distance can be less then $2R$. 
 	
 	When combined with potentials that feature a \emph{soft} non-superposition condition, like a diverging positive force at a $2R$ distance, this can lead to pairs of particles sticking out of the border on opposite sides and superimposing a lot before one of them gets reflected on the other side, but when this happens, the force between them diverges, resulting in nonphysical situations like particles moving far outside the box.
 	
-	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but x and y components are separately checked. For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles. If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied. To eliminate this superposition, we implemented the hard sphere correction as in section \ref{prevdev} to superimposing pairs at the boundary. This method allows us to identify superpositions at the boundaries, thus giving the possibility to form clusters starting from a \emph{nucleation site} on the border. 
+	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but x and y components are separately checked. For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles. If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied. To eliminate this superposition, we implemented the hard sphere correction as in section \ref{hs} to superimposing pairs at the boundary. This method allows us to identify superpositions at the boundaries, thus giving the possibility to form clusters starting from a \emph{nucleation site} on the border. 
+	
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width = \textwidth]{periodic_hs.png}
+		\label{fig:periodic_hs}
+		\caption{Orange particle is sticking out on the left side. Its \emph{real} distance from blue particle on x-axis is $\Delta x$. Its periodic projection (faded orange) has a distance from blue particle $\Delta x_p < 2R$, hence superimposing.}
+	\end{figure}
 	
 	\section{Qualitative comparison between experiments and simulations} \label{qualitative}
 	

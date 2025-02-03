@@ -3,6 +3,9 @@
 \usepackage[utf8]{inputenc}   % sepcial chars from keyboard
 \usepackage[english]{babel}   % document language
 
+\usepackage{subfiles}
+\usepackage{standalone}
+
 \usepackage{graphicx}		  % images
 \usepackage{wrapfig}          % wrapped figures
 \usepackage{subfig}           % subfigures
@@ -10,7 +13,6 @@
 \usepackage{subcaption}       % captions in subfigures
 
 \usepackage{xcolor}           % colors
-\usepackage{physics}          % derivatives
 \usepackage{chemformula}      % chemical formulas
 \usepackage{microtype}	      % font expansion and justification
 \usepackage{comment}          % multi line comments
@@ -19,6 +21,8 @@
 \usepackage{algpseudocodex}   % algorithm pseudocode
 \usepackage[backend = biber, style=numeric]{biblatex}         % bibliograpy
 \usepackage[]{csquotes} % quotations
+\usepackage{siunitx}
+\usepackage{physics}
 
 \makeatletter
 
@@ -27,8 +31,7 @@
 {\end{quote}}  % End with original quote environment
 %\usepackage{fancyhdr} %to make "better looking" page headers
 %\pagestyle{fancy}
-\usepackage{subfiles}
-\usepackage{standalone}
+
 \usepackage{hyperref}
 \hypersetup{hidelinks}
 
@@ -54,6 +57,9 @@
 	
 	\frontmatter
 	\maketitle
+	%\tableofcontents
+	%\listoffigures
+	%\listoftables
 	
 	\mainmatter
 	\subfile{./chapters/01_intro/01_intro}
@@ -63,9 +69,6 @@
 	\subfile{./chapters/03_struct/03_struct}
 	
 	\begin{comment}
-
-		\chapter{Analysis of Structure and Dynamics}
-		\section{Radial Distribution Function}
 		\chapter{Inference of interaction potentials from data}
 		\chapter{Conclusion}
 	\end{comment}

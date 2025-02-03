@@ -3,28 +3,60 @@
 
 \begin{document} 
 \chapter{Introduction}
-	The phenomenon of (passive) Brownian Motion is a well investigated topic in physics since 1827, when Robert Brown studied the motion of pollen grains suspended in water. A notable contribution in the mathematical formalization of Brownian motion was made by Einstein and Langevin \cite{gardiner_handbook_2004}. Later, Ornstein and Uhlenbeck \cite{uhlenbeck_theory_1930} studied some fundamental properties such as the mean-square displacement of a Brownian particle in 2D . Since then, researchers across various fields have explored the properties of Brownian Particles systems in numerous variations, one of which is Active Brownian Particles (ABP). 
+	The phenomenon of (passive) Brownian Motion is a well investigated topic in physics since 1827, when Robert Brown studied pollen grains suspended in water, finding out that they moved in an erratic, extremely irregular way.
+	After experimenting with non-organic suspended particles, he concluded that this random motion must be caused by the fluid.
+	Physically, it is possible to define Brownian motion as the effect of the impacts between the fluid particles and the suspended grain: since fluid's motion can be described by thermodynamics at particle level as a series of random fluctuations, impacts will be random as well, leading to an intrinsic stochasticity in the position of the particle.
+	A notable contribution in the mathematical formalization of Brownian motion, based on random impacts, was made by Einstein and Langevin \cite{gardiner_handbook_2004}. 
+	Later, Ornstein and Uhlenbeck \cite{uhlenbeck_theory_1930} studied some fundamental properties such as the mean-square displacement of a Brownian particle in 2D.
+	Although relatively simple, this model is able to explain the statistical properties of particles suspended in a medium, but more can be added to it to mimic real world behaviors. 
+	There are some kind of \emph{particles}, such as bacteria, algae or other living beings that are able to propel themselves with a deterministic velocity, leading to more complex behaviors than the ones observed with pollen grains in water. 
+	One of the models that can be created adding deterministic properties along the stochastic behavior of a Brownian motion is Active Brownian Particles (ABPs).
 	
 	ABPs are distinguished by their ability to extract energy from the environment and use it to autonomously propel themselves, thus making them a fundamental model for non-equilibrium active matter systems.	
 	The motility mechanism can be mechanic, like cilia or flagella used by micro-organisms, or thermo- and chemodynamic, like phoresis of various nature \citeauthor{moran_phoretic_2017}.
 	
-	Incorporating self-propulsion within the Brownian framework enables the emergence of numerous novel behaviors, among which self-organization being noteworthy and the subject of this thesis. Across different systems, details about a single particle may differ, especially in propulsion mechanisms, nonetheless it is possible to build minimal statistical physics models that mimic real world dynamics, leading the way to the discovery of new physics as well as methods to analyze real living beings' behaviors and new ideas in material science. 
+	Incorporating self-propulsion within the Brownian framework enables the emergence of numerous novel behaviors, among which self-organization being noteworthy and the subject of this thesis. 
+	Across different systems, details about a single particle may differ, especially in propulsion mechanisms, nonetheless it is possible to build minimal statistical physics models that mimic real world dynamics, leading the way to the discovery of new physics as well as methods to analyze real living beings' behaviors and new ideas in material science. 
 	
 	%There are several model features and properties that can be exploited to develop both analysis methods and new technologies based on active matter, e.g.\ self organization and clustering are relevant in the study of bacterial and algae colonies, while in the artificial world much use can be made of properties like chaining, clustering or vortices.
 
 
 	
 	\section{Micro Scale Robotics and CELLOIDS}
-	The first one to bring the concept of robotics at micro scale, especially for medical applications into a scientific context was Richard Feynman in the famous 1959 CalTech conference \citetitle{Feynman} \cite{Feynman}, from which the following quote is taken:
-	\begin{displayquote}
-		Many of the cells are very tiny, but they are very active \omissis Consider the possibility that we too can make a thing very small which does what we want — that we can manufacture an object that maneuvers at that level!
-		
-		\omissis it would be interesting in surgery if you could swallow the surgeon. You put the mechanical surgeon inside the blood vessel and it goes into the heart and "looks" around. \omissis It finds out which valve is the faulty one and takes a little knife and slices it out. Other small machines might be permanently incorporated in the body to assist some inadequately functioning organ.
-	\end{displayquote}
-	
-	The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot which is just a miniaturized version of a macroscopic one. Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in-meaning, at low Reynolds number $\mathrm{Re} \equiv \rho v L/\eta$-requires quite a different approach than what we are used to in the macroscopic world. When inertia is negligible, it is impossible to swim using a \emph{reciprocal motion}, that is, a cyclic motion that follows the same path forward and back \cite{purcell_life_1977}. Needles to say that turning a propeller with a miniaturized macroscopic motor won't be optimal at this scale, since its starting torque would be extremely large. These huge difficulties are encountered if one just wants to swim in a simple fluid. Using a micro robot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.
-	
-	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system that takes inspiration from the amoeboid propulsion of immune cells. CELLOIDS’ concept for a microrobot is using a phospholipids GUV (Giant Unilamellar Vesicle), filled with ABPs, as robot's body. GUV’s walls are deformable and can be pushed from the inside by ABPs, leading to further deformation and, in the end, motility, mimicking the behavior of living cells that can shrink through a biological tissue. A single ABP is a Janus sphere, with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity; this makes the solvent flow around the particle causing it to move. In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposed using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
+	\begin{comment}
+			The first one to bring the concept of robotics at micro scale, especially for medical applications into a scientific context was Richard Feynman in the famous 1959 CalTech conference \citetitle{Feynman} \cite{Feynman}, from which the following quote is taken:
+		\begin{displayquote}
+			Many of the cells are very tiny, but they are very active \omissis Consider the possibility that we too can make a thing very small which does what we want — that we can manufacture an object that maneuvers at that level!
+			
+			\omissis it would be interesting in surgery if you could swallow the surgeon. You put the mechanical surgeon inside the blood vessel and it goes into the heart and "looks" around. \omissis It finds out which valve is the faulty one and takes a little knife and slices it out. Other small machines might be permanently incorporated in the body to assist some inadequately functioning organ.
+		\end{displayquote}
+		The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot which is just a miniaturized version of a macroscopic one.
+		Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in-meaning, at low Reynolds number $\mathrm{Re} \equiv \rho v L/\eta$-requires quite a different approach than what we are used to in the macroscopic world.
+		When inertia is negligible, it is impossible to swim using a \emph{reciprocal motion}, that is, a cyclic motion that follows the same path forward and back \cite{purcell_life_1977}. 
+		Needless to say that turning a propeller with a miniaturized macroscopic motor won't be optimal at this scale, since its starting torque would be extremely large. 
+		These huge difficulties are encountered if one just wants to swim in a simple fluid. 
+		Using a micro robot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. 
+		Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. 
+		When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.
+	\end{comment}
+	When talking about microrobots, we need to be clear about what a microrobot \emph{is}. 
+	A \emph{robot} is \enquote{a machine that can perform a complicated series of tasks by itself} \citeauthor{robot_def_oxf}; a microrobot is defined as a robot with
+	\begin{itemize}
+		\item \unit{\um} - \unit{\mm} size
+		\item some mobility properties
+		\item no tether
+	\end{itemize}
+	and its design needs some key ingredients, such as an actuation to make it motile, some kind of control and a power source to be able to perform desired tasks, as well as some sensing capability, to sample and observe surrounding environment. 
+
+	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system that takes inspiration from the amoeboid propulsion of immune cells. 
+	CELLOIDS’ concept for a microrobot is using a phospholipids GUV (Giant Unilamellar Vesicle), filled with ABPs, as robot's body. 
+	GUV’s walls are deformable and can be pushed from the inside by ABPs, leading to further deformation and, in the end, motility, mimicking the behavior of living cells that can shrink through a biological tissue.
+	A single ABP moves exploiting a mechanism called \emph{self-phoresis}: phoresis is defined in fluid dynamics as the migration of a particle due to a gradient in a scalar quantity ($\phi$) e.g.\ temperature or concentration. 
+	When the gradient is caused by the particle itself \emph{self-phoretic} movement takes place. 
+	When studying motion of a particle in a fluid it is common to take as boundary condition a no-slip condition, i.e.\ the layer of fluid in contact with particle's solid boundary has zero velocity w.r.t.\ the boundary itself, while in the study of phoresis, a small interfacial layer around particle's surface shows, on macroscopic length scales, an apparent finite slip velocity. 
+	Slip velocity is proportional to the local gradient of $\phi$ and the net migration pf the particle is equal in magnitude and opposite in sign to the area average of the slip velocity on particle surface.
+	When $\phi$ is the concentration of some solute in the fluid, \emph{diffusiophoresis} takes place; CELLOIDS tries to achieve this using as active particles Janus spheres, with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity; this makes the solvent flow around the particle causing it to move. 
+	In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposed using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
 	\begin{align}
 		\ch{2 H2O2 ->[Pt] 2 H2O + O2}
 	\end{align}
