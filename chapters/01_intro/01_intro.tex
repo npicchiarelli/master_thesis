@@ -197,11 +197,11 @@
 		\label{fig:negi_vision2}
 	\end{figure}
 	
-	\subsection{Analysis of ABPs behavior in experiments}
-	There exists quite a large literature that delves into experiments involving active Brownian particles. 
-	\cite{singh_pair_2024} analyzes what happens when two \ch{SiO2-Pt} Janus Particles come together in different configurations; authors take into account hydrodynamics and chemistry involved in the process, classifying the different possible cases. 
-	Although here we are trying to build a dry active matter simulation -means, absence of hydrodynamic and medium behavior is not simulated-papers like this accurately describe the phenomenology of these close encounters, which is essential to build minimal models that mimic real-world behavior. 
-	The main fact, supported both by simulations and experimental evidence, we can use is that particles do not long-range reorientation due to hydrodynamic or chemical interaction, and that the leading interactions are steric and near-contact chemical. 
+	\subsection{Experimental analysis of collective behaviors}
+	The interaction between active particles and their emergent collective behaviours have been studied also in experiments. 
+	\cite{singh_pair_2024} studies what happens when two \ch{SiO2-Pt} Janus particles come together in different configurations; the authors take into account hydrodynamics and chemistry involved in the process, classifying the different possible cases.\todo{in che senso ne tengono conto?} 
+	Although here we are trying to build a dry active matter simulation --- means, absence of hydrodynamic and medium behavior is not simulated --- papers like this accurately describe the phenomenology of these close encounters, which is essential to build minimal models that mimic real-world behavior. 
+	The main fact, supported both by simulations and experimental evidence, we can use is that particles do not long-range reorientation due to hydrodynamic or chemical interaction, and that the leading interactions are steric and near-contact chemical.\todo{frase non chiara, riscrivere}
 	
 	Dispersing Janus colloids in a \ch{H2O2} solution in a quasi-2D environment, the types of configurations particles can scatter in are limited and categorized by the authors in four dynamical states. 
 	The classification of both approach and departure states, along with a relative frequency histogram is in \ref{fig:singh_pair1}.
@@ -213,12 +213,13 @@
 		\label{fig:singh_pair1}
 	\end{figure}
 	
-	It is evident from this article that particles exert a torque on each other at short range and this interaction, which is a product of the intrinsic asymmetry of a Janus colloid, must be considered in order to capture all the dynamics of these microswimmers.
+	It is evident from this article that such particles exert a torque on each other at short range and this interaction, which is a product of the intrinsic asymmetry of a Janus colloid, must be considered in order to capture all the dynamics of these micro-swimmers.
 		
-	Emergent properties and collective behaviors might seem a purely theoretic matter but, as was displayed at the start of this section, there are some attempts to challenge this subject from an observational point of view. 
-	\cite{maity_spontaneous_2023} aims at doing exactly so, investigating what happens with a double population of active colloidal particles. 
-	Those colloids move due to a different mechanism than the one seen before, whose details won't be discussed here, called Quincke instability; with enough particle density, the solvent mediates an aligning interaction which makes the system undergo a Vicsek-like flocking transition that, within a circular confinement, takes place as a vortex motion. The two populations are distinguished by a difference in diameter and in velocity. 
-	In the space of some minutes, the initially uniform sample demixes spontaneously, directing to a segregated state where the two populations are well separated and their relative densities have a different radial profile, as shown in Figure \ref{fig:maity1}.
+	\sout{Emergent properties and collective behaviors might seem a purely theoretic matter but, as was displayed at the start of this section, there are some attempts to challenge this subject from an observational point of view. }
+	\cite{maity_spontaneous_2023} investigate what happens with a double population\todo{in che senso doppia?} of active colloidal particles. 
+	Those colloids move due to a different mechanism than the one seen before, whose details will not be discussed here, called Quincke instability; with enough particle density, the solvent mediates an aligning interaction which makes the system undergo a Vicsek-like flocking transition that, within a circular confinement, takes place as a vortex motion. 
+	The two populations are distinguished by a difference in diameter and in velocity. 
+	Within some minutes, the initially uniform sample demixes spontaneously, heading to a segregated state where the two populations are well separated and their relative densities have a different radial profile, as shown in Figure \ref{fig:maity1}.
 	
 	\begin{figure}[htp]
 		\centering
@@ -227,12 +228,12 @@
 		\label{fig:maity1}
 	\end{figure}
 	
-	\citeauthor{ostapenko_curvature-guided_2018}, in \cite{ostapenko_curvature-guided_2018} look into the dynamics of real micro swimmers in a confinement. 
+	\citeauthor{ostapenko_curvature-guided_2018}, in \cite{ostapenko_curvature-guided_2018} look into the dynamics of biological micro-swimmers in a confinement. 
 	Authors tracked the movements of a single \emph{Chlamydomonas reinhardtii} algae cell within a round and elliptical space. 
-	At the same time, they performed a simulation of the algae behavior as an ABP; to better model the dynamics, the alga's placeholder was a dumbbell shaped particle made of two attached spheres of different radius. 
+	At the same time, they performed a simulation of the algae behavior as an ABP; to better model the dynamics, the alga's placeholder was a dumbbell shaped particle made of two attached spheres of different radii. 
 	In the simulation, the steric interaction with the wall was modeled as a Weeks-Chandler-Andersen potential and a torque reorienting the particle near the wall was inserted too.
 	
-	For different circular confinement radii the radial probability density $P(r)$ was extracted, resulting in a striking agreement between simulations and experiments, as shown in Figure \ref{fig:ostapenko1}.
+	For different circular confinement radii, the radial probability density $P(r)$ was extracted, resulting in a striking agreement between simulations and experiments, as shown in Figure \ref{fig:ostapenko1}.
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=\singfigwidth]{ostapenko1.png}
@@ -249,6 +250,7 @@
 		\caption{\cite{ostapenko_curvature-guided_2018}}
 		\label{fig:ostapenko2}
 	\end{figure}
+	\todo{ma Jyoti l'ha letto questo articolo?}
 	
 	\subsection{Inference and Machine Learning}
 	The matter of inferring interaction potentials starting from simulated data is a complicated one and many techniques can be applied to tackle it. 
