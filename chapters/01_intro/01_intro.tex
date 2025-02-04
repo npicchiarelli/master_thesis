@@ -1,18 +1,17 @@
 \documentclass[../../master_thesis_np.tex]{subfiles}
 \graphicspath{{./imgs/}}
+\usepackage{ulem}
+\usepackage{todonotes}
+
 
 \begin{document} 
 \chapter{Introduction}
 	The phenomenon of (passive) Brownian motion is a well investigated topic in physics since 1827, when Robert Brown studied the motion of pollen grains suspended in water.
-	\begin{quote}
-		COS'È IL MOTO BROWNIANO? NON L'HAI DEFINITO... HAI DETTO CHE IL MOTO BROWNIANO È QUELLO STUDIATO DA BROWN	
-	\end{quote}
+	\todo{COS'È IL MOTO BROWNIANO? NON L'HAI DEFINITO... HAI DETTO CHE IL MOTO BROWNIANO È QUELLO STUDIATO DA BROWN}
 	A notable contribution in the mathematical formalization of Brownian motion was made by Einstein and Langevin \cite{gardiner_handbook_2004}. 
 	Later, Ornstein and Uhlenbeck \cite{uhlenbeck_theory_1930} studied some fundamental properties such as the mean-square displacement (MSD) of a Brownian particle in 2D. 
 	Since then, researchers across various fields have explored the properties of Brownian particles systems in numerous variations, one of which is Active Brownian Particles (ABP).
-	\begin{quote}
-		TOGLIEREI LA FRASE PRECEDENTE: PIUTTOSTO DIREI CHE CI SONO PARTICELLE "NORMALI" CHE FANNO MOTO BROWNIANO E PARTICELLE ATTIVE CHE MOSTRANO AUTO-PROPULSIONE IN AGGIUNTA AL TIPICO COMPORTAMENTO BROWNIANO (TIPO QUELLO CHE HAI SCRITTO NELLA FRASE SEGUENTE). E POI DICI CHE UNO DEI MODELLI PER DESCRIVERLE È QUELLO ABP 
-	\end{quote}
+	\todo{TOGLIEREI LA FRASE PRECEDENTE: PIUTTOSTO DIREI CHE CI SONO PARTICELLE "NORMALI" CHE FANNO MOTO BROWNIANO E PARTICELLE ATTIVE CHE MOSTRANO AUTO-PROPULSIONE IN AGGIUNTA AL TIPICO COMPORTAMENTO BROWNIANO (TIPO QUELLO CHE HAI SCRITTO NELLA FRASE SEGUENTE). E POI DICI CHE UNO DEI MODELLI PER DESCRIVERLE È QUELLO ABP}
 	
 	Active particles are distinguished by their ability to extract energy from the environment and use it to autonomously propel themselves, thus making them a fundamental model for non-equilibrium active matter systems.	
 	The motility mechanism can be mechanic, like cilia or flagella used by micro-organisms, or thermo- and chemodynamic, like phoresis of various nature \citeauthor{moran_phoretic_2017}.
@@ -38,18 +37,14 @@
 	Using a microrobot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. 
 	Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. 
 	When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.
-	\begin{quote}
-		QUI FAI UN PO' UN GIRO STRANO, DA Feynman ALLO SCALING DELLE GRANDEZZE ALLE CELLULE IMMUNITARIE. DOVRESTI PIUTTOSTO DEFINIRE COSA INTENDIAMO PER MICROROBOT, MAGARI CITANDO ANCHE UN ARTICOLO DI RIFERIMENTO IN MICROROBOTICA.
-	\end{quote}
+	\todo{QUI FAI UN PO' UN GIRO STRANO, DA Feynman ALLO SCALING DELLE GRANDEZZE ALLE CELLULE IMMUNITARIE. DOVRESTI PIUTTOSTO DEFINIRE COSA INTENDIAMO PER MICROROBOT, MAGARI CITANDO ANCHE UN ARTICOLO DI RIFERIMENTO IN MICROROBOTICA.}
 	
 	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a microscale intelligent robotic system that takes inspiration from the amoeboid locomotion of immune cells. 
 	CELLOIDS' concept for a microrobot is using a phospholipids Giant Unilamellar Vesicle (GUV), filled with active particles, as robot's body. 
 	GUVs' membranes are deformable and can be pushed from the inside by active particles, leading to active deformation and, in the end, motility, mimicking the behavior of living cells that can shrink and move through the interstices of biological tissues (interstitial migration). 
 	A single active particle is a Janus sphere with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity. 
 	This makes the solvent flow around the particle causing it to move. 
-	\begin{quote}
-		QUESTO LO PUOI SPIEGARE UN PO' MEGLIO... A LEZIONE ABBIAMO PARLATO DI FORESI, VELOCITÀ DI SLIP APPARENTE, ...
-	\end{quote}
+	\todo{QUESTO LO PUOI SPIEGARE UN PO' MEGLIO... A LEZIONE ABBIAMO PARLATO DI FORESI, VELOCITÀ DI SLIP APPARENTE, ...}
 	In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposited using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
 	\begin{align}
 		\ch{2 H2O2 ->[Pt] 2 H2O + O2}
@@ -58,21 +53,23 @@
 	
 	
 	\section{Objectives}	
-	In the previously described framework, collective behaviors and emergent properties of ABPs systems, both self-induced and caused by the interaction with a rigid or deformable confinement are of paramount importance for the microrobot to work properly. 
+	In the previously described framework, collective behaviors and emergent properties of active particles populations, both self-induced and caused by the interaction with a rigid or deformable confinement, are of paramount importance for the microrobot to work properly. 
 	Regarding the self-induced behaviors, the most investigated is Motility-Induced Phase Separation \cite{cates_motility-induced_2015}, caused by the concurrence between the excluded volume of the particles (non superimposable hard spheres) and their activity. 
 	A confinement-induced emergent property is e.g.~propulsion-induced accumulation, in which motile particles tend to cluster at the boundary of the confinement \cite{marconi_towards_2015}.
+	\todo{PERCHÉ CITI QUESTI DUE ESEMPI QUI NEGLI OBIETTIVI?}
 	
-	The objective of this work is to develop a model, a simulation framework and a suite of analysis tools to study how an explicit interaction potential changes single and collective behaviors of an ABP system, while keeping in mind the experimental and applied point of view. 
+	The objective of this work is to develop a model, a simulation framework and a suite of analysis tools to study how an explicit interaction potential changes single and collective behaviors of an active particles system, while keeping in mind the experimental and applied point of view. 
 	
 	\subsection{Objective: Model}
-	As will be explained in detail in section \ref{alignint}, the main novelty in the model is how a potential is applied. 
-	Specialized literature focuses on two types of interactions: aligning, involving the direction of particles, and non-aligning, which can be central potentials like a hard sphere excluded volume interaction \cite{callegari_numerical_2019}; it is possible to find several interactions of both types in literature but this work tries to unify the two, linking coupling between the positions of a pair of particles (force) with coupling between the orientations of said particles (torque) with the objective of developing a minimal model that tries to mimic experimental observations.
-	
+	\sout{As will be explained in detail in section \ref{alignint}, the main novelty in the model is how a potential is applied. } \todo{non anticipare come affronterei gli obiettivi prima ancora di aver spiegato l'obiettivo}
 	Active matter models can be either \emph{dry} or \emph{wet}: in \emph{dry} models the solvent is not explicitly simulated while \emph{wet} simulations solve equations both for colloidal and fluid particles, including all possible hydrodynamics. 
-	In this thesis we preferred to work with a lighter and simpler \emph{dry} model, trying to keep it as minimal as possible. 
-	Here, the term \emph{minimal} means not only that a unique interaction potentials is used to couple both positional and orientational degrees of freedom, but also that this simple model could be enough to simulate real world phenomena without looking into the hydrodynamics and chemistry involved. 
-	Moreover, details about how the solvent flows around a phoretic ABP, as well as the concentration field around it, are still a matter of investigation and have been simulated mostly for single particles.
+	However, details about the hydrodynamic and electro-chemical fields around active particles are still a matter of investigation.
+	Moreover, even if known, they can be realistically simulated only for individual or few particles.
+	In terms of interactions among particles, two main types are reported in the literature: aligning interaction, involving the direction of particles, and non-aligning, which can be central potentials like a hard sphere excluded volume interaction \cite{callegari_numerical_2019}. 
 	
+	This work aims at a minimal \emph{dry} model that takes into account both aligning and non-aligning interactions in the attempt of matching experimental observations. \sout{tries to unify the two, linking coupling between the positions of a pair of particles (force) with coupling between the orientations of said particles (torque) with the objective of developing a minimal model that tries to mimic experimental observations.}
+	Here, the term \emph{minimal} means not only that a unique interaction potentials is used to couple both positional and orientational degrees of freedom, but also that this simple model could be enough to simulate real world phenomena without making assumptions on the hydrodynamics and chemistry involved. 
+		
 	\subsection{Objective: Simulation Framework}
 	Given this novel modeling technique and its implementation, the next step of this work is to obtain a qualitative, eyesight agreement between simulations and experiments, making the \emph{in silico} experiment able to capture all the features and dynamics observed \emph{in vitro} scanning the different parameters.
 	
