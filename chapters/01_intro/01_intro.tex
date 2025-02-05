@@ -346,13 +346,18 @@
 	\section{Background}
 	\subsection{Passive Brownian Motion}
 
-	Before adding the self-propulsion velocity, it is worthwhile to outline some facts about Passive Brownian motion. The first formulation of the theory of Brownian motion was obtained by Albert Einstein in a 1905 paper, where the mean square displacement was given in terms of a linear relation with time, with a diffusion coefficient $D_t$ as $\sqrt{\bar{x}^2} = \sqrt{2D_t t}$. Here, we outline the derivation as it was presented by Paul Langevin some years afterwards, following \cite{gardiner_handbook_2004}.
+	Before adding the self-propulsion velocity, it is worthwhile to outline some facts about Passive Brownian motion.
+	The first formulation of the theory of Brownian motion was obtained by Albert Einstein in a 1905 paper, where the mean square displacement was given in terms of a linear relation with time, with a diffusion coefficient $D_t$ as $\sqrt{\bar{x}^2} = \sqrt{2D_t t}$. 
+	Here, we outline the derivation as it was presented by Paul Langevin some years afterwards, following \cite{gardiner_handbook_2004}.
 	
 	It is known from statistical mechanics that a Brownian particle in equilibrium will have as mean kinetic energy
 	\begin{equation} 
 	\langle \frac{1}{2}mv^2 \rangle =  \frac{1}{2} k_B T
 	\end{equation}
-	where $T$ is the absolute temperature and $k_B$ is Boltzmann's constant. If we assume the same formula as in macroscopic hydrodynamics, the viscous drag acting on the particle will be of the form $-6 \pi \eta a \dv{x}{t}$, being $a$ the particle's radius and $\eta$ the viscosity of the fluid. Due to the random collisions with the fluid molecules, a passive Brownian particle experiences a \emph{fluctuating force} $X$. The equation of motion for the particle is thus
+	where $T$ is the absolute temperature and $k_B$ is Boltzmann's constant. 
+	If we assume the same formula as in macroscopic hydrodynamics, the viscous drag acting on the particle will be of the form $-6 \pi \eta a \dv{x}{t}$, being $a$ the particle's radius and $\eta$ the viscosity of the fluid. 
+	Due to the random collisions with the fluid molecules, a passive Brownian particle experiences a \emph{fluctuating force} $X$. 
+	The equation of motion for the particle is thus
 	\begin{equation} 
 	m \dv[2]{x}{t} = -6 \pi \eta a \dv{x}{t} + X 
 	\end{equation}
@@ -360,15 +365,18 @@
 	\begin{equation} 
 	\frac{m}{2} \dv[2]{t}(x^2) - mv^2  = -3 \pi \eta a \dv{(x^2)}{t} + Xx 
 	\end{equation}
-	where we called $v = \dv{x}{t}$. Averaging on the ensemble of particles we have
+	where we called $v = \dv{x}{t}$. 
+	Averaging on the ensemble of particles we have
 	\begin{equation} 
 	\frac{m}{2} \dv[2]{\langle x^2 \rangle}{t}  + 3 \pi \eta a \dv{\langle x^2 \rangle}{t} = k_B T 
 	\end{equation}
-	where the value for the mean kinetic energy was plugged in and we averaged the product $Xx$ to zero, being $X$ highly irregular (in modern times we just write everything in terms of a 0 mean Gaussian stochastic process, namely a Wiener process). The general solution to the differential equation for $\langle x^2 \rangle$ is 
+	where the value for the mean kinetic energy was plugged in and we averaged the product $Xx$ to zero, being $X$ highly irregular (in modern times we just write everything in terms of a 0 mean Gaussian stochastic process, namely a Wiener process). 
+	The general solution to the differential equation for $\langle x^2 \rangle$ is 
 	\begin{equation} 
 	\dv{\langle x^2 \rangle}{t} = \frac{k_B T}{3 \pi \eta a} + C \exp(-6 \pi \eta a t / m)
 	\end{equation}
-	with $C$ an arbitrary constant. It is possible to neglect the exponential, since Langevin estimated its characteristic time about $10^{-8}$ s, and then integrate to get the equation
+	with $C$ an arbitrary constant. 
+	It is possible to neglect the exponential, since Langevin estimated its characteristic time about $10^{-8}$ s, and then integrate to get the equation
 	\begin{equation} 
 	\langle x^2 \rangle - \langle x_0^2 \rangle = \frac{k_B T}{3 \pi \eta a}t
 	\end{equation}
@@ -379,7 +387,8 @@
 		D_t = \frac{k_B T}{\gamma_t} \quad D_r = \frac{k_B T}{\gamma_r} 
 	\end{equation}
 	
-	being $\gamma_t = 6 \pi \eta a$ and $\gamma_r = 8 \pi \eta a^3$  the respective drag coefficients, where $a$ is the particle radius and $\eta$ is the fluid viscosity. The basis to build the model upon is the Langevin equation
+	being $\gamma_t = 6 \pi \eta a$ and $\gamma_r = 8 \pi \eta a^3$  the respective drag coefficients, where $a$ is the particle radius and $\eta$ is the fluid viscosity. 
+	The basis to build the model upon is the Langevin equation
 	
 	\begin{equation} \label{eq:lang1}
 		m \mathbf{\ddot{r}} = -\gamma_t \mathbf{\dot{r}} + \mathbf{F}_{th}
@@ -390,7 +399,8 @@
 	\begin{equation}
 	Re = \frac{\rho v a}{\eta} \sim 10^{-6} 
 	\end{equation}  
-	where $\rho$ is the fluid density, $v$ is the particle speed, $a$ is the particle radius and $\eta$ is the fluid viscosity and the values of density and viscosity for water were plugged in. As a consequence of this fact, inertial effects can be neglected and it is possible to study the system in the \emph{overdamped} regime, turning the Langevin equation \ref{eq:lang1} into
+	where $\rho$ is the fluid density, $v$ is the particle speed, $a$ is the particle radius and $\eta$ is the fluid viscosity and the values of density and viscosity for water were plugged in. 
+	As a consequence of this fact, inertial effects can be neglected and it is possible to study the system in the \emph{overdamped} regime, turning the Langevin equation \ref{eq:lang1} into
 	\begin{equation} \label{eq:lang2}
 		\gamma_t \mathbf{\dot{r}} = \mathbf{F}_{th}
 	\end{equation}
@@ -428,7 +438,8 @@
 		\end{equation}
 		where the case of a deterministic self-propulsion angular velocity $\omega$ is also taken into account.
 		
-		It is possible to insert external forces and torques in the system, where \emph{external} means they are not due to the self-propulsion. Even though in literature there are examples of uniform external potentials, e.g.\ electric and magnetic fields, being applied on the ABP ensemble as a whole, in this work the only external force is the interaction between particles, which is applied in the low-Reynolds number regime as:
+		It is possible to insert external forces and torques in the system, where \emph{external} means they are not due to the self-propulsion. 
+		Even though in literature there are examples of uniform external potentials, e.g.\ electric and magnetic fields, being applied on the ABP ensemble as a whole, in this work the only external force is the interaction between particles, which is applied in the low-Reynolds number regime as:
 		\begin{equation} \label{eq:fin_diff_with_forces}
 			\begin{cases}
 				x_{n+1} = x_n + \left( v \cos(\theta) + \frac{D_t}{k_B T} F_{ext,x} \right) \Delta t + \sqrt{2D_t \Delta t} \, W_{x,n},\\
@@ -439,7 +450,8 @@
 		where applying a force or a torque just linearly translates to a linear or angular velocity change, with the respective drag coefficients as proportionality constant.
 		
 		\subsection{Stochastic integration}
-		The topic of integrating a stochastic differential equation (SDE) is a fundamental part of present work and an important object of investigation in the physics and mathematics community. The most simple SDE one can write is
+		The topic of integrating a stochastic differential equation (SDE) is a fundamental part of present work and an important object of investigation in the physics and mathematics community. 
+		The most simple SDE one can write is
 		\begin{equation} \label{eq:sde1}
 			\dv{x}{t} = f(x) + g(x)\xi(t)
 		\end{equation}
@@ -453,19 +465,23 @@
 		\end{equation}
 		.
 		
-		Now, to solve such SDE, we need to compute integrals of the form $\int W \dd{W}$. We start by defining the mean square limit as
+		Now, to solve such SDE, we need to compute integrals of the form $\int W \dd{W}$. 
+		We start by defining the mean square limit as
 		\begin{equation} 
 			\text{m.s.} \lim_{n \to \infty} X_n = X \iff \lim_{n \to \infty} \langle(X_n - X)^2\rangle = 0 
 		\end{equation}
-		where the average $\langle \cdot \rangle$ is taken over different realizations of the stochastic process. With this, the stochastic integral is defined in terms of a discrete sum
+		where the average $\langle \cdot \rangle$ is taken over different realizations of the stochastic process. 
+		With this, the stochastic integral is defined in terms of a discrete sum
 		\begin{equation} 
 			\int_0^t W \, dW = \text{m.s.} \lim_{n \to \infty} \sum_{i=1}^n W(t_i^*) \left[ W(t_i) - W(t_{i-1}) \right] 
 		\end{equation}
-		with $t_{i-1} < t_i^* < t_i$, that is better defined in terms of a constant $\alpha$ as $t_{i-1}+\alpha (t_i - t_{i-1})$. Using the increment independence property of the Wiener process, we can compute the sum getting 
+		with $t_{i-1} < t_i^* < t_i$, that is better defined in terms of a constant $\alpha$ as $t_{i-1}+\alpha (t_i - t_{i-1})$. 
+		Using the increment independence property of the Wiener process, we can compute the sum getting 
 		\begin{equation} 
 			\sum t_i-1 + \alpha(t_i - t_{i-1}) = \alpha t 
 		\end{equation}
-		so that the result of the integral depends on $\alpha$. In principle, no value in $[0,1]$ is denied, but in literature only two values are found: $\alpha = 0$, which defines Itô method, and $\alpha = 1/2$, specific for Stratonovich method, which gives the \emph{standard} result that can be obtained through Riemann integration. 
+		so that the result of the integral depends on $\alpha$. 
+		In principle, no value in $[0,1]$ is denied, but in literature only two values are found: $\alpha = 0$, which defines Itô method, and $\alpha = 1/2$, specific for Stratonovich method, which gives the \emph{standard} result that can be obtained through Riemann integration. 
 		
 		With all of this, we are ready to integrate our SDE, formally
 		\begin{equation} 
@@ -476,25 +492,31 @@
 			\int_0^t g(x) \, \dd{W} \approx \int_0^t \dd{W} \, \big[g(x(0)) + g'(x(0))(x(s) - x(0))\big]
 		 \end{equation}.
 		 
-		 The Itô versus Stratonovich controversy poses a subtle but fundamental problem: since $g$ depends on $x$ which depends on $t$, to compute the $i$-th step when we have the $i-1$-th we need to evaluate $g$ at an instant $t_i^*$, subsequent to $t_i$, where the value of $x$ is not known yet, in principle. Only the Itô prescription solves this issue, using the concept of \emph{nonanticipating} functions.
+		The Itô versus Stratonovich controversy poses a subtle but fundamental problem: since $g$ depends on $x$ which depends on $t$, to compute the $i$-th step when we have the $i-1$-th we need to evaluate $g$ at an instant $t_i^*$, subsequent to $t_i$, where the value of $x$ is not known yet, in principle. 
+		Only the Itô prescription solves this issue, using the concept of \emph{nonanticipating} functions.
 		 
-		 With all of this said, it is possible to state that the type of calculus used, i.e.~the value of $\alpha$, is actually a parameter of the model and there is literature showing that the physical quantities obtained through simulations are different if one chooses a method over another \cite{mannella_ito_2012}.	
+		With all of this said, it is possible to state that the type of calculus used, i.e.~the value of $\alpha$, is actually a parameter of the model and there is literature showing that the physical quantities obtained through simulations are different if one chooses a method over another \cite{mannella_ito_2012}.	
 		
-		Let us apply this theoretical notions to the equations for ABPs. One must be very careful when dealing with discretization step in stochastic integration, especially when dealing with nonlinear functions of noise terms, for it is difficult to know \emph{a priori} which are the correct expansions at any order. Only accounting for $\theta$ and $x$, we have
+		Let us apply this theoretical notions to the equations for ABPs. 
+		One must be very careful when dealing with discretization step in stochastic integration, especially when dealing with nonlinear functions of noise terms, for it is difficult to know \emph{a priori} which are the correct expansions at any order. 
+		Only accounting for $\theta$ and $x$, we have
 		\begin{equation} 
 			\begin{cases}
 			\dd{x} = f_x(x)\dd{t} + v_0\cos(\theta)\dd{t} + \sqrt{2D_t}\dd{W_x} \\
 			\dd{\theta} = \sqrt{2D_r}\dd{W_\theta}
 			\end{cases} 
 		\end{equation} 
-		where in $f$ we included all possible interactions a particle can undergo. For now we set that part to 0 since in does not give particular problems and consider only the terms which contain stochastic parts. We integrate to get
+		where in $f$ we included all possible interactions a particle can undergo. 
+		For now we set that part to 0 since in does not give particular problems and consider only the terms which contain stochastic parts. 
+		We integrate to get
 		\begin{equation}
 			\begin{cases}
 				x(h) - x(0) =  \int_{0}^{h}v_0 \cos(\theta(s)) \dd{s} + \int_{0}^{h} \sqrt{2D_t}\dd{W} \\
 			\theta(s) - \theta(0) = \sqrt{2D_r s} \sim \order{\sqrt{s}}
 		    \end{cases}  
 	    \end{equation}
-		being $\int_{0}^{s}\dd{W} = \sqrt{s} Y_1$ with $Y_1 \sim \mathcal{N}(0,1)$. We plug what obtained for $\theta$ in the first order Taylor expansion of cosine to get ($\theta_x \equiv \theta(x)$ for short)
+		being $\int_{0}^{s}\dd{W} = \sqrt{s} Y_1$ with $Y_1 \sim \mathcal{N}(0,1)$. 
+		We plug what obtained for $\theta$ in the first order Taylor expansion of cosine to get ($\theta_x \equiv \theta(x)$ for short)
 		\begin{align} 
 			x(h) - x(0) &=  \int_{0}^{h}v_0 \left[\cos(\theta_0) - \sin(\theta_0)(\theta_s-\theta_0)\right]\dd{s} + \int_{0}^{h} \sqrt{2D_t}\dd{W}  \\
 			& = \sqrt{2D_th} Z_1 + hv_0 \cos\theta_0 - \sin \theta_0 Y_1 \sqrt{h} \int_{0}^{h}\dd{s}
@@ -504,19 +526,25 @@
 	    This makes what we saw for the finite difference equations correct.
 	    
 		\subsection{Algorithms}
-		The topic of algorithms to integrate SDEs is pretty broad and quite a lot of literature has been produced on the subject. Here, we only give the details of what has been used in present thesis.
+		The topic of algorithms to integrate SDEs is pretty broad and quite a lot of literature has been produced on the subject. 
+		Here, we only give the details of what has been used in present thesis.
 		
-		The simplest method to integrate differential equation is the Euler scheme, which was first applied to ODEs in XVIII century. It is a first order method and it is the basis to all higher order schemes. As we did before, we take the first order expansion in the integration step $h$ to integrate equation \ref{eq:sde2}
+		The simplest method to integrate differential equation is the Euler scheme, which was first applied to ODEs in XVIII century. 
+		It is a first order method and it is the basis to all higher order schemes. 
+		As we did before, we take the first order expansion in the integration step $h$ to integrate equation \ref{eq:sde2}
 		\begin{equation}
 		x(h) - x(0) = \int_0^h (f_0 + g_0 \xi(t)) \dd{t} = h f_0 + g_0 \int_0^h \xi(t) \dd{t}
 		\end{equation}
-		which in general is not correct: in stochastic integration, being $\int_{0}^{h} \dd{W} \sim \order{\sqrt{h}}$, some unexpected $\order{h}$ terms, which are combination of lower orders, tend to appear. In particular, it is straightforward to show that the correct first order in $h$ is 
+		which in general is not correct: in stochastic integration, being $\int_{0}^{h} \dd{W} \sim \order{\sqrt{h}}$, some unexpected $\order{h}$ terms, which are combination of lower orders, tend to appear. 
+		In particular, it is straightforward to show that the correct first order in $h$ is 
 		\begin{equation}
 		x(h) - x(0) = g_0 Z_1(h) + f_0 h + \frac{1}{2} g_0' g_0 Z_1(h)^2
 		\end{equation}
 		being $Z_1\sim \mathcal{N}(0,\sqrt{h})$ \cite{mannella_integration_2011}. 
 		
-		Anyway, for cases like ours where noise is purely additive (i.e. $g(x) = \sqrt{2D}$, the last term is $0$ and the simple-minded first order is correct. Basically, this algorithm means that at any step one should propagate with the first order of the deterministic part and then add a randomly generated Gaussian number with 0 mean and the right variance. A pseudo code for Euler algorithm applied to the case of interacting ABPs is in \ref{alg:euler}.
+		Anyway, for cases like ours where noise is purely additive (i.e. $g(x) = \sqrt{2D}$), the last term is $0$ and the simple-minded first order is correct. 
+		Basically, this algorithm means that at any step one should propagate with the first order of the deterministic part and then add a randomly generated Gaussian number with 0 mean and the right variance. 
+		A pseudo code for Euler algorithm applied to the case of interacting ABPs is in \ref{alg:euler}.
 		
 		\begin{algorithm}
 			\caption{The Euler algorithm} \label{alg:euler}	
@@ -533,7 +561,8 @@
 			\end{algorithmic}
 		\end{algorithm}
 		
-		The first higher order correction to Euler is the Heun scheme. This algorithm involves the calculation of an intermediate step $x_{\text{int}}$ which helps in dealing with the nonlinearity of the deterministic function $f$. It works as follows
+		The first higher order correction to Euler is the Heun scheme. 
+		This algorithm involves the calculation of an intermediate step $x_{\text{int}}$ which helps in dealing with the nonlinearity of the deterministic function $f$. It works as follows
 		\begin{equation}
 			\begin{aligned}
 				x_{\text{int}} &= x(0) + \sqrt{2D} Z_1(h) + f_0 h\\
@@ -561,12 +590,16 @@
 				\EndFor
 			\end{algorithmic}
 		\end{algorithm}
-		Now one can ask which is the "best" algorithm. The answer lies in two distinct topics: deterministic accuracy and stochastic behavior. Regarding deterministic accuracy, one can analyze which is the order of the numerical error made in the integration, obtaining that, being a first order algorithm, Euler scheme is accurate up to $\order{h}$, while Heun is $\order{h^2}$, making it better especially when working with highly nonlinear and steep potentials.
+		Now one can ask which is the "best" algorithm. 
+		The answer lies in two distinct topics: deterministic accuracy and stochastic behavior. 
+		Regarding deterministic accuracy, one can analyze which is the order of the numerical error made in the integration, obtaining that, being a first order algorithm, Euler scheme is accurate up to $\order{h}$, while Heun is $\order{h^2}$, making it better especially when working with highly nonlinear and steep potentials.
 		
-		In order to analyze stochastic behavior, if one is interested in large time behavior, it is possible to study the equilibrium distribution $P(x)$. In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.
+		In order to analyze stochastic behavior, if one is interested in large time behavior, it is possible to study the equilibrium distribution $P(x)$. 
+		In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.
 		
 		Analyses suggest that Heun scheme is among the most convenient algorithms, since higher order schemes do not do better, but they are much more expensive to implement on a computer. 
 		
-		With respect to Euler, Heun is more expensive as well: if we restrict to the specific case of sets of interacting particles, the pseudo code in \ref{alg:heun} shows how this algorithm has to compute all the forces twice in order to perform a single step. This is undoubtedly true, but in most cases Heun scheme allows big increases in simulation time steps, making it possible to simulate larger times.		
+		With respect to Euler, Heun is more expensive as well: if we restrict to the specific case of sets of interacting particles, the pseudo code in \ref{alg:heun} shows how this algorithm has to compute all the forces twice in order to perform a single step. 
+		This is undoubtedly true, but in most cases Heun scheme allows big increases in simulation time steps, making it possible to simulate larger times.		
 		
 \end{document}
