@@ -346,7 +346,7 @@
 	\section{Background}
 	\subsection{Passive Brownian Motion}
 
-	Before adding the self-propulsion velocity, it is worthwhile to outline some facts about Passive Brownian motion.
+	\sout{Before adding the self-propulsion velocity, it is worthwhile to outline some facts about Passive Brownian motion.}
 	The first formulation of the theory of Brownian motion was obtained by Albert Einstein in a 1905 paper, where the mean square displacement was given in terms of a linear relation with time, with a diffusion coefficient $D_t$ as $\sqrt{\bar{x}^2} = \sqrt{2D_t t}$. 
 	Here, we outline the derivation as it was presented by Paul Langevin some years afterwards, following \cite{gardiner_handbook_2004}.
 	
@@ -395,7 +395,7 @@
 	\end{equation} 
 	where $\mathbf{F}_{th}$ is the random force given by the collisions with the fluid molecules.
 	
-	Given that a typical Brownian particle will have a characteristic body-length in the order of $ \mathrm{\sim\mu m}$ and a velocity of $\sim\mu \mathrm{m s}^{-1}$ the system can be studied in low-Reynolds number regime being 
+	Given that a typical Brownian particle will have a characteristic body-length in the order of $ \mathrm{\sim\mu m}$ and a velocity of $\sim\mu \mathrm{m s}^{-1}$ \todo{use units} the system can be studied in low-Reynolds number regime being 
 	\begin{equation}
 	Re = \frac{\rho v a}{\eta} \sim 10^{-6} 
 	\end{equation}  
@@ -408,7 +408,7 @@
 	\begin{equation}
 		\mathbf{\dot{r}} = \sqrt{2D_t} \dd{\mathbf{W}}
 	\end{equation}
-	where $\dd{\mathbf{W}}$ is the derivative of a zero mean, variance 1 Wiener process.
+	where $\dd{\mathbf{W}}$ is the derivative of a zero-mean, unitary-variance Wiener process.
 	In a homogeneous environment, rotational and translational motions are independent from each other, so that the equations of motion for a passive Brownian particle are
 	
 	\begin{equation}
@@ -417,12 +417,14 @@
 	
 	%Ornstein and Uhlenbeck, in a 1930 paper \citeauthor{uhlenbeck_theory_1930}, outlined all the statistical properties of Brownian motion, including the mean square displacement, which in 2 dimension read $\text{MSD}(\tau) = 4D_t \tau + \frac{4k_B T}{m} \tau_m^2 \left[e^{-\tau/\tau_m} - 1\right]$.
 	
-	\subsection[ABP simulations]{Physics and Numerical Simulations of ABPs}
-		Despite the variety in single agent properties and self-propulsion mechanisms, it is possible to identify some key features that are shared between all ABP systems. The most important characteristic of an ABP is that, notwithstanding a symmetric shape (often in literature, and always in this work, spherical), each particle has a preferred axis which lies along the direction of self-propulsion.
+	\subsection[ABP simulations]{Physics and Numerical Simulations of active particles}\todo{in che senso "physics"?}
+		Despite the variety in single agent properties and self-propulsion mechanisms, it is possible to identify some key features that are shared between all active particle systems. 
+		The most important characteristic of an active, self-propelled particle is that, notwithstanding a symmetric shape (often in literature, and always in this work, spherical), each particle has a preferred axis which lies along the direction of self-propulsion.
 		
 		With this hypothesis, rotational diffusion has now become relevant since the direction of self-propulsion varies randomly with a characteristic time scale which corresponds to the inverse of the rotational diffusion coefficient $\tau_r = D_r^{-1}$. 
 		
-		Adding a constant-magnitude self-propulsion velocity $\mathbf{v}$ into the equations of motion, we get:
+		A simple and effective model to describe the dynamics of active particles is the Active Brownian Particle (ABP) model, which is a generalization of the Brownian particle model.
+		This consists in adding a constant-magnitude self-propulsion velocity $\mathbf{v}$ term to the equations of Brownian motion:
 		\begin{equation}
 			\dot{x} = v \cos{\theta} + \sqrt{2D_t}\dd{W_x} , \quad \dot{y} = v \sin{\theta} + \sqrt{2D_t}\dd{W_y}, \quad \dot{\theta} = \sqrt{2D_r}\dd{W_{\theta}}
 		\end{equation}
@@ -455,15 +457,15 @@
 		\begin{equation} \label{eq:sde1}
 			\dv{x}{t} = f(x) + g(x)\xi(t)
 		\end{equation}
-		in which $\xi(t)$ is a stochastic process we assumed to be Gaussian with 0 mean and no correlation at different times, which reads $ \langle \xi(t) \xi(t') \rangle = \delta(t-t')$. If we define  $\dd{W} = \xi(t)\dd{t}$, equation \ref{eq:sde1} is equivalent to
+		in which $\xi(t)$ is a stochastic process we assumed to be Gaussian with zero mean and no correlation at different times, which reads $ \langle \xi(t) \xi(t') \rangle = \delta(t-t')$. 
+		If we define  $\dd{W} = \xi(t)\dd{t}$, equation \ref{eq:sde1} is equivalent to
 		\begin{equation} \label{eq:sde2}
 			\dd{x} = f(x)\dd{t} + g(x)\dd{W} 
 		\end{equation} 
 		where $\dd{W}$ is the increment of a Wiener process $W(t)$, defined by its probability
 		\begin{equation} 
-			P(W(t)) = \frac{1}{\sqrt{2 \pi t}} e^{-\frac{W(t)^2}{2t}}
+			P(W(t)) = \frac{1}{\sqrt{2 \pi t}} e^{-\frac{W(t)^2}{2t}} .
 		\end{equation}
-		.
 		
 		Now, to solve such SDE, we need to compute integrals of the form $\int W \dd{W}$. 
 		We start by defining the mean square limit as
@@ -489,8 +491,8 @@
 		\end{equation} 
 		considering only the second term in the right-hand side, and Taylor-expanding it we get
 		\begin{equation} 
-			\int_0^t g(x) \, \dd{W} \approx \int_0^t \dd{W} \, \big[g(x(0)) + g'(x(0))(x(s) - x(0))\big]
-		 \end{equation}.
+			\int_0^t g(x) \, \dd{W} \approx \int_0^t \dd{W} \, \big[g(x(0)) + g'(x(0))(x(s) - x(0))\big] .
+		 \end{equation}
 		 
 		The Itô versus Stratonovich controversy poses a subtle but fundamental problem: since $g$ depends on $x$ which depends on $t$, to compute the $i$-th step when we have the $i-1$-th we need to evaluate $g$ at an instant $t_i^*$, subsequent to $t_i$, where the value of $x$ is not known yet, in principle. 
 		Only the Itô prescription solves this issue, using the concept of \emph{nonanticipating} functions.
@@ -507,7 +509,7 @@
 			\end{cases} 
 		\end{equation} 
 		where in $f$ we included all possible interactions a particle can undergo. 
-		For now we set that part to 0 since in does not give particular problems and consider only the terms which contain stochastic parts. 
+		For now we set that part to 0 since it does not raise integration problems and consider only the terms which contain stochastic parts. 
 		We integrate to get
 		\begin{equation}
 			\begin{cases}
@@ -524,10 +526,11 @@
 	    with $Z_1 \sim \mathcal{N}(0,1)$, and we notice that the last term is $\order{h^{3/2}}$, leaving us with the first order unchanged.
 	    
 	    This makes what we saw for the finite difference equations correct.
+		\todo{che vuol dire?}
 	    
 		\subsection{Algorithms}
-		The topic of algorithms to integrate SDEs is pretty broad and quite a lot of literature has been produced on the subject. 
-		Here, we only give the details of what has been used in present thesis.
+		A variety of algorithms to integrate SDEs have been reported in the literature. 
+		Here we only give the details of what has been used in present thesis.
 		
 		The simplest method to integrate differential equation is the Euler scheme, which was first applied to ODEs in XVIII century. 
 		It is a first order method and it is the basis to all higher order schemes. 
@@ -544,7 +547,7 @@
 		
 		Anyway, for cases like ours where noise is purely additive (i.e. $g(x) = \sqrt{2D}$), the last term is $0$ and the simple-minded first order is correct. 
 		Basically, this algorithm means that at any step one should propagate with the first order of the deterministic part and then add a randomly generated Gaussian number with 0 mean and the right variance. 
-		A pseudo code for Euler algorithm applied to the case of interacting ABPs is in \ref{alg:euler}.
+		A pseudo code for Euler algorithm applied to the case of interacting ABPs is in Algorithm~\ref{alg:euler}.
 		
 		\begin{algorithm}
 			\caption{The Euler algorithm} \label{alg:euler}	
@@ -592,14 +595,14 @@
 		\end{algorithm}
 		Now one can ask which is the "best" algorithm. 
 		The answer lies in two distinct topics: deterministic accuracy and stochastic behavior. 
-		Regarding deterministic accuracy, one can analyze which is the order of the numerical error made in the integration, obtaining that, being a first order algorithm, Euler scheme is accurate up to $\order{h}$, while Heun is $\order{h^2}$, making it better especially when working with highly nonlinear and steep potentials.
+		Regarding deterministic accuracy, one can analyze which is the order of the numerical error made in the integration, obtaining that, being a first order algorithm, Euler scheme is accurate up to $\order{h}$, while Heun is $\order{h^2}$, making it\todo{ambiguo... quale? usa the former o the latter} better especially when working with highly nonlinear and steep potentials.
 		
 		In order to analyze stochastic behavior, if one is interested in large time behavior, it is possible to study the equilibrium distribution $P(x)$. 
-		In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.
+		In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.\todo{quindi? spiega anche per qualcuno che non è né te né Mannella :)}
 		
 		Analyses suggest that Heun scheme is among the most convenient algorithms, since higher order schemes do not do better, but they are much more expensive to implement on a computer. 
 		
-		With respect to Euler, Heun is more expensive as well: if we restrict to the specific case of sets of interacting particles, the pseudo code in \ref{alg:heun} shows how this algorithm has to compute all the forces twice in order to perform a single step. 
-		This is undoubtedly true, but in most cases Heun scheme allows big increases in simulation time steps, making it possible to simulate larger times.		
+		Nonetheless, with respect to Euler, Heun is already more computationally expensive: if we restrict to the specific case of sets of interacting particles, the pseudo code in Algorithm~\ref{alg:heun} shows how this algorithm has to compute all the forces twice to perform a single step. 
+		However, in most cases the Heun scheme allows for large increases in simulation time steps compared to the Euler one, compensating for its higher single-step computational time and even making it possible to simulate larger times.		
 		
 \end{document}
