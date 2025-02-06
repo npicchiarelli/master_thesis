@@ -1,7 +1,5 @@
 \documentclass[../../master_thesis_np.tex]{subfiles}
 \graphicspath{{./imgs/}}
-\usepackage{ulem}
-\usepackage{todonotes}
 
 
 \begin{document} 
@@ -24,70 +22,89 @@
 	%There are several model features and properties that can be exploited to develop both analysis methods and new technologies based on active matter, e.g.\ self organization and clustering are relevant in the study of bacterial and algae colonies, while in the artificial world much use can be made of properties like chaining, clustering or vortices.
 	
 	\section{Microrobotics and CELLOIDS}
-	The first one to bring the concept of robotics at the micro scale, especially for medical applications, into a scientific context was Richard Feynman in the famous 1959 CalTech seminar \citetitle{Feynman} \cite{Feynman}:
+	
+
+	{\color{blue}The first one to bring the concept of robotics at micro scale, especially for medical applications into a scientific context was Richard Feynman in the famous 1959 CalTech conference \citetitle{Feynman} \cite{Feynman}, from which the following quote is taken:
 	\begin{displayquote}
 		Many of the cells are very tiny, but they are very active \omissis Consider the possibility that we too can make a thing very small which does what we want — that we can manufacture an object that maneuvers at that level!
 		
 		\omissis it would be interesting in surgery if you could swallow the surgeon. You put the mechanical surgeon inside the blood vessel and it goes into the heart and "looks" around. \omissis It finds out which valve is the faulty one and takes a little knife and slices it out. Other small machines might be permanently incorporated in the body to assist some inadequately functioning organ.
 	\end{displayquote}
-	
-	The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot that is just a miniaturized version of a macroscopic one. 
-	Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in --- meaning, at low Reynolds number $\mathrm{Re} \equiv \rho v L/\eta$ --- requires quite a different approach than what we are used to in the macroscopic world. 
+	The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot which is just a miniaturized version of a macroscopic one.
+	Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in-meaning, at low Reynolds number $\mathrm{Re} \equiv \rho v L/\eta$-requires quite a different approach than what we are used to in the macroscopic world.
 	When inertia is negligible, it is impossible to swim using a \emph{reciprocal motion}, that is, a cyclic motion that follows the same path forward and back \cite{purcell_life_1977}. 
-	Needles to say that turning a propeller with a miniaturized macroscopic motor will not be optimal at this scale, since its starting torque would be extremely large. 
+	Needless to say that turning a propeller with a miniaturized macroscopic motor won't be optimal at this scale, since its starting torque would be extremely large. 
 	These huge difficulties are encountered if one just wants to swim in a simple fluid. 
-	Using a microrobot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. 
+	Using a micro robot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. 
 	Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. 
-	When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.
-	\todo{QUI FAI UN PO' UN GIRO STRANO, DA Feynman ALLO SCALING DELLE GRANDEZZE ALLE CELLULE IMMUNITARIE. DOVRESTI PIUTTOSTO DEFINIRE COSA INTENDIAMO PER MICROROBOT, MAGARI CITANDO ANCHE UN ARTICOLO DI RIFERIMENTO IN MICROROBOTICA.}
-	
-	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a microscale intelligent robotic system that takes inspiration from the amoeboid locomotion of immune cells. 
-	CELLOIDS' concept for a microrobot is using a phospholipids Giant Unilamellar Vesicle (GUV), filled with active particles, as robot's body. 
-	GUVs' membranes are deformable and can be pushed from the inside by active particles, leading to active deformation and, in the end, motility, mimicking the behavior of living cells that can shrink and move through the interstices of biological tissues (interstitial migration). 
-	A single active particle is a Janus sphere with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity. 
-	This makes the solvent flow around the particle causing it to move. 
-	\todo{QUESTO LO PUOI SPIEGARE UN PO' MEGLIO... A LEZIONE ABBIAMO PARLATO DI FORESI, VELOCITÀ DI SLIP APPARENTE, ...}
-	In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposited using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
+	When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch.}
+	%\todo{QUI FAI UN PO' UN GIRO STRANO, DA Feynman ALLO SCALING DELLE GRANDEZZE ALLE CELLULE IMMUNITARIE. DOVRESTI PIUTTOSTO DEFINIRE COSA INTENDIAMO PER MICROROBOT, MAGARI CITANDO ANCHE UN ARTICOLO DI RIFERIMENTO IN MICROROBOTICA.}
+	When talking about microrobots \todo{articolo?}, we need to be clear about what a microrobot \emph{is}. 
+	A \emph{robot} is \enquote{a machine that can perform a complicated series of tasks by itself} \citeauthor{robot_def_oxf}; a microrobot is defined as a robot with
+	\begin{itemize}
+	\item \unit{\um} - \unit{\mm} size
+	\item some mobility properties
+	\item no tether
+	\end{itemize}
+	and its design needs some key ingredients, such as an actuation to make it motile, some kind of control and a power source to be able to perform desired tasks, as well as some sensing capability, to sample and observe surrounding environment. 
+	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system that takes inspiration from the amoeboid propulsion of immune cells. 
+	CELLOIDS’ concept for a microrobot is using a phospholipids GUV (Giant Unilamellar Vesicle), filled with ABPs, as robot's body. 
+	GUV’s walls are deformable and can be pushed from the inside by ABPs, leading to further deformation and, in the end, motility, mimicking the behavior of living cells that can shrink through a biological tissue.
+	A single ABP moves exploiting a mechanism called \emph{self-phoresis}: phoresis is defined in fluid dynamics as the migration of a particle due to a gradient in a scalar quantity ($\phi$) e.g.\ temperature or concentration. 
+	When the gradient is caused by the particle itself \emph{self-phoretic} movement takes place. 
+	When studying motion of a particle in a fluid it is common to take as boundary condition a no-slip condition, i.e.\ the layer of fluid in contact with particle's solid boundary has zero velocity w.r.t.\ the boundary itself, while in the study of phoresis, a small interfacial layer around particle's surface shows, on macroscopic length scales, an apparent finite slip velocity. 
+	Slip velocity is proportional to the local gradient of $\phi$ and the net migration pf the particle is equal in magnitude and opposite in sign to the area average of the slip velocity on particle surface.
+	%\todo{QUESTO LO PUOI SPIEGARE UN PO' MEGLIO... A LEZIONE ABBIAMO PARLATO DI FORESI, VELOCITÀ DI SLIP APPARENTE, ...}
+	When $\phi$ is the concentration of some solute in the fluid, \emph{diffusiophoresis} takes place; CELLOIDS tries to achieve this using as active particles Janus spheres, with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity; this makes the solvent flow around the particle causing it to move. 
+	In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposed using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
 	\begin{align}
-		\ch{2 H2O2 ->[Pt] 2 H2O + O2}
+	\ch{2 H2O2 ->[Pt] 2 H2O + O2}
 	\end{align}
-	using platinum as catalyst.
-	
 	
 	\section{Objectives}	
 	In the previously described framework, collective behaviors and emergent properties of active particles populations, both self-induced and caused by the interaction with a rigid or deformable confinement, are of paramount importance for the microrobot to work properly. 
-	Regarding the self-induced behaviors, the most investigated is Motility-Induced Phase Separation \cite{cates_motility-induced_2015}, caused by the concurrence between the excluded volume of the particles (non superimposable hard spheres) and their activity. 
-	A confinement-induced emergent property is e.g.~propulsion-induced accumulation, in which motile particles tend to cluster at the boundary of the confinement \cite{marconi_towards_2015}.
-	\todo{PERCHÉ CITI QUESTI DUE ESEMPI QUI NEGLI OBIETTIVI?}
+	%Regarding the self-induced behaviors, the most investigated is Motility-Induced Phase Separation \cite{cates_motility-induced_2015}, caused by the concurrence between the excluded volume of the particles (non superimposable hard spheres) and their activity. 
+	%A confinement-induced emergent property is e.g.~propulsion-induced accumulation, in which motile particles tend to cluster at the boundary of the confinement \cite{marconi_towards_2015}.
+	%\todo{PERCHÉ CITI QUESTI DUE ESEMPI QUI NEGLI OBIETTIVI?}
 	
 	The objective of this work is to develop a model, a simulation framework and a suite of analysis tools to study how an explicit interaction potential changes single and collective behaviors of an active particles system, while keeping in mind the experimental and applied point of view. 
 	
 	\subsection{Objective 1: Minimal model accounting for aligning and non-aligning interactions}
-	\sout{As will be explained in detail in section \ref{alignint}, the main novelty in the model is how a potential is applied. } \todo{non anticipare come affronterei gli obiettivi prima ancora di aver spiegato l'obiettivo}
+	%\sout{As will be explained in detail in section \ref{alignint}, the main novelty in the model is how a potential is applied. } \todo{non anticipare come affronterei gli obiettivi prima ancora di aver spiegato l'obiettivo}
 	Active matter models can be either \emph{dry} or \emph{wet}: in \emph{dry} models the solvent is not explicitly simulated while \emph{wet} simulations solve equations both for colloidal and fluid particles, including all possible hydrodynamics. 
 	However, details about the hydrodynamic and electro-chemical fields around active particles are still a matter of investigation.
 	Moreover, even if known, they can be realistically simulated only for individual or few particles.
-	In terms of interactions among particles, two main types are reported in the literature: aligning interaction, involving the direction of particles, and non-aligning, which can be central potentials like a hard sphere excluded volume interaction \cite{callegari_numerical_2019}. 
+	In terms of interactions among particles, two main types are reported in the literature: aligning interaction, involving the direction of particles, and non-aligning, which can be central potentials like a hard sphere excluded volume interaction \cite{callegari_numerical_2019}.
 	
-	This work aims at a minimal \emph{dry} model that takes into account both aligning and non-aligning interactions in the attempt of matching experimental observations. \sout{tries to unify the two, linking coupling between the positions of a pair of particles (force) with coupling between the orientations of said particles (torque) with the objective of developing a minimal model that tries to mimic experimental observations.}
+	This work aims at a minimal \emph{dry} model that takes into account both aligning and non-aligning interactions in the attempt of matching experimental observations.
 	Here, the term \emph{minimal} means not only that a unique interaction potentials is used to couple both positional and orientational degrees of freedom, but also that this simple model could be enough to simulate real world phenomena without making assumptions on the hydrodynamics and chemistry involved. 
 		
-	\subsection{Objective 2: Simulation Framework} \todo{non ho capito in cosa consiste l'obiettivo 2}
+	%\subsection{Objective 2: Simulation Framework} \todo{non ho capito in cosa consiste l'obiettivo 2}
 	Given this novel modeling technique and its implementation, the next step of this work is to obtain a qualitative, eyesight agreement between simulations and experiments, making the \emph{in silico} experiment able to capture all the features and dynamics observed \emph{in vitro} scanning the different parameters.
 	
 	Moreover, with the right parameters, this model is capable of showing rich collective behaviors, making it a feasible alternative to study phase transitions in a statistical physics fashion. 
-	A \sout{glorious}\todo{well-known? glorious mi sembra eccessivo} model in this field involving aligning interactions is the Vicsek model \cite{vicsek_novel_1995}, which captures a plethora of natural world phenomena. 
+	A well-known model in this field involving aligning interactions is the Vicsek model \cite{vicsek_novel_1995}, which captures a plethora of natural world phenomena. 
 	Present work shows how a system with coupled positions and orientations can turn into a continuous Vicsek-like case study.
 	
-	\subsection{Objective 3: Analysis} \todo{nell'analisi c'è anche tutta la parte di analisi quantitativa delle simulazioni... e forse l'inferenza la lascerei a parte}
+	\subsection{Objective 2: Analysis} %\todo{nell'analisi c'è anche tutta la parte di analisi quantitativa delle simulazioni... e forse l'inferenza la lascerei a parte}
+	Although qualitative agreement between experiments and simulations plays a significant role, we believe that developing quantitative tools to analyze structure and dynamics of the system we are studying is necessary to understand the ongoing physics.
+	Moreover, with slight adjustments, this tools could easily be adapted to the analysis of experimental data, namely, positions of particles obtained from videos tracking.
+	
+	Here, we used well-known analysis tools, as well as some novel instruments developed during this thesis work.
+	
+	\subsection{Objective 3: Inference and Deep Learning}
 	The last objective of the project is to build a Deep Learning based tool which, when trained starting from a minimal set of simulation data, is able to infer the interaction potential between couples of particles both in simulated and experimentally observed situations.
 	
 
 	\section{State of the Art} \label{literature}
 	
-	\sout{Active matter is a lively field and plenty of literature has been produced on the topic. We will go through some of the  different papers that tackle the problem of understanding how active Brownian particles, both single and systems, behave with and without interactions.}\todo{Questo paragrafo non dice niente... piuttosto fai solo un breve cappello introduttivo su cos'è la materia attiva citando qualche articolo o review di riferimento.}
+	%\todo{Questo paragrafo non dice niente... piuttosto fai solo un breve cappello introduttivo su cos'è la materia attiva citando qualche articolo o review di riferimento.}
+	\emph{Active Matter} is a term that refers to systems, both at macroscopic and microscopic scales, which can be described as sets of individual constituents, often called active or self-propelled particles, that have the ability of taking energy from the environment or an internal source to convert it to work. 
+	Such systems show peculiar behaviors, both individual and collective, due to their intrinsic far-from-equilibrium physical properties, as well as interactions that may occur between active particles \cite{menon_active_2010, ramaswamy_active_2017}.
 	
-	\subsection{Interactions and emerging behaviours}\todo{ho cambiato il titolo di questa sezione perché collective motion mi sembrava troppo specifico}
+	In the next few sections, we will focus on how researchers have dealt with active matter systems, both from an individual behaviors and collective characteristics standpoint.
+	
+	\subsection{Interactions and emerging behaviours}
 	Investigation of interactions and emerging behaviours (e.g.\ collective motion) is an extremely important topic in the field of active particles, since it not only lead to a better understanding of the physics behind active particle systems, but it helped developing physical and mathematical tools, such as order parameters, which can be used both in simulation and experimental context. 
 	
 	In the following section the Vicsek model will often be cited. 
@@ -97,17 +114,16 @@
 	 \end{displayquote}
 	Although extremely simple, this model is of paramount importance in the study of active matter since it can be studied in terms of a phase transition and recreates to some extent the behavior of real living systems.
 	
-	Although not strictly related to the present work, \cite{cavagna_empirical_2010, ballerini_interaction_2008} are essential papers for the study of collective motion, for the problem of relating theoretical models and reality is tackled analyzing data of starling swarms in order to understand characteristics of interactions. \todo{non capisco questa frase}
+	Although not strictly related to the present work, \cite{cavagna_empirical_2010, ballerini_interaction_2008} are essential papers for the study of collective motion, for the problem of relating theoretical models and reality is tackled analyzing videos of starling swarms in order to understand characteristics of interactions. \todo{non capisco questa frase}
 	Understandably, the system studied by \citeauthor{cavagna_empirical_2010, ballerini_interaction_2008} is pretty different from the active Brownian particles ensemble investigated in this project, with the fist difference being the dimensionality (a bird swarm, just like a school of fish moves in a 3D environment), but some of the problems reported in that paper are still present in these days active matter community.
 	
-	\sout{The next few papers focus on systems which are more akin to what will be investigated from chapter~\ref{chap:int_impl} on.}
 	As for the case of self-propelled particles, \cite{martin-gomez_collective_2018} analyzes how an explicit polar aligning interaction can make the system transition to an ordered flocking phase, where almost all particles align their orientation in the same direction, even though an orientational noise is present. 
 	The model is built implementing an aligning torque between particles $i$ and $j$ which goes as $K \sin{(\theta_{i} - \theta_{j})}$, only within a certain distance, and a repulsive potential $\epsilon \left(\frac{\sigma}{r}\right)^{12}$ to take into account the excluded volume.
 	
-	The parameters of the system are the Péclet number $\mathrm{Pe} = \frac{v_0}{\sigma \gamma}$ which is the ratio between the self propulsion velocity and the product of the characteristic length of the particles and the rotational diffusion coefficient \todo{cosa rappresenta Péclet?} and $g = \frac{K}{4\pi \sigma^2 \gamma}$ which quantifies the relative intensity of the orientational coupling strength and the reorienting noise. 
+	The parameters of the system are the Péclet number $\mathrm{Pe} = \frac{v_0}{\sigma \gamma}$ which is the ratio between the self propulsion velocity and the product of the characteristic length of the particles and the rotational diffusion coefficient, quantifying the relative importance of advection to diffusion in solute transport, and $g = \frac{K}{4\pi \sigma^2 \gamma}$ which quantifies the relative intensity of the orientational coupling strength and the reorienting noise. 
 	The order parameter is the mean global polarization
 
-   	 \begin{equation}
+   	 \begin{equation} 
    	 P = \frac{1}{N}\left| \sum_{k=1}^{N} \exp(i \theta_k(t)) \right|
    	 \end{equation}
   	 which is $\sim 0$ in the disordered phase and $> 0$ in the flocking phase. 
@@ -115,7 +131,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=\textwidth]{martin_phaseseparation.png}
+		\includegraphics[width=\singfigwidth]{martin_phaseseparation.png}
 		\caption{\cite{martin-gomez_collective_2018}}
 		\label{fig:martin_flocking1}
 	\end{figure}
@@ -149,10 +165,10 @@
 	\begin{figure}[htp]
 		\centering
 		\subfloat[][Polarization and its susceptibility]{\includegraphics[width=\subfigwidth]{martin_phasetransition.png}}\quad
-		  \subfloat[][Pair correlation function and static structure factor]{\includegraphics[width=\subfigwidth]{martin_gofr.png}}
+		 \subfloat[][Pair correlation function and static structure factor]{\includegraphics[width=\subfigwidth]{martin_gofr.png}}
 		 
-		  \caption{\cite{martin-gomez_collective_2018}}
-		  \label{fig:martin_flocking3}
+		 \caption{\cite{martin-gomez_collective_2018}}
+		 \label{fig:martin_flocking3}
 	\end{figure}
 	
 	In \cite{caprini_spontaneous_2020}, authors investigate the alignment of instantaneous velocities in cases where motility-induced phase separation (MIPS) occurs. 
@@ -166,11 +182,11 @@
 	R = \int Q(r) dr 
 	\end{equation}
 	where the integral is performed on the cluster domain when present. 
-	This seems to be a good \todo{in che senso?} order parameter: varying the reorientation time $1/D_r$, $R$ is discontinuous at the point where the MIPS occurs and the result is consistent with established MIPS order parameters as shown in Figure \ref{fig:caprini1}.
+	This seems to be a good order parameter, since it makes it possible to distinguish the different phases of the system: varying the reorientation time $1/D_r$, $R$ is discontinuous at the point where the MIPS occurs and the result is consistent with established MIPS order parameters as shown in Figure \ref{fig:caprini1}. 
 	
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=\textwidth]{caprini2.png}
+		\includegraphics[width=\singfigwidth]{caprini2.png}
 		\caption{\cite{caprini_spontaneous_2020}}
 		\label{fig:caprini1}
 	\end{figure}
@@ -201,9 +217,9 @@
 	
 	\subsection{Experimental analysis of collective behaviors}
 	The interaction between active particles and their emergent collective behaviours have been studied also in experiments. 
-	\cite{singh_pair_2024} studies what happens when two \ch{SiO2-Pt} Janus particles come together in different configurations; the authors take into account hydrodynamics and chemistry involved in the process, classifying the different possible cases.\todo{in che senso ne tengono conto?} 
+	\cite{singh_pair_2024} studies what happens when two \ch{SiO2-Pt} Janus particles come together in different configurations; authors model a collision analyzing the overlap between concentration fields around the two particles as well as the torque caused by the interaction between solvent flows around each hemisphere of a pair of Janus microswimmers.%\todo{in che senso ne tengono conto?} 
 	Although here we are trying to build a dry active matter simulation --- means, absence of hydrodynamic and medium behavior is not simulated --- papers like this accurately describe the phenomenology of these close encounters, which is essential to build minimal models that mimic real-world behavior. 
-	The main fact, supported both by simulations and experimental evidence, we can use is that particles do not long-range reorientation due to hydrodynamic or chemical interaction, and that the leading interactions are steric and near-contact chemical.\todo{frase non chiara, riscrivere}
+	The main fact, supported both by simulations and experimental evidence, to take away is that chemical and hydrodynamic interactions do not cause reorientation for pairs of particles separated by a long distance, and that leading effects are short-range chemical torques.%\todo{frase non chiara, riscrivere}
 	
 	Dispersing Janus colloids in a \ch{H2O2} solution in a quasi-2D environment, the types of configurations particles can scatter in are limited and categorized by the authors in four dynamical states. 
 	The classification of both approach and departure states, along with a relative frequency histogram is in \ref{fig:singh_pair1}.
@@ -216,10 +232,9 @@
 	\end{figure}
 	
 	It is evident from this article that such particles exert a torque on each other at short range and this interaction, which is a product of the intrinsic asymmetry of a Janus colloid, must be considered in order to capture all the dynamics of these micro-swimmers.
-		
-	\sout{Emergent properties and collective behaviors might seem a purely theoretic matter but, as was displayed at the start of this section, there are some attempts to challenge this subject from an observational point of view. }
-	\cite{maity_spontaneous_2023} investigate what happens with a double population\todo{in che senso doppia?} of active colloidal particles. 
-	Those colloids move due to a different mechanism than the one seen before, whose details will not be discussed here, called Quincke instability; with enough particle density, the solvent mediates an aligning interaction which makes the system undergo a Vicsek-like flocking transition that, within a circular confinement, takes place as a vortex motion. 
+	
+	\cite{maity_spontaneous_2023} investigate what happens with a binary population of active colloidal particles, that is obtained by mixing particles of \qtylist{7;10}{\um} in diameter. 
+	These colloids move due to a different mechanism than the one seen before, whose details will not be discussed here, called Quincke instability; with enough particle density, the solvent mediates an aligning interaction which makes the system undergo a Vicsek-like flocking transition that, within a circular confinement, takes place as a vortex motion. 
 	The two populations are distinguished by a difference in diameter and in velocity. 
 	Within some minutes, the initially uniform sample demixes spontaneously, heading to a segregated state where the two populations are well separated and their relative densities have a different radial profile, as shown in Figure \ref{fig:maity1}.
 	
@@ -252,25 +267,30 @@
 		\caption{\cite{ostapenko_curvature-guided_2018}}
 		\label{fig:ostapenko2}
 	\end{figure}
-	\todo{ma Jyoti l'ha letto questo articolo?}
+	%\todo{ma Jyoti l'ha letto questo articolo?}
 	
 	\subsection{Inference of interaction potentials}
 	Inferring interaction potentials starting from experimental or simulated data is challenging and different techniques could be adopted. 
 	Since the real interactions that occur between a pair of colloidal particles are mostly unknown and in principle may involve chemical gradients, hydrodynamics, electromagnetism and all kinds of interplay between these and other mechanisms, it would be extremely useful to have a tool that predicts forces between particles mapping them in terms of some kind of minimal model such as a simple central potential. 
 	Here, we will focus only on inference strategies based on Deep Learning (DL), which have shown particularly promising. 
 	
-	In terms of machine learning model, the simplest approach is using some global attribute of the active particle ensemble to predict the potential via a Deep Neural Network. \todo{spiega meglio}
+	In terms of machine learning model, the simplest approach is using some global attribute of the active particle ensemble to predict the potential via a Deep Neural Network. %\todo{spiega meglio}
+	The idea is to concatenate all attributes in a vector and feed it as input to a DNN, that has as target function another vector containing the values of interaction potentials; the loss function to minimize is the difference (absolute or square) between the predicted potential and the ground-truth one.
 	\cite{bag_interaction_2021} aims at doing exactly that, exploiting a fact from statistical and matter physics; as authors claim, they use a theorem saying that \enquote{for the fluids with only pairwise interaction (quantum or classical), the pair potential $V(r)$ that leads to a specific $g(r)$ is unique} and the question of predicting which $V(r)$ causes a specific structural correlation like $g(r)$ or, equivalently, $S(q)$ \enquote{is a well defined one}. 
 	
 	Authors simulated both passive and active Brownian particles to see de difference between equilibrium and non-equilibrium configurations. 
 	All the tested potential were of the form $V(r_{ij}) = 4\varepsilon \left[ \left( \frac{\sigma}{r_{ij}} \right)^a - \lambda \left( \frac{\sigma}{r_{ij}} \right)^b \right]$ with different values of the parameters. 
 	Letting the system reach steady state and then taking $100$ snapshots of the pair correlation function to train the network, the authors show pretty good results regarding the accordance between predicted and real potentials in all the possible phases: gas-like, crystal and liquid-like. (\ref{fig:bag1})
+	
 	\begin{figure}[htp]
 		\centering
-		\includegraphics[width=\singfigwidth]{bag1.png}
-		\caption{\cite{bag_interaction_2021}}
+		\subfloat[]{\includegraphics[width=\subfigwidth]{bag1_1.png}}
+		\subfloat[]{\includegraphics[width=\subfigwidth]{bag1_2.png}}\\
+		\subfloat[]{\includegraphics[width=\subfigwidth]{bag1_3.png}}
+		
+		\caption{Potential shapes for different values of parameters \cite{bag_interaction_2021}.}
 		\label{fig:bag1}
-	\end{figure}\todo{immagine troppo piccola}
+	\end{figure}
 	
 	The non-equilibrium case is a different matter: as soon as self-propulsion is involved, phenomena like MIPS start to occur, pushing the system to cluster. 
 	Some literature has introduced effective many-body attractive potential to explain the change in structure caused by particles' motility, even in cases where just an explicit repulsion is present, and the results presented by \citeauthor{bag_interaction_2021} seem to point in that direction as well. 
@@ -281,14 +301,15 @@
 		\label{fig:bag2}
 	\end{figure}
 	As Figure~\ref{fig:bag2}(b) shows, pair correlation functions in the case of active repulsive particles is similar to that of passive attractive particles, since only structure --- i.e.\ particles' positions --- is involved, tricking the network into predicting an attractive potential. 
-	This is a good\todo{in che senso?} result in a simulation context and sheds light on some theoretical statements, nonetheless this approach does not fit the objective of the present thesis project, which tries to obtain \emph{actual} 2-body interactions in active particle systems. 
+	This is a good result in a simulation context since it shows the capability of some methods to predict potentials starting from particle's positions and, though in out of equilibrium cases it does not work as desired, it sheds light on some theoretical statements. 
+	Nonetheless this approach does not fit the objective of the present thesis project, which tries to obtain actual 2-body interactions in active particle systems. 
 	
 	An alternative approach is working directly on positions and velocities of individual particles. 
 	It is an accepted fact that the best way to make AI learn something about a problem is having the invariances and symmetries of said problem taken in to account in the model design. 
 	The most efficient way to store information about a set of interacting bodies is a graph, where vertices represent single body information like position, velocity, mass or charge and edges contain information about the potential that make pairs of particles communicate. 
 	With these facts in mind, it is clear why Graph Neural Networks (GNNs or GNs) are so popular in several fields of physics. 
 	The distinction between GNNs and GNs is that the first one is a term that represent every kind on Neural Networks related with graphs, regardless the structure, while the Graph Network framework represents a specific network with a graph structure. 
-	An actual GN is actually a container, structured as a graph, which in principle holds three networks or functions, or models: one is the edge function $\phi^e$, which predicts edge features, a node function $\phi^v$ which predicts single nodes features and a global function $\phi^u$ that works in the same fashion.\todo{quale fashion?} 
+	An actual GN is actually a container, structured as a graph, which in principle holds three networks or functions, or models: one is the edge function $\phi^e$, which predicts edge features, a node function $\phi^v$ which predicts single nodes features and a global function $\phi^u$ to predict global features. 
 	$\phi^e$ maps from a pair of nodes and some information stored on the edge to a message vector which lies in the \emph{latent space}. 
 	Then, all the messages from sending nodes into a receiving one are aggregated by means of a permutation-invariant function, namely sum, mean, max etc. 
 	The node model $\phi^v$ takes the aggregated messages along with the node information and predicts some feature. 
@@ -297,7 +318,7 @@
 	In the case of interacting bodies, edge function works as the force law and node function plays the role of the second Newton's law, calculating the resulting force and applying it to obtain particle's acceleration. 
 	In \cite{cranmer_discovering_2020} such an approach is applied to the case of Newtonian dynamics (along with Hamiltonian dynamics and a Dark Matter simulation, which we will not focus on) of a set of interacting particles. 
 	After simulating the dynamics of a set of interacting bodies with several kinds of interaction forces, \citeauthor{cranmer_discovering_2020} experiment with different message dimensionalities. 
-	This theme\todo{in che senso theme?} causes doubts when working with GNs and multiple strategies can be explored, the most natural of them is creating a bottleneck using the dimension of the problem, e.g.~if particles move in N dimensions than forces are N-D and one \sout{(especially a physicist)} may be tempted to think that, since messages should represent forces, this is the best dimensionality to use; the other approach is using a high-dimensional message, e.g.~100D, in training and then selecting the N most meaningful dimensions to plot the force in N-D. 
+	Message dimensions is a topic that causes doubts when working with GNs and multiple strategies can be explored, the most natural of them is creating a bottleneck using the dimension of the problem, e.g.~if particles move in N dimensions than forces are N-D and one may be tempted to think that, since messages should represent forces, this is the best dimensionality to use; the other approach is using a high-dimensional message, e.g.~100D, in training and then selecting the N most meaningful dimensions to plot the force in N-D. 
 	\citeauthor{cranmer_discovering_2020} try both of these strategies as well as a hybrid one: instead of implementing a hard bottleneck, they let the network learn with a 100D message but with regularization terms that encourage the model to learn compact representations of the forces, in accordance with an Occam's razor type of reasoning. 
 	Doing this, the message is still 100-dimensional, but now most of its components have no variability, leaving few of them informational. 
 	Their results show that, although an explicit bottleneck works well, the best performing strategy is the $L_1$ regularization. 
@@ -342,13 +363,12 @@
 	To not be influenced by stuck particles, the network is fed with the bias that forces depend only on distances and not positions. 
 	Moreover, self-propulsion is forced to depend only on the orientation of particles. 
 	The experimental observations studied in that work contain thousands of particles with a clearly detectable in-plane orientation. 
-	Results show some similarities with the expectations but not much can be said since the actual interactions are not known exactly\sout{(even though in this case authors used electric fields and some kind of guess can be made about the interactions)}. 
+	Results show some similarities with the expectations but not much can be said since the actual interactions are not known exactly. 
 	Authors claim that probably symbolic regression is needed to discover the actual form of the interaction.
 	
 	\section{Background}
 	\subsection{Passive Brownian Motion}
 
-	\sout{Before adding the self-propulsion velocity, it is worthwhile to outline some facts about Passive Brownian motion.}
 	The first formulation of the theory of Brownian motion was obtained by Albert Einstein in a 1905 paper, where the mean square displacement was given in terms of a linear relation with time, with a diffusion coefficient $D_t$ as $\sqrt{\bar{x}^2} = \sqrt{2D_t t}$. 
 	Here, we outline the derivation as it was presented by Paul Langevin some years afterwards, following \cite{gardiner_handbook_2004}.
 	
@@ -397,7 +417,7 @@
 	\end{equation} 
 	where $\mathbf{F}_{th}$ is the random force given by the collisions with the fluid molecules.
 	
-	Given that a typical Brownian particle will have a characteristic body-length in the order of $ \mathrm{\sim\mu m}$ and a velocity of $\sim\mu \mathrm{m s}^{-1}$ \todo{use units} the system can be studied in low-Reynolds number regime being 
+	Given that a typical Brownian particle will have a characteristic body-length in the order of \unit{\um} and a velocity of \unit{\um \per \second} the system can be studied in low-Reynolds number regime being 
 	\begin{equation}
 	Re = \frac{\rho v a}{\eta} \sim 10^{-6} 
 	\end{equation}  
@@ -419,7 +439,8 @@
 	
 	%Ornstein and Uhlenbeck, in a 1930 paper \citeauthor{uhlenbeck_theory_1930}, outlined all the statistical properties of Brownian motion, including the mean square displacement, which in 2 dimension read $\text{MSD}(\tau) = 4D_t \tau + \frac{4k_B T}{m} \tau_m^2 \left[e^{-\tau/\tau_m} - 1\right]$.
 	
-	\subsection[ABP simulations]{Physics and Numerical Simulations of active particles}\todo{in che senso "physics"?}
+	\subsection[ABP simulations]{Numerical Simulations of active particles}%\todo{in che senso "physics"?}
+	
 		Despite the variety in single agent properties and self-propulsion mechanisms, it is possible to identify some key features that are shared between all active particle systems. 
 		The most important characteristic of an active, self-propelled particle is that, notwithstanding a symmetric shape (often in literature, and always in this work, spherical), each particle has a preferred axis which lies along the direction of self-propulsion.
 		
@@ -525,10 +546,10 @@
 			x(h) - x(0) &=  \int_{0}^{h}v_0 \left[\cos(\theta_0) - \sin(\theta_0)(\theta_s-\theta_0)\right]\dd{s} + \int_{0}^{h} \sqrt{2D_t}\dd{W}  \\
 			& = \sqrt{2D_th} Z_1 + hv_0 \cos\theta_0 - \sin \theta_0 Y_1 \sqrt{h} \int_{0}^{h}\dd{s}
 	    \end{align}
-	    with $Z_1 \sim \mathcal{N}(0,1)$, and we notice that the last term is $\order{h^{3/2}}$, leaving us with the first order unchanged.
-	    
-	    This makes what we saw for the finite difference equations correct.
-		\todo{che vuol dire?}
+	    with $Z_1 \sim \mathcal{N}(0,1)$, and we notice that the last term is $\order{h^{3/2}}$, leaving us with the first order unchanged. 
+	    Having the right first order is fundamental because that is the order that enters in finite difference equations. 
+	    We can thus conclude that finite difference equations in the form we wrote them in expressions \ref{eq:fin_diff1}-\ref{eq:fin_diff_with_forces} are the correct ones for our problem.
+		%\todo{che vuol dire?}
 	    
 		\subsection{Algorithms}
 		A variety of algorithms to integrate SDEs have been reported in the literature. 
@@ -597,10 +618,11 @@
 		\end{algorithm}
 		Now one can ask which is the "best" algorithm. 
 		The answer lies in two distinct topics: deterministic accuracy and stochastic behavior. 
-		Regarding deterministic accuracy, one can analyze which is the order of the numerical error made in the integration, obtaining that, being a first order algorithm, Euler scheme is accurate up to $\order{h}$, while Heun is $\order{h^2}$, making it\todo{ambiguo... quale? usa the former o the latter} better especially when working with highly nonlinear and steep potentials.
+		Regarding deterministic accuracy, one can analyze which is the order of the numerical error made in the integration, obtaining that, being a first order algorithm, Euler scheme is accurate up to $\order{h}$, while Heun is $\order{h^2}$, making the latter preferable especially when working with highly nonlinear and steep potentials.
 		
 		In order to analyze stochastic behavior, if one is interested in large time behavior, it is possible to study the equilibrium distribution $P(x)$. 
-		In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.\todo{quindi? spiega anche per qualcuno che non è né te né Mannella :)}
+		In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.
+		For Heun error does not depend on the value of potential and its derivatives but only on integration step, making it possible to get more accurate estimates of the equilibrium distribution.\todo{quindi? spiega anche per qualcuno che non è né te né Mannella :)}
 		
 		Analyses suggest that Heun scheme is among the most convenient algorithms, since higher order schemes do not do better, but they are much more expensive to implement on a computer. 
 		
