@@ -112,13 +112,21 @@
 		Lennard Jones (LJ) is the potential which has the best chance of representing well real world dynamics (see section \ref{qualitative}), so it is worthwhile to study it in detail, to see how it affects individual and collective behaviors of ABPs ensembles. 
 		In order to do that, we investigated both global and local polarization, as well as clustering, to better understand the effects of the different model parameters on both positional and orientational degrees of freedom.
 		
+		In the following, where not differently reported, the interaction used is Lennard Jones with parameters $\sigma = 2R$, with $R$ particle's radius, and strength parameter $\epsilon \sigma = \SI{0.1}{\micro\joule}$.
+		Magnitude of $\alpha$ is kept fixed at $0.5$, changing the sign.
+		Simulations involved $250$ particles in a square of \SI{175}{\um} side, for a resulting packing fraction of $\sim 0.1$. 
+		Simulation time is 1000 s but shorter times are showed in graphs as needed.
+		Integration step varies with parameters, to ensure the best trade-off between stability in the simulations and execution speed, and it is indicated in sections.
+		
+		For every parameters set, we simulated five different starting conditions, randomly generated.
+		When distributions are involved in the simulation, e.g.\ for linear and angular velocity, probability distribution functions are resampled at every repetition.
+		For cluster size and number, as well as polarizations, lines in graphs are averages of those five simulations, with ribbons around them represent standard deviations around the mean.
+		{\color{blue} Radial distribution functions are plotted for the final instant of just one of the simulations.}
+		Transient time for polarization is measured as the time it takes for this order parameter to reach \num{95} \% of its maximum.
+		
 		\subsection{Velocity}
 		In order to study the effect of velocity, we first computed all the quantities of interest in the case of passive particles with an aligning LJ interaction, and then added a self propulsion velocity. 
 		An active speed makes the system non-isotropic, giving a preferred direction to particles, so we also investigated how velocity interacts with the sign of the directional coupling parameter $\alpha$, repeating the analysis for positive and negative values of it.
-		
-		The interaction used is LJ with parameters $\sigma = 2R$, with $R$ particle's radius, and strength parameter $\epsilon \sigma = 0.1 J$. 
-		Magnitude of $\alpha$ is kept fixed at $0.5$, changing the sign. 
-		Simulations involved $250$ particles in a square of \SI{175}{\um} side, for a resulting packing fraction of $\sim 0.1$. Simulation time is 1000 s. 
 		
 		\begin{figure}[htp]
 			\centering
@@ -137,7 +145,8 @@
 		A noteworthy characteristic is that particles with interacting position on the back do not tend to align at all.
 		
 		This can also be noticed in Figures \ref{fig:lj_velocity_situation} and \ref{fig:lj_velocity_cluster}, where, when the off center position is on the back, velocity tends to hinder clustering, leading to a more sparse final situation. 
-		This can be due to the aforementioned fact about velocity: all particles have the same velocity so a head-to-tail collision is unlikely, as a consequence the off cen
+		This can be due to the aforementioned fact about velocity: all particles have the same velocity so a head-to-tail collision is unlikely, as a consequence the interacting positions of two contacting particles will always be at a distance $>2R$ where interaction is pretty weak. 
+		
 		
 		\begin{figure}[htp]
 			\centering
@@ -164,17 +173,43 @@
 			\label{fig:lj_velocity_cluster}
 		\end{figure}
 		
-		\begin{comment}		
 		\subsection{Velocity Distribution}
-		\subsection{Angular Velocity}
-		\subsection{Orientation Coupling}
-		\subsection{LJ strength $\epsilon$}			
-		\end{comment}
-	
-	\subsection{Velocity Distribution}
-	\subsection{Angular Velocity}
-	%\subsection{Radius}??????
-	
+		A simple way to add some complexity into the model is not to generate all particles with the same velocity, but to initialize them with their self propulsion speed constant but sampled from some distribution. 
+		This way collisions are more likely and in a greater variety of directions' configurations.
 		
+		In order to study the effect of a velocity distribution in an ABPs ensemble, we performed simulations generating velocities from a normal distribution, keeping the mean constant at \SI{10}{\um \per \second} and changing the standard deviation in \qtylist{1; 2; 5; 10}{\um \per \second}.
+		To avoid having particles that swim backwards with respect to their self propulsion direction, random speeds are actually generated from a truncated distribution with a cutoff at \SI{0}{\um \per \second}.
+		
+		Considerations about collisions could lead to the expectation that, with a velocity distribution, particles will cluster more easily in a MIPS fashion.
+		In fact, both cluster size and $g(r)$ show how adding different velocities to the system tends to hinder packing, leading in the end to a more sparse system.
+		
+		From the polarization standpoint, increasing the broadness of the distribution tends to reduce the amount of total alignment in the system, while local polarization remains higher. 
+		An interesting fact is that, although alignment and clustering are often related, here a drastic downfall of clustering does not reflect in a big difference in polarization.
+		As seen in previous section, faster velocities make transient times shorter and this case makes no exception.
+		
+		
+		\subsection{Orientation Coupling}
+		To understand the role of the orientational coupling parameter $\alpha$, we performed simulations with velocity \SI{20}{\um\per\second}, varying $\alpha$ between \numlist{-0.75; 0.75} in \num{0.25} increments. 
+		Simulations time is \SI{500}{\second}, enough to let the system reach steady state.
+		Shorter times are reported, when needed, in plots.
+		
+		Results relative to \num{0} coupling show how clustering and polarization are related in this case: not only the absence of an alignment interaction hinders system's polarization as expected, but at this level, large scale clustering does not realize although an attractive force is inserted in simulations. 
+		
+		With $\alpha = 0.25$ system tends to polarize, both locally and globally, but still it does not cluster as a whole. 
+		Some peaks at short distance start to rise in the $g(r)$, showing the onset of short range order, though they are not in the typical positions of a hexagonal close packed lattice. 
+		
+		At $\alpha = 0.5$ polarization is almost total and all particles in the system tend to be part of the same cluster. 
+		Radial distribution function shows the onset of long range order, with high and narrow peaks, both at short and long distance.
+		
+		Polarization is total at $\alpha = 0.75$, and once steady state is reached, both local and global alignment present very small oscillations. 
+		Ensemble is fully clustered and flocking at this point.
+		
+		Analyzing the transient time, it is possible to notice how increasing the coupling parameter between orientation angles tends to reduce the transient time, making it faster for the system to align.
+		\begin{comment}
+
+		\subsection{Angular Velocity}
+
+		\subsection{LJ strength $\epsilon$}
+		\end{comment}
 
 \end{document}
