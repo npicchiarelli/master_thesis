@@ -55,32 +55,39 @@
 		Using $1$ as $Mp$ (i.e.\ a cluster must be formed with at least 2 points) and particle radius or interactions range as threshold distance, this algorithm's results correspond to the common sense conception of what a cluster is. 
 		The advantage of adapting an existing algorithm is that it has some very fast pre-built implementations which are probably more efficient than one could write from scratch.
 		Getting cluster sizes as the result of a DBSCAN passage, it becomes easy to compute the sample cluster size distribution function, that is, plotting sizes on a histogram.
+		
+		\begin{figure}[htp]
+			\centering
+			\includegraphics[width=\textwidth]{dbscan.png}
+			\caption{\enquote{Illustration of DBSCAN cluster analysis (minPts=3). Points around A are core points. Points B and C are not core points, but are density-connected via the cluster of A (and thus belong to this cluster). Point N is Noise, since it is neither a core point nor reachable from a core point}. \cite{chire_deutsch_2011}.}
+			\label{fig:dbscan}
+		\end{figure}
+		
 		\subsection{Local Polarization}
 		As explained in previous section, local properties are useful to observe, in particular in transients. 
 		When aligning interactions are present and packing fraction is small or we are in a transient, small clusters of particles tend to align their directions, so that measuring the global polarization $P$ would get in the same result of a disordered system, close to $0$. 
 		We can exploit the fact that clustering algorithms assign points to clusters and then measure how polarized the single groups are, meaning we compute a local polarization order parameter. 
 		Averaging over clusters, this parameter $\bar{P}$ will be close to $1$ even if $P$ is kept low by the different orientations of clusters, making it a good parameter to study local properties and short range interactions.
 		
-		\section{Coulomb Flocking as a Phase Transition}
+		\section{Flocking as a Phase Transition}
 		As mentioned in section \ref{literature}, \citeauthor{martin-gomez_collective_2018}, as well as \citeauthor{negi_emergent_2022} showed how inserting an explicitly aligning interaction in the simulation can make the whole system polarize, meaning all particles move in the same direction. 
 		This phenomenon is called \emph{flocking}.
 		
 		Here, we show how a repulsive off centered interaction, although with limited range, can lead an ABPs system to reach a flocking state. 
 		The selected interaction force is $F(r) = kr^{-2}$, akin to a Coulomb or gravitational force, where $k$ is a constant. 
 		When both the off center magnitude $\alpha$ and the constant $k$ have a positive value, front sides of interacting particles repel each other, meaning that two particle swimming towards each other will tend to align their orientations. 
-		Here we stress the fact that when all particles in ensemble have the same velocity and clustering is not present, a head-to-head collision is by far the most frequent, and for sure a head-to-tail collision is almost impossible, since two particles with the same directions will chase each other without ever touching.
+		%Here we stress the fact that when all particles in ensemble have the same velocity and clustering is not present, a head-to-head collision is by far the most frequent, and for sure a head-to-tail collision is almost impossible, since two particles with the same directions will chase each other without ever touching.
 		
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=\textwidth]{alignment.png}
-			\caption{Behavior of two particles with aligning interactions, compared with excluded volume steric interaction only \citeauthor{martin-gomez_collective_2018}.}
+			\caption{Behavior of two particles with aligning interactions, compared with excluded volume steric interaction only \cite{martin-gomez_collective_2018}.}
 			\label{fig:alignment}
 		\end{figure}
 		
 		In Figure \ref{fig:alignment}, an example of how the alignment process works. 
-		Differently from our case, the interaction in mentioned work is an explicitly aligning torque where $T \sim \sin( \theta_{i}-\theta_{j} )$, where particles orientation are \emph{explicitly} included in the expression and $\abs{T}$ has a clear minimum where $\theta_{i} = \theta_{j}$. 
+		Differently from our case, the interaction used by \citeauthor{martin-gomez_collective_2018} is an explicitly aligning torque where $T \sim \sin( \theta_{i}-\theta_{j} )$, with particles orientation are \emph{explicitly} included in the expression and $\abs{T}$ has a minimum where $\theta_{i} = \theta_{j}$. 
 		Our alignment comes automatically from applying a force to a non centered position. 
-		
 		In Figure \ref{fig:flock40}, an example of how flocking transition happens with $k = 10$, with an interaction range of \SI{40}{\micro\meter}.
 		\begin{figure}[htp]
 			\centering
@@ -93,11 +100,22 @@
 			\caption{\textbf{NOT DEFINITIVE} Flocking transition: all particles in the system tend to polarize after few seconds. }
 			\label{fig:flock40}
 		\end{figure}
-			
+		
+		\subsection{Methods}	
 		We studied flocking as a II order phase transition, using the global polarization $P$ as order parameter and varying $\alpha$, to change the magnitude of orientations coupling. 
 		The range of interaction is \SI{5}{\micro\meter}, which, being $2.5R$, with $R$ particle radius, is enough to make particles interact only with one layer of particles around them, simulating a nearest-neighbor interaction. 
 		Though interactions range is so short, a long-range order establishes for large enough $\alpha$, making the whole ensemble polarize.
 		
+		Integration step is \SI{5e-2}{\second} and simulation is \num{2e5} steps long, for a resulting simulation time of \SI{e4}{\second}, enough to let the system thermalize and reach a steady state as shown in Figure \ref{fig:polar_therm}.
+		We proceeded to analyze data as follows: after discarding the first \num{2e4} steps as thermalization, polarization history is treated using a blocking and then a JackKnife resampling.
+		Blocking means grouping all the history in subsets of subsequent points and replacing each of them with their average.
+		In JackKnife we replace each point with the mean of all the other points in the history.
+		This process has the objective of removing autocorrelations in data, as well as having good estimators for mean and variance of relevant observables.
+		In this aspect, our analysis differs from the one done by \citeauthor{martin-gomez_collective_2018}, where means are took over independent realizations.
+		We believe that, with fixed simulation time, making one longer simulation is more convenient than more shorter ones, since the system has to thermalize only once, letting us waste less data.
+		Doing everything in one simulation requires some resampling technique as described before.
+		
+		\subsection{Results}
 		As a result, Figure \ref{fig:phasetrans} shows the expected behavior of a II order phase transition: as the order parameter $P$ gets with a discontinuity from 0 to 1, its susceptibility diverges to a peak when $\alpha$ approaches critical value and then returns back close to zero (see, as a reference, Figure \ref{fig:martin_flocking3}).
 		
 		\begin{figure}[htp]
@@ -108,13 +126,16 @@
 			\label{fig:phasetrans}
 		\end{figure}
 		
-		\section{Aligning Lennard Jones: Clustering and Local Order}
+		\section{Clustering and Local Order}
 		Lennard Jones (LJ) is the potential which has the best chance of representing well real world dynamics (see section \ref{qualitative}), so it is worthwhile to study it in detail, to see how it affects individual and collective behaviors of ABPs ensembles. 
 		In order to do that, we investigated both global and local polarization, as well as clustering, to better understand the effects of the different model parameters on both positional and orientational degrees of freedom.
+		As discussed in section \ref{qualitative}, in reality not all particles move with the same self-propulsion velocity because of imperfections in fabrication processes.
+		For the same reason, some particles show a nonzero angular velocity that makes their dynamics more well-explained by a chiral Brownian motion \cite{callegari_numerical_2019}.
+		Thus, to better resemble reality, we added aforementioned features in simulations, and then studied how such features can change collective behaviors of an ensemble of self-propelled particles.
 		
 		In the following, where not differently reported, the interaction used is Lennard Jones with parameters $\sigma = 2R$, with $R$ particle's radius, and strength parameter $\epsilon \sigma = \SI{0.1}{\micro\joule}$.
 		Magnitude of $\alpha$ is kept fixed at $0.5$, changing the sign.
-		Simulations involved $250$ particles in a square of \SI{175}{\um} side, for a resulting packing fraction of $\sim 0.1$. 
+		Simulations involved $250$ particles in a square of \SI{175}{\um} side, for a resulting packing fraction of $\sim 0.1$.
 		Simulation time is 1000 s but shorter times are showed in graphs as needed.
 		Integration step varies with parameters, to ensure the best trade-off between stability in the simulations and execution speed, and it is indicated in sections.
 		
@@ -125,6 +146,7 @@
 		Transient time for polarization is measured as the time it takes for this order parameter to reach \num{95} \% of its maximum.
 		
 		\subsection{Velocity}
+		\label{velocity}
 		In order to study the effect of velocity, we first computed all the quantities of interest in the case of passive particles with an aligning LJ interaction, and then added a self propulsion velocity. 
 		An active speed makes the system non-isotropic, giving a preferred direction to particles, so we also investigated how velocity interacts with the sign of the directional coupling parameter $\alpha$, repeating the analysis for positive and negative values of it.
 		
@@ -189,8 +211,6 @@
 		
 		\subsection{Orientation Coupling}
 		To understand the role of the orientational coupling parameter $\alpha$, we performed simulations with velocity \SI{20}{\um\per\second}, varying $\alpha$ between \numlist{-0.75; 0.75} in \num{0.25} increments. 
-		%Simulations time is \SI{500}{\second}, enough to let the system reach steady state.
-		%Shorter times are reported, when needed, in plots.
 		
 		Results relative to \num{0} coupling show how clustering and polarization are related in this case: not only the absence of an alignment interaction hinders system's polarization as expected, but at this level, large scale clustering does not realize although an attractive force is inserted in simulations.
 		
@@ -205,22 +225,100 @@
 		
 		Analyzing the transient time, it is possible to notice how increasing the coupling parameter between orientation angles tends to reduce the transient time, making it faster for the system to align.
 		
+		All of the three simulations with negative $\alpha$ show no alignment and no clustering, in accordance with what stated in section \ref{velocity}.
+		
+		\begin{figure}[htp]
+			\centering\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa-0.75.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa-0.25.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.25.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.75.png}}
+			
+			\caption{\textbf{NOT DEFINITIVE}  Average of 5 simulations, strip around line is stddeviation}
+			\label{fig:lj_oc_situa}
+		\end{figure}
+		
+		\begin{figure}[htp]
+			\centering\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar-0.75.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar-0.25.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar0.25.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/polar0.75.png}}
+			
+			\caption{\textbf{NOT DEFINITIVE}  Average of 5 simulations, strip around line is stddeviation}
+			\label{fig:lj_oc_pol}
+		\end{figure}
+		
+		\begin{figure}[htp]
+			\centering\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster-0.75.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster-0.25.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster0.25.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/cluster0.75.png}}
+			
+			\caption{\textbf{NOT DEFINITIVE}  Average of 5 simulations, strip around line is stddeviation}
+			\label{fig:lj_oc_clust}
+		\end{figure}
+	
+		
 		\subsection{Angular Velocity}
+		Simulations relative to this section are performed with a Lennard Jones strength parameter of $\epsilon \sigma = \SI{0.25}{\micro\joule}$.
+		%As will be explained shortly, angular velocity tend to slow down the process of reaching steady state in the orientational order parameter, thus we tried a higher interaction strength to save execution time.
 		The influence of rotational self propulsion was studied generating particles' angular velocity from a normal distribution.
 		To avoid inserting a bias in the system the mean is kept fixed at \SI{0}{\radian\per\second}, while changing the standard deviation in \qtylist{0.5; 1;2}{\radian\per\second}.
 		
 		With a \SI{0.5}{\radian\per\second} standard deviation, global polarization is strongly hindered, with large oscillations, though still showing an increasing trend.
 		Still, local polarization remains above baseline.
-		Cluster size presents an increasing trend as well, {\color{blue} and probably a longer simulation is needed to reach steady state}. 
-		Some peaks are still present in radial distribution function, a sign that some order is preserved in the system, at least at short and medium range. 
+		Cluster size presents an increasing trend as well, {\color{blue} and probably a longer simulation is needed to reach steady state}.
+		Some peaks are still present in radial distribution function, a sign that some order is preserved in the system, at least at short and medium range.
 		
 		A standard deviation of \SI{1}{\radian\per\second} destroys global orientational order almost completely, while local polarization is just above the initial value.
 		Situation plot in figure \ref{fig:om_situation0.5} shows a system with relatively small oriented clusters; as a consequence, $g(r)$ peaks are lower than before and in a much smaller number.
 		
-		Further broadening the angular velocity distribution makes it impossible for the ensemble to develop long range order, as $g(r)$ shows. 
+		Further broadening the angular velocity distribution makes it impossible for the ensemble to develop long range order, as $g(r)$ shows.
 		Polarization is completely hindered as well, both locally and globally, as graphs and situation plots show.
-		\begin{comment}
-		\subsection{LJ strength $\epsilon$}
-		\end{comment}
+		
+		\begin{figure}[htp]
+			\centering\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/situa0.0.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/situa0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/situa1.0.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/situa2.0.png}}\\
+			
+			\caption{\textbf{NOT DEFINITIVE}  Average of 5 simulations, strip around line is stddeviation}
+			\label{fig:lj_av_situa}
+		\end{figure}
+		
+		\begin{figure}[htp]
+			\centering\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/polar0.0.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/polar0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/polar1.0.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/polar2.0.png}}\\
+			
+			\caption{\textbf{NOT DEFINITIVE}  Average of 5 simulations, strip around line is stddeviation}
+			\label{fig:lj_av_pol}
+		\end{figure}
+		
+		\begin{figure}[htp]
+			\centering\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/cluster0.0.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/cluster0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/cluster1.0.png}}
+			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/cluster2.0.png}}\\
+			
+			\caption{\textbf{NOT DEFINITIVE}  Average of 5 simulations, strip around line is stddeviation}
+			\label{fig:lj_av_clust}
+		\end{figure}
+		
 
 \end{document}
