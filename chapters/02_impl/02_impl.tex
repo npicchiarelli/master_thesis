@@ -230,28 +230,29 @@
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=\textwidth]{singpart_draw.png}
-		\caption{\color{brown}Red point: position from which interaction distances are calculated and to which force is applied. In this case, interacting position is at $-0.5R$ from particle's center, \it{i.e.}\ on the back side compared to  the direction of self propulsion.}
+		\caption{\color{brown}Red point: position from which interaction distances are calculated and to which force is applied. In this case, interacting position is at $-0.5R$ from particle's center, {\it i.e.}\ on the back side compared to  the direction of self propulsion.}
 		\label{fig:geom_model}
 	\end{figure}
 	
 	\section{Boundary Conditions and Hard Sphere Correction}
+	\todo{tutta questa sezione la sposterei prima di quella precedente, visto che l'implementazione delle interazioni è il contributo principale di questo lavoro}
 	\subsection{Boundary Conditions}
 	Original code featured open, periodic or hard boundary conditions. 
-	We will not go through all of them, but briefly, open boundary conditions means just doing nothing, while a hard wall involves computing boundary's gradient in any point and using it as a locally straight wall condition.
+	We will not go through all of them, but briefly, open boundary conditions means just doing nothing\todo{esprimiti meglio}, while a hard wall involves computing boundary's gradient in any point and using it as a locally straight wall condition.
 	
 	Periodic boundary conditions for a square simulation area are straightforward to make work if one places the origin in the center of the square. 
-	Then, if L is square's side, limits for particles' motion will be $\pm L/2$ in both axes. 
-	The actual limit for them to be reflected is $L/2 + R$, meaning a particle must be entirely sticking out before being moved to the other side. 
+	Then, if $L$ is square's side, limits for particles' motion will be $\pm L/2$ in both axes. 
+	The actual limit for them to be reflected is $L/2 + R$, meaning a particle must be entirely sticking out before being moved to the other side. \todo{questo alla fine lo abbiamo lasciato così?}
 	These physical boundary conditions are implemented according to algorithm \ref{alg:pbc}.
 	
 	\begin{algorithm}[htp]
 		\caption{Periodic Boundary Conditions} \label{alg:pbc}	
 		\begin{algorithmic}[1]
 			\ForAll{positions $(x,y)_i$}
-			\If{$\abs{x_i} > L/2 + R$}\Comment{$R$ is the particles' radius, L box side}
+			\If{$\abs{x_i} > L/2 + R$}\Comment{$R$ is the particles' radius, $L$ box side}
 			\State{$x_i \gets x_i - \mathrm{sign}(x_i)L$}
 			\EndIf
-			\If{$\abs{y_i} > L/2 + R$}\Comment{$R$ is the particles' radius, L box side}
+			\If{$\abs{y_i} > L/2 + R$}\Comment{$R$ is the particles' radius, $L$ box side}
 			\State{$y_i \gets y_i - \mathrm{sign}(y_i)L$}
 			\EndIf
 			\EndFor
@@ -260,7 +261,7 @@
 	
 	\subsection{Hard Sphere Correction}
 	\label{hs}
-	Interactions among particles were steric hard sphere correction, which are enough to study clustering, MIPS and boundary accumulation.
+	Interactions among particles were\todo{erano quando? nel codice originale? confermo che è meglio anticipare questa sezione} steric hard sphere correction, which are enough to study clustering, MIPS and boundary accumulation.
 	The hard sphere correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
 	
 	
@@ -293,25 +294,25 @@
 	
 	In the work cited in section \ref{literature}, \citeauthor{martin-gomez_collective_2018} use a steep repulsive potential $\sim r^{-12}$ to simulate the excluded volume.
 	In principle, since it does not require cycling, this approach seems faster, especially if one has to compute interactions.
-	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard sphere correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude) hence, making the simulation slower.
+	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard sphere correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
 	
 	Separating superimposing particles in a way to keep them in contact may seem a strong assumption, since it is simulating a perfectly inelastic collision.
 	This choice arise due to the finite contact time and micron sized physics of the active particles under study.
-	In macroscopic Newtonian dynamics scenario (balls moving on a pool table), it relatively easy to state collisions' elastic or inelastic nature.
-	Furthermore, in Microscale Robotics Lab and in Literature \cite{singh_pair_2024} Janus active particles collisions are observed to have a finite contact time $\sim \text{s}$.
-	This long collision time encouraged us to implement inelastic collision, where adhesion forces keep particles together after the impact.
+	In macroscopic Newtonian dynamics scenario (balls moving on a pool table), it is relatively easy to state collisions' elastic or inelastic nature.
+	Furthermore, in the Microscale Robotics Lab and in literature \cite{singh_pair_2024}, Janus active particles collisions are observed to have a finite contact time $\sim\SI{}{\second}$.
+	This long collision time encouraged us to implement inelastic collision, where adhesion forces keep particles together after the impact.\todo{noi non è che abbiamo delle forze di adesione...}
 	
 	\subsection{Modified Periodic Boundary Steric Interactions}
-	Since hard sphere corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
+	Since hard-sphere corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
 	
 	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct.
-	With the hard sphere correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
-	With periodic boundary conditions, a particles is reflected e.g., on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$).
-	This may leave a \emph{frame} of size $R$ around the boundary where inter particle periodic distance can be less then $2R$. 
+	With the hard-sphere correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
+	With periodic boundary conditions, a particles is reflected {\it e.g.}, on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$).
+	This may leave a \emph{frame} of size $R$ around the boundary where inter-particle periodic distance can be less then $2R$. 
 	
 	When combined with potentials that feature a \emph{soft} non-superposition condition, like a diverging positive force at a $2R$ distance, this can lead to pairs of particles sticking out of the border on opposite sides and superimposing a lot before one of them gets reflected on the other side, but when this happens, the force between them diverges, resulting in nonphysical situations like particles moving far outside the box.
 	
-	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but x and y components are separately checked.
+	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
 	For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles.
 	If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied.
 	To eliminate this superposition, we implemented the hard sphere correction as in section \ref{hs} to superimposing pairs at the boundary.
@@ -324,7 +325,10 @@
 		\caption{Orange particle is sticking out on the left side. Its \emph{real} distance from blue particle on x-axis is $\Delta x$. Its periodic projection (faded orange) has a distance from blue particle $\Delta x_p < 2R$, hence superimposing.}
 	\end{figure}
 	
-	\section{Qualitative comparison between experiments and simulations} \label{qualitative}
+	{\color{green}\section{Results}}
+	\todo{questa sezione dovrebbe contenere più in generale esempi di simulazioni e in particolare confronti con esperimenti}
+	{\color{brown}\subsection{Qualitative comparison between experiments and simulations}} \label{qualitative}
+	
 	
 
 \end{document}
