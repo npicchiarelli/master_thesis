@@ -95,11 +95,101 @@
 	
 	All simulations were performed in a two-dimensional square environment, where particles are disks, featuring periodic boundary conditions and a non-superposition condition (hard sphere correction). 
 	Given that positions are simulated in open periodic boundary, all interactions are calculated periodically too, taking the shortest between the in-box and the periodic distance.
+	
+		\section{Boundary Conditions and Hard Sphere Correction}
+	%\todo{tutta questa sezione la sposterei prima di quella precedente, visto che l'implementazione delle interazioni è il contributo principale di questo lavoro}
+	\subsection{Boundary Conditions}
+	Original code featured open, periodic or hard boundary conditions. 
+	We will not go through all of them, but briefly, open boundary conditions means letting particles free to move out the simulation box, which in this case becomes just an \emph{observation space}, while a hard wall involves computing boundary's gradient in any point and using it as a locally straight wall condition.
+	
+	Periodic boundary conditions for a square simulation area are straightforward to make work if one places the origin in the center of the square. 
+	Then, if $L$ is square's side, limits for particles' motion will be $\pm L/2$ in both axes. 
+	The actual limit for them to be reflected is $L/2 + R$, meaning a particle must be entirely sticking out before being moved to the other side. %\todo{questo alla fine lo abbiamo lasciato così?}
+	These physical boundary conditions are implemented according to algorithm \ref{alg:pbc}.
+	
+	\begin{algorithm}[htp]
+		\caption{Periodic Boundary Conditions} \label{alg:pbc}	
+		\begin{algorithmic}[1]
+			\ForAll{positions $(x,y)_i$}
+			\If{$\abs{x_i} > L/2 + R$}\Comment{$R$ is the particles' radius, $L$ box side}
+			\State{$x_i \gets x_i - \mathrm{sign}(x_i)L$}
+			\EndIf
+			\If{$\abs{y_i} > L/2 + R$}\Comment{$R$ is the particles' radius, $L$ box side}
+			\State{$y_i \gets y_i - \mathrm{sign}(y_i)L$}
+			\EndIf
+			\EndFor
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\subsection{Hard Sphere Correction}
+	\label{hs}
+	Original simulation code featured just steric hard sphere correction as interactions among particles, which are enough to study clustering, MIPS and boundary accumulation.
+	The hard sphere correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
+	
+	\begin{algorithm}[htp]
+		\caption{The hard sphere correction algorithm} \label{alg:hardsphere}	
+		\begin{algorithmic}[1]
+			\ForAll{couples of particles $\{i, j\}$}
+			\State{$d_{i,j} \gets d(\mathbf{r}_{i}, \mathbf{r}_{j})$} \Comment{$d\left(\cdot,\cdot \right)$ is the Euclidean distance}
+			
+			\State{$\mathbf{n}_{i,j} = \left(\mathbf{r}_{i}-\mathbf{r}_{j}\right)/d_{i,j}$}
+			\If{$d_{i,j} < 2R$}\Comment{$R$ is the particles' radius}
+			\State{$\mathbf{r}_i \gets \mathbf{r}_i - \mathbf{n}_{i,j}d_{i,j}/2$}
+			\State{$\mathbf{r}_j \gets \mathbf{r}_i - \mathbf{n}_{j,i}d_{i,j}/2$}
+			\EndIf
+			\EndFor
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width = \textwidth]{callegari_volpe_2019_hardsphere.png}
+		\label{fig:hardsphere}
+		\caption{If in one step two particles superimpose, hard sphere correction moves them at one diameter distance \cite{callegari_numerical_2019}}
+	\end{figure}
+	
+	This operation involves calculating the distance matrix of a set of $\mathtt{N_p}$ particles, i.e.\ computing $\mathtt{N_p}^2$ distances.
+	Being a $\order{n^2}$ algorithm, this kind of correction can become computationally demanding, especially for high density and velocity systems, where collisions and clustering are more likely to happen. 
+	Moreover, correction showed in algorithm \ref{alg:hardsphere} is for only one step and it does not guarantee zero superposition afterwards.
+	It becomes important to let the algorithm have a small tolerance, like $1/1000$ of particle radius and to cycle the correction until the number of superposition becomes zero.
+	
+	In the work cited in section \ref{literature}, \citeauthor{martin-gomez_collective_2018} use a steep repulsive potential $\sim r^{-12}$ to simulate the excluded volume.
+	In principle, since it does not require cycling, this approach seems faster, especially if one has to compute interactions.
+	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard sphere correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
+	
+	Separating superimposing particles in a way to keep them in contact may seem a strong assumption, since it is simulating a perfectly inelastic collision.
+	This choice arise due to the finite contact time and micron sized physics of the active particles under study.
+	In macroscopic Newtonian dynamics scenario (balls moving on a pool table), it is relatively easy to state collisions' elastic or inelastic nature.
+	Furthermore, in the Microscale Robotics Lab and in literature \cite{singh_pair_2024}, Janus active particles collisions are observed to have a finite contact time $\sim\SI{}{\second}$.
+	This long collision time encouraged us to implement inelastic collision in simulations.
+	
+	\subsection{Modified Periodic Boundary Steric Interactions}
+	Since hard-sphere corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
+	
+	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct.
+	With the hard-sphere correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
+	With periodic boundary conditions, a particles is reflected {\it e.g.}, on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$).
+	This may leave a \emph{frame} of size $R$ around the boundary where inter-particle periodic distance can be less then $2R$. 
+	
+	When combined with potentials that feature a \emph{soft} non-superposition condition, like a diverging positive force at a $2R$ distance, this can lead to pairs of particles sticking out of the border on opposite sides and superimposing a lot before one of them gets reflected on the other side, but when this happens, the force between them diverges, resulting in nonphysical situations like particles moving far outside the box.
+	
+	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
+	For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles.
+	If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied.
+	To eliminate this superposition, we implemented the hard sphere correction as in section \ref{hs} to superimposing pairs at the boundary.
+	This method allows us to identify superpositions at the boundaries, thus giving the possibility to form clusters starting from a \emph{nucleation site} on the border. 
+	
+	\begin{figure}[htp]
+		\centering
+		\includegraphics[width = \textwidth]{periodic_hs.png}
+		\label{fig:periodic_hs}
+		\caption{Orange particle is sticking out on the left side. Its \emph{real} distance from blue particle on x-axis is $\Delta x$. Its periodic projection (faded orange) has a distance from blue particle $\Delta x_p < 2R$, hence superimposing.}
+	\end{figure}
 
 	\section{Interaction Forces}
 	
-	\subsection{All to All Central Potentials}
-	\todo{non capisco questo titolo... in che senso all to all?}
+	\subsection{Central Potentials}
+	%\todo{non capisco questo titolo... in che senso all to all?}
 
 	Spring, Coulomb, Lennard Jones, Yukawa, Weeks-Chandler-Anderson are just few examples of the myriad of central potentials that are used to model interactions in physics. 
 	The central potential is the basis of this thesis too, and having a fast implementation is crucial to simulate interactions in dense systems. 
@@ -114,21 +204,23 @@
 			\sin\varphi_{i,j} = d^y_{i,j}/d_{i,j}
 		\end{cases}
 	\end{equation}
-	splitting the force in its two components and it can simply be added to the deterministic step in the coordinate as in algorithm \ref{alg:sim1}, given that we are in low Reynolds number regime. 
-	\todo{non chiaro... sembra che sommi delle forze a delle posizioni}
+	splitting the force in its two components.
+	Now the computed force can be used to calculate the deterministic step in the coordinate as in algorithm \ref{alg:sim1}: given that we are in low Reynolds number regime, \emph{velocity} is proportional to force . 
+	%\todo{non chiaro... sembra che sommi delle forze a delle posizioni}
 	
 	\subsection{Tested Potentials}
 			
 	We give here the expressions and parameters explanation for the potentials tested in this thesis.
-	\todo{perché hai scelto questi potenziali?}
+	%\todo{perché hai scelto questi potenziali?}
 	
 	\subsubsection{Spring potential}
+	We used this potential to test a strong long-range interaction between particles, with some control over the equilibrium position.
 	Spring force has two parameters, elastic constant $k_S$ and rest length $r_0$, so that 
 	\begin{equation}
 		V(r) = \frac{1}{2}k_S (r-r_0)^2 \rightarrow F(r) = -k_S(r-r_0).
 	\end{equation}
-	\todo{dì qualcosa su questo potenziale, es. per cosa può essere usato, se è tipicamente short range o long range, etc.}
-	\todo{visto che usavi $k$ per entrambi i potenziali, forse sarebbe meglio usare $k_S$ per la costante elastica e $k_C$ per la costante coulombiana}
+	%\todo{dì qualcosa su questo potenziale, es. per cosa può essere usato, se è tipicamente short range o long range, etc.}
+	%\todo{visto che usavi $k$ per entrambi i potenziali, forse sarebbe meglio usare $k_S$ per la costante elastica e $k_C$ per la costante coulombiana}
 
 	\subsubsection{Coulomb potential}
 	What we will often call Coulomb force is actually a $r^-2$ order potential with a constant $k_C$ that does not involve charges and it is present only to adjust the strength of interaction, that writes
@@ -136,7 +228,9 @@
 		V(r) = -\frac{k_C}{r} \rightarrow F(r) = \frac{k_C}{r^2}
 	\end{equation} 
 	and any sign variation, as well as the difference between repulsive and attractive, is absorbed in $k_C$.
-	\todo{dì qualcosa su questo potenziale, es. per cosa può essere usato, se è tipicamente short range o long range, etc.}
+	Being an attractive or repulsive-only potential, it can be used to study the effect of a potential in a relatively simple situation, especially when dealing with aligning interactions.
+	Its divergence is not so steep thus letting us utilize larger integration steps.
+	%\todo{dì qualcosa su questo potenziale, es. per cosa può essere usato, se è tipicamente short range o long range, etc.}
 
 	\subsubsection{Lennard Jones potential}
 	The last interaction potential is Lennard Jones (LJ)
@@ -145,7 +239,9 @@
 	\end{equation}
 	where $\sigma$ is a location parameter that in our simulations will be fixed at the value of particle's diameter $2R$, and $\varepsilon$ adjusts the strength of interaction. 
 	This potential has an absolute minimum for $r = 2^{1/6}\sigma$.
-	\todo{dì qualcosa su questo potenziale, es. per cosa può essere usato, se è tipicamente short range o long range, etc.}
+	LJ is a standard in molecular dynamics and disordered systems, both its original version and its variations are often used in ABP research, since this potential encloses both short range repulsion to avoid superpositions and medium range attraction to give structure to the system.
+	The short range divergence is pretty steep and its strong non-linearity requires very short integration times, better if coupled with advanced integration algorithms.
+	%\todo{dì qualcosa su questo potenziale, es. per cosa può essere usato, se è tipicamente short range o long range, etc.}
 	
 	\begin{figure}[htp]
 		\centering
@@ -183,8 +279,8 @@
 	While a complete calculation of all the possible forces between $n$ particles is an $\order{n^2}$ algorithm (the actual number of possible interactions is $n(n-1)$), the number of particles in a box of given area is constant in $n$ if density remains fixed, so, scaling up the number of particles in the same conditions will be less demanding in terms of computational power.
 	
 	Inserting a range in interactions makes straightforward to apply them in a periodic fashion. 
-	Original code had a function to reflect particles in periodic boundary conditions, which worked in a very fast vectorized way (pseudo code in algorithm \ref{alg:pbc}). 
-	\todo{collega meglio queste due frasi, altrimenti sembra che la periodicità nell'interaction range fosse già presente nel codice originale}
+	Though interactions were not featured in original code, functions for boundary conditions were implemented in a fast vectorized way, letting us reuse the existing function to reflect particles in periodic boundary conditions (pseudo code in algorithm \ref{alg:pbc}) in the interactions part. 
+	%\todo{collega meglio queste due frasi, altrimenti sembra che la periodicità nell'interaction range fosse già presente nel codice originale}
 	The idea is: take one particle and make it the \emph{central} one, then shift coordinates of the other particles so that the \emph{central} is in $(0,0)$, now just apply periodic boundary conditions to the shifted coordinates.
 	This process should guarantee that the \emph{central} particle interacts only once with any of the others, following a simple rule: when choosing between the true particle and the periodically shifted one the interacting particle is the closest one.
 	An explanation of this process can be found in Figure \ref{fig:periodicint}.
@@ -214,7 +310,7 @@
 			\sin(\theta)
 		\end{pmatrix}
 	\end{equation}
-	\todo{ho messo $\vec{x}_{c}$ invece di $\vec{x}_{cm}$ perché mi sembrava che cm richiamasse centimetri}
+	%\todo{ho messo $\vec{x}_{c}$ invece di $\vec{x}_{cm}$ perché mi sembrava che cm richiamasse centimetri}
 	where $\theta$ is the self-propulsion direction, $R$ is the particle's radius, and $-1 < \alpha < 1$. 
 	{\color{green}Compared to the self-propulsion direction, the off-center position is on the front half of the particle when $\alpha > 0$ and on the back half when $\alpha < 0$.}
 	{\color{brown}Distances, and hence forces, are thus computed between the off-center positions. 
@@ -232,97 +328,6 @@
 		\includegraphics[width=\textwidth]{singpart_draw.png}
 		\caption{\color{brown}Red point: position from which interaction distances are calculated and to which force is applied. In this case, interacting position is at $-0.5R$ from particle's center, {\it i.e.}\ on the back side compared to  the direction of self propulsion.}
 		\label{fig:geom_model}
-	\end{figure}
-	
-	\section{Boundary Conditions and Hard Sphere Correction}
-	\todo{tutta questa sezione la sposterei prima di quella precedente, visto che l'implementazione delle interazioni è il contributo principale di questo lavoro}
-	\subsection{Boundary Conditions}
-	Original code featured open, periodic or hard boundary conditions. 
-	We will not go through all of them, but briefly, open boundary conditions means just doing nothing\todo{esprimiti meglio}, while a hard wall involves computing boundary's gradient in any point and using it as a locally straight wall condition.
-	
-	Periodic boundary conditions for a square simulation area are straightforward to make work if one places the origin in the center of the square. 
-	Then, if $L$ is square's side, limits for particles' motion will be $\pm L/2$ in both axes. 
-	The actual limit for them to be reflected is $L/2 + R$, meaning a particle must be entirely sticking out before being moved to the other side. \todo{questo alla fine lo abbiamo lasciato così?}
-	These physical boundary conditions are implemented according to algorithm \ref{alg:pbc}.
-	
-	\begin{algorithm}[htp]
-		\caption{Periodic Boundary Conditions} \label{alg:pbc}	
-		\begin{algorithmic}[1]
-			\ForAll{positions $(x,y)_i$}
-			\If{$\abs{x_i} > L/2 + R$}\Comment{$R$ is the particles' radius, $L$ box side}
-			\State{$x_i \gets x_i - \mathrm{sign}(x_i)L$}
-			\EndIf
-			\If{$\abs{y_i} > L/2 + R$}\Comment{$R$ is the particles' radius, $L$ box side}
-			\State{$y_i \gets y_i - \mathrm{sign}(y_i)L$}
-			\EndIf
-			\EndFor
-		\end{algorithmic}
-	\end{algorithm}
-	
-	\subsection{Hard Sphere Correction}
-	\label{hs}
-	Interactions among particles were\todo{erano quando? nel codice originale? confermo che è meglio anticipare questa sezione} steric hard sphere correction, which are enough to study clustering, MIPS and boundary accumulation.
-	The hard sphere correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
-	
-	
-	\begin{algorithm}[htp]
-		\caption{The hard sphere correction algorithm} \label{alg:hardsphere}	
-		\begin{algorithmic}[1]
-			\ForAll{couples of particles $\{i, j\}$}
-			\State{$d_{i,j} \gets d(\mathbf{r}_{i}, \mathbf{r}_{j})$} \Comment{$d\left(\cdot,\cdot \right)$ is the Euclidean distance}
-			
-			\State{$\mathbf{n}_{i,j} = \left(\mathbf{r}_{i}-\mathbf{r}_{j}\right)/d_{i,j}$}
-			\If{$d_{i,j} < 2R$}\Comment{$R$ is the particles' radius}
-			\State{$\mathbf{r}_i \gets \mathbf{r}_i - \mathbf{n}_{i,j}d_{i,j}/2$}
-			\State{$\mathbf{r}_j \gets \mathbf{r}_i - \mathbf{n}_{j,i}d_{i,j}/2$}
-			\EndIf
-			\EndFor
-		\end{algorithmic}
-	\end{algorithm}
-	
-	\begin{figure}[htp]
-		\centering
-		\includegraphics[width = \textwidth]{callegari_volpe_2019_hardsphere.png}
-		\label{fig:hardsphere}
-		\caption{If in one step two particles superimpose, hard sphere correction moves them at one diameter distance \cite{callegari_numerical_2019}}
-	\end{figure}
-	
-	This operation involves calculating the distance matrix of a set of $\mathtt{N_p}$ particles, i.e.\ computing $\mathtt{N_p}^2$ distances.
-	Being a $\order{n^2}$ algorithm, this kind of correction can become computationally demanding, especially for high density and velocity systems, where collisions and clustering are more likely to happen. 
-	Moreover, correction showed in algorithm \ref{alg:hardsphere} is for only one step and it does not guarantee zero superposition afterwards.
-	It becomes important to let the algorithm have a small tolerance, like $1/1000$ of particle radius and to cycle the correction until the number of superposition becomes zero.
-	
-	In the work cited in section \ref{literature}, \citeauthor{martin-gomez_collective_2018} use a steep repulsive potential $\sim r^{-12}$ to simulate the excluded volume.
-	In principle, since it does not require cycling, this approach seems faster, especially if one has to compute interactions.
-	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard sphere correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
-	
-	Separating superimposing particles in a way to keep them in contact may seem a strong assumption, since it is simulating a perfectly inelastic collision.
-	This choice arise due to the finite contact time and micron sized physics of the active particles under study.
-	In macroscopic Newtonian dynamics scenario (balls moving on a pool table), it is relatively easy to state collisions' elastic or inelastic nature.
-	Furthermore, in the Microscale Robotics Lab and in literature \cite{singh_pair_2024}, Janus active particles collisions are observed to have a finite contact time $\sim\SI{}{\second}$.
-	This long collision time encouraged us to implement inelastic collision, where adhesion forces keep particles together after the impact.\todo{noi non è che abbiamo delle forze di adesione...}
-	
-	\subsection{Modified Periodic Boundary Steric Interactions}
-	Since hard-sphere corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
-	
-	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct.
-	With the hard-sphere correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
-	With periodic boundary conditions, a particles is reflected {\it e.g.}, on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$).
-	This may leave a \emph{frame} of size $R$ around the boundary where inter-particle periodic distance can be less then $2R$. 
-	
-	When combined with potentials that feature a \emph{soft} non-superposition condition, like a diverging positive force at a $2R$ distance, this can lead to pairs of particles sticking out of the border on opposite sides and superimposing a lot before one of them gets reflected on the other side, but when this happens, the force between them diverges, resulting in nonphysical situations like particles moving far outside the box.
-	
-	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
-	For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles.
-	If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied.
-	To eliminate this superposition, we implemented the hard sphere correction as in section \ref{hs} to superimposing pairs at the boundary.
-	This method allows us to identify superpositions at the boundaries, thus giving the possibility to form clusters starting from a \emph{nucleation site} on the border. 
-	
-	\begin{figure}[htp]
-		\centering
-		\includegraphics[width = \textwidth]{periodic_hs.png}
-		\label{fig:periodic_hs}
-		\caption{Orange particle is sticking out on the left side. Its \emph{real} distance from blue particle on x-axis is $\Delta x$. Its periodic projection (faded orange) has a distance from blue particle $\Delta x_p < 2R$, hence superimposing.}
 	\end{figure}
 	
 	{\color{green}\section{Results}}
