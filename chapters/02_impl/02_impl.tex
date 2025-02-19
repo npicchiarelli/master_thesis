@@ -7,7 +7,8 @@
 
 	All the code work in this thesis is built on top of an existing code written and used in Microscale Robotics Lab, which can be found in repository \cite{sharma_simulations_2023}.
     Existing code performed simulations on 2D active Brownian particles moving in open or closed boundary featuring confinement. 
-	\todo{descrivi meglio il codice esistente: es. quali interazioni, quali condizioni al contorno, quali algoritmi di integrazione}
+	Original code used an Euler integrator to perform dry simulations of Active Brownian Particles ensembles with the only interaction being the steric hard spheres correction. 
+	Moreover, it could simulate variously shaped hard boundaries as well as periodic and open boundary conditions.
 	
 	\section{Simulation Framework}
 	In order to simulate most physical systems, some fixed steps are needed and our case study makes no exception. 
@@ -20,9 +21,9 @@
 			\item Force computation at time $n$, starting from positions at time $n$
 			\item Generation of the needed random numbers for noise
 			\item Integrator step: one step of the integration algorithm to get the ensemble at time $n+1$
-			\item Application of boundary conditions and hard sphere correction 
-			\item File writing of positions and orientations of all particles in ensemble \todo{ad ogni passo scrivi nel file?}
-			\item Computation and file writing of global properties, e.g.\ polarization, pair correlation function etc.	\todo{questo ultimo step lo fai nel ciclo o fuori? non fa tanto parte della simulazione quanto dell'analisi}
+			\item Application of boundary conditions and hard spheres correction 
+			\item File writing of positions and orientations of all particles in ensemble %\todo{ad ogni passo scrivi nel file? Sì}
+			\item Computation and file writing of time-dependent global properties, e.g.\ polarization, pair correlation function etc.	%\todo{questo ultimo step lo fai nel ciclo o fuori? non fa tanto parte della simulazione quanto dell'analisi}
 		\end{enumerate}
 		\item Files closing
 		\item Plotting of necessary quantities, saving of animation for dynamics
@@ -31,10 +32,12 @@
 	The main file that gets created at point 1.\ is the \emph{history} file, the one referred to in (d), to store positions and orientations of all particles. 
 	It gets prepared as a comma spaced values (CSV) files, where the column names are written in advance. 
 	CSV formatted files are more understandable and universally readable, which is useful when exchanging data between programming languages and manual checks are needed.
-	\todo{magari spiega perché scrivi i dati in un file e non li mantieni in memoria, o fai riferimento a dove lo spieghi}
+	At every step --- or every $n_{ds}$ steps when a down-sampling is used --- we append a line to the history file, corresponding to the new simulation instant.
+	In the original simulation code the full history was kept in a vector and then written to the file but in this new version we just update a single instant of the simulation and then write it to the file to improve memory efficiency.
+	%\todo{magari spiega perché scrivi i dati in un file e non li mantieni in memoria, o fai riferimento a dove lo spieghi}
 	
 	In point 2.\ particles position are randomly initialized, with a uniform distribution in the simulation space. 
-	We need to make sure that particles are not superimposed to avoid nonphysical effects. \todo{come lo fai?}
+	We need to make sure that particles are not superimposed to avoid nonphysical effects, thus we utilize the hard spheres correction (see section \ref{hs}) right after the generation of particles' positions.% \todo{come lo fai?}
 	At this point it is possible to compute forces and torques acting on every particle, which are needed to compute positions at the next step.
 	
 	From the computational point of view, our simulation framework is based upon object oriented programming: particle ensemble is initialized as an instance of the ABPE class, which holds all the variables that define the state of the system at a certain time \ref{tab:ABPE2}. 
@@ -58,13 +61,13 @@
 		\caption{Structure definition of \texttt{ABPE} in Julia}
 		\label{tab:ABPE2}
 	\end{table}
-	Global variables are numbers and all single particle variables, such as positions, are vectors of Np elements. %Some of variables are redundant, e.g.\ diffusion coefficients can be easily found starting from $T\text{ and } R$, as in \ref{eq:diff_coeff}, but it is useful to have them pre-computed for speed sake.
-	\todo{attento al termine global variables, che potrebbe essere frainteso. Forse è meglio riferirsi a ensemble parameters o qualcosa del genere}
+	Ensemble parameters are numbers and all single particle variables, such as positions, are vectors of Np elements. %Some of variables are redundant, e.g.\ diffusion coefficients can be easily found starting from $T\text{ and } R$, as in \ref{eq:diff_coeff}, but it is useful to have them pre-computed for speed sake.
+	%\todo{attento al termine global variables, che potrebbe essere frainteso. Forse è meglio riferirsi a ensemble parameters o qualcosa del genere}
 	
 	In point 3.\ positions and orientations get updated with both the deterministic and stochastic parts of the dynamics. 
 	This operation can be done either by updating a single instance of ABPE class or by appending to a pre-allocated vector one instance for every time step. 
 	The first method is more memory efficient, and it is the one to prefer if no memory is needed, i.e.\ only step $n$ counts to determine what happens at step $n+1$. 
-	A minimal example of this workflow, with Euler as an integrator\todo{mi immagino il vecchio Eulero lì a integrare a mano... scrivila meglio}, is in algorithm \ref{alg:sim1}.
+	A minimal example of this workflow, with Euler scheme as an integrator, is in algorithm \ref{alg:sim1}.
 	
 	\begin{algorithm}
 		\caption{The simulation algorithm} \label{alg:sim1}	
@@ -87,16 +90,16 @@
 	\end{algorithm}  
 	
 	\section{Methods}
-	All the simulation and analysis code for this thesis was written in \julia\ \cite{julia}\todo{carino, ma un po' piccolo}, except for the machine learning and inference part, where the Graph Network definition and training makes use of Python libraries like PyTorch \cite{pytorch} and PyTorch-geometric \cite{pyg}, along with standard scientific computing tools like NumPy \cite{numpy} and Pandas \cite{pandas}.
+	All the simulation and analysis code for this thesis was written in \julia\ \cite{julia}, except for the machine learning and inference part, where the Graph Network definition and training makes use of Python libraries like PyTorch \cite{pytorch} and PyTorch-geometric \cite{pyg}, along with standard scientific computing tools like NumPy \cite{numpy} and Pandas \cite{pandas}.
 	
 	{\color{brown}The Heun algorithm} was chosen as the standard integration scheme for all the simulations, and integration steps vary with the different potentials and are indicated case by case. 
 	All the simulations were performed with real units, so that particles have a radius of \SI{2}{\um} and the value for solvent viscosity is kept fixed at \SI{1e-3}{\pascal\second}. 
 	If not indicated, standard temperature for simulations is held fixed at \SI{300}{\kelvin}.
 	
-	All simulations were performed in a two-dimensional square environment, where particles are disks, featuring periodic boundary conditions and a non-superposition condition (hard sphere correction). 
+	All simulations were performed in a two-dimensional square environment, where particles are disks, featuring periodic boundary conditions and a non-superposition condition (hard spheres correction). 
 	Given that positions are simulated in open periodic boundary, all interactions are calculated periodically too, taking the shortest between the in-box and the periodic distance.
 	
-	\section{Boundary Conditions and Hard Sphere Correction}
+	\section{Boundary Conditions and Hard Spheres Correction}
 	%\todo{tutta questa sezione la sposterei prima di quella precedente, visto che l'implementazione delle interazioni è il contributo principale di questo lavoro}
 	\subsection{Boundary Conditions}
 	Original code featured open, periodic or hard boundary conditions. 
@@ -121,13 +124,13 @@
 		\end{algorithmic}
 	\end{algorithm}
 	
-	\subsection{Hard Sphere Correction}
+	\subsection{Hard Spheres Correction}
 	\label{hs}
-	Original simulation code featured just steric hard sphere correction as interactions among particles, which are enough to study clustering, MIPS and boundary accumulation.
-	The hard sphere correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
+	Original simulation code featured just steric hard spheres correction as interactions among particles, which are enough to study clustering, MIPS and boundary accumulation.
+	The hard spheres correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
 	
 	\begin{algorithm}[htp]
-		\caption{The hard sphere correction algorithm} \label{alg:hardsphere}	
+		\caption{The hard spheres correction algorithm} \label{alg:hardsphere}	
 		\begin{algorithmic}[1]
 			\ForAll{couples of particles $\{i, j\}$}
 			\State{$d_{i,j} \gets d(\mathbf{r}_{i}, \mathbf{r}_{j})$} \Comment{$d\left(\cdot,\cdot \right)$ is the Euclidean distance}
@@ -145,7 +148,7 @@
 		\centering
 		\includegraphics[width = \textwidth]{callegari_volpe_2019_hardsphere.png}
 		\label{fig:hardsphere}
-		\caption{If in one step two particles superimpose, hard sphere correction moves them at one diameter distance \cite{callegari_numerical_2019}}
+		\caption{If in one step two particles superimpose, hard spheres correction moves them at one diameter distance \cite{callegari_numerical_2019}}
 	\end{figure}
 	
 	This operation involves calculating the distance matrix of a set of $\mathtt{N_p}$ particles, i.e.\ computing $\mathtt{N_p}^2$ distances.
@@ -155,7 +158,7 @@
 	
 	In the work cited in section \ref{literature}, \citeauthor{martin-gomez_collective_2018} use a steep repulsive potential $\sim r^{-12}$ to simulate the excluded volume.
 	In principle, since it does not require cycling, this approach seems faster, especially if one has to compute interactions.
-	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard sphere correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
+	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard spheres correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
 	
 	Separating superimposing particles in a way to keep them in contact may seem a strong assumption, since it is simulating a perfectly inelastic collision.
 	This choice arise due to the finite contact time and micron sized physics of the active particles under study.
@@ -164,19 +167,19 @@
 	This long collision time encouraged us to implement inelastic collision in simulations.
 	
 	\subsection{Modified Periodic Boundary Steric Interactions}
-	Since hard-sphere corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
+	Since hard spheres corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
 	
 	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct.
-	With the hard-sphere correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
+	With the hard spheres correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
 	With periodic boundary conditions, a particles is reflected {\it e.g.}, on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$).
 	This may leave a \emph{frame} of size $R$ around the boundary where inter-particle periodic distance can be less then $2R$. 
 	
 	When combined with potentials that feature a \emph{soft} non-superposition condition, like a diverging positive force at a $2R$ distance, this can lead to pairs of particles sticking out of the border on opposite sides and superimposing a lot before one of them gets reflected on the other side, but when this happens, the force between them diverges, resulting in nonphysical situations like particles moving far outside the box.
 	
-	To address this issue, we propose a modified version of hard sphere corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
+	To address this issue, we propose a modified version of hard spheres corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
 	For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles.
 	If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied.
-	To eliminate this superposition, we implemented the hard sphere correction as in section \ref{hs} to superimposing pairs at the boundary.
+	To eliminate this superposition, we implemented the hard spheres correction as in section \ref{hs} to superimposing pairs at the boundary.
 	This method allows us to identify superpositions at the boundaries, thus giving the possibility to form clusters starting from a \emph{nucleation site} on the border. 
 	
 	\begin{figure}[htp]
@@ -315,7 +318,7 @@
 	{\color{green}Compared to the self-propulsion direction, the off-center position is on the front half of the particle when $\alpha > 0$ and on the back half when $\alpha < 0$.}
 	{\color{brown}Distances, and hence forces, are thus computed between the off-center positions. 
 	Applying forces off center results also in an effective torque applied to the particle, leading to both translational (repulsive/attractive) and rotational (aligning) effects, coupling the two degrees of freedom.}
-	\todo{possiamo effettivamente parlare di degrees of freedom in questo contesto?}
+	%\todo{possiamo effettivamente parlare di degrees of freedom in questo contesto? Secondo me sì}
 	
 	The idea is to take into account the underlying particle's asymmetry not only in terms of self-propulsion but also in terms of interactions. 
 	It is a fact that the two faces of a Janus particle have different physical and chemical properties, which make them interact differently depending on the angle between their orientations and the line connecting their centers \cite{singh_pair_2024}. 
