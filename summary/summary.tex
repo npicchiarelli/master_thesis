@@ -11,60 +11,84 @@
 \addbibresource{summary.bib}
 \title{Thesis Title}
 \author{Candidate: Niccolò Picchiarelli \\
-Supervisor: Prof. Stefano Palagi\\
+External Supervisor: Prof. Stefano Palagi\footnote{The BioRobotics Institute, Sant'Anna School of Advanced Studies -- Pisa}\\
 Internal Supervisor: Prof. Riccardo Mannella}
 
 \begin{document}
 	\vspace{-4cm}
 	\maketitle
-	\emph{Active Matter} is a term that refers to systems, both at macroscopic and microscopic scales, which can be described as sets of individual constituents, often called active or self-propelled particles, that have the ability of taking energy from the environment or an internal source to convert it to work. 
-	Such systems show peculiar behaviors, both individual and collective, due to their intrinsic far-from-equilibrium physical properties, as well as interactions that may occur between active particles \cite{menon_active_2010, ramaswamy_active_2017}.
+	\textbf{Introduction.}
+	\emph{Active Matter} is a term that refers to systems, both at macroscopic and microscopic scales, both natural and artificial, that consist of many independent and interacting \emph{agents}. 
+	These active units can consume energy from the environment or an internal source to convert it to work and movement. 
+	Such systems show peculiar individual and collective behaviors, due to the interactions that may occur between active units and their intrinsic far-from-equilibrium nature \cite{menon_active_2010, ramaswamy_active_2017}.
+	% qui ho modificato per riferirsi più in generale ad active units e non solo active particles
+	Self-phoretic Janus micro-particles are a class of \emph{active particles} that convert chemical energy into self-propulsion, creating a gradient in the surrounding fluid that makes them move with a preferred direction.
+	These particles are a model system for active matter, and they have been used to study collective behaviors \cite{bechinger_active_2016}.
+	% qui ho aggiunto la parte sui Janus particles, togliendo la parte su CELLOIDS
+	These particles can be modeled as Active Brownian Particles (ABPs), obtained coupling a classic Brownian motion with a deterministic self-propulsion velocity in the direction of the particle orientation.
+	% aggiungi qualcosa sulle interazioni che di solito vengono usate in questi modelli
+	The ABPs model stood out for its simplicity and capability of showing interesting collective dynamics.
+	%%% TOGLIEREI L'EQUAZIONE, NON MI SEMBRA UTILE
+	% This model is , combined in the equations (2D)
+	% \begin{equation}
+	% 	\dot{x} = v \cos{\theta} + \sqrt{2D_t}\dd{W_x} , \quad \dot{y} = v \sin{\theta} + \sqrt{2D_t}\dd{W_y}, \quad \dot{\theta} = \sqrt{2D_r}\dd{W_{\theta}}
+	% \end{equation}
+	% where $\dd{W}$ is the derivative of a zero mean, unit variance Wiener process.
 	
-	Among various active matter models, Active Brownian Particles (ABPs) stood out for its simplicity and capability of showing interesting collective dynamics.
-	This model is obtained coupling a classic Brownian motion with a deterministic self-propulsion velocity along a preferred direction, combined in the equations (2D)
-	\begin{equation}
-		\dot{x} = v \cos{\theta} + \sqrt{2D_t}\dd{W_x} , \quad \dot{y} = v \sin{\theta} + \sqrt{2D_t}\dd{W_y}, \quad \dot{\theta} = \sqrt{2D_r}\dd{W_{\theta}}
-	\end{equation}
-	where $\dd{W}$ is the derivative of a zero mean, unit variance Wiener process.
+	%%% TOGLIEREI TUTTA QUESTA PARTE, NON MI SEMBRA UTILE
+	% It is possible to show that a model like this can mimic the features of a real system of active particles \citeauthor{bechinger_active_2016}, leading the way to the discoveries of new properties of active matter, that can be used both to understand the ongoing physics behind natural systems and to create new technologies based upon such features.
+	% The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system utilizing self-diffusio-phoretic Janus spheres enclosed inside phospholipids GUVs (Giant Unilamellar Vesicles).
+	% Janus spheres are micromotors with an inert hemispheres and a catalytic one, that, catalyzing the decomposition of some fuel, create a gradient in the product concentration field, hence causing a phoretic flow around them that makes them move with a preferred propulsion direction.
+	% Under certain assumptions such micromotors behave as Active Brownian particles, showing fascinating collective motions.
 	
-	It is possible to show that a model like this can mimic the features of a real system of active particles \citeauthor{bechinger_active_2016}, leading the way to the discoveries of new properties of active matter, that can be used both to understand the ongoing physics behind natural systems and to create new technologies based upon such features.
-	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system utilizing self-diffusio-phoretic Janus spheres enclosed inside phospholipids GUVs (Giant Unilamellar Vesicles).
-	Janus spheres are micromotors with an inert hemispheres and a catalytic one, that, catalyzing the decomposition of some fuel, create a gradient in the product concentration field, hence causing a phoretic flow around them that makes them move with a preferred propulsion direction.
-	Under certain assumptions such micromotors behave as Active Brownian particles, showing fascinating collective motions.
+	The main objective of this thesis work is to build a minimal yet descriptive model, a simulation framework and a set of analysis tools to investigate the emergence of different collective behaviors in active particles systems.
 	
-	The main objective of this thesis work is to build a model, a simulation framework and a set of analysis tools to better understand how interactions and several other model features can change collective behaviors of an ABPs ensemble.
-	
-	To do this, we implemented interactions inside an existing simulation code, keeping an eye on the speed of the calculations.
+	\textbf{Potential-based aligning interactions.}
 	Interactions in active particles systems are classified in two categories: non-aligning, which act only on particles' positions, and aligning, which change particles' orientations and depend on them too.
-	It is known from experimental literature \cite{singh_pair_2024}, that a pair of Pt-silica Janus spheres undergo some interaction torques when close to each other, so a model aiming to mimic real world behaviors need to involve some aligning interaction.
+	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other, so a model aiming to mimic real world behaviors need to involve some aligning interaction.
+	Starting from an existing preliminary simulation code written in the Julia language \cite{JULIA WEBSITE}, based on ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
 	
-	Our way to implement aligning interaction in an interacting active particles model is the main novelty of this work: instead of treating positions and orientations separately, we used classic central potentials like $r^{-2}$ and Lennard Jones, but applying them to an off center position on the disk representing the particle.
+	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used classic central potentials like $r^{-2}$ and Lennard Jones, but applying them to an off center position on the disk representing the particle.
 	The shifted position is obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
-	This is in a qualitative agreement with the fact that the interaction mechanism is the only that for sure makes particles interact and that phenomenon has an evident asimmetry in the self-propulsion direction.
-	This model not only changes the positions from which forces are computed but also inserts a lever arm in the interaction, causing an interaction torque to appear among couples of particles.
+	This approach is motivated by the fact that self-phoretic particles interact by their self-generated fields (hydrodynamic, chemical, electrical) that have an evident asymmetry in the self-propulsion direction.
+	By changing the positions from which forces are computed and to which are applied, this model inserts a lever arm in the interaction, causing an interaction torque to appear among particles.
 	
 	Some authors, like \citeauthor{martin-gomez_collective_2018}, showed that, inserting an aligning torque in an ABPs system can make it transition from a disordered state to an ordered one where all particles swim in the same direction, similarly to what happens in a Vicsek model \cite{vicsek_novel_1995}.
 	The model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque.
 	Here, we show that the transition to a flocking state has a similar behavior also in the case of our model when a purely repulsive potential is applied.
+	The developed model has shown to be able to qualitatively reproduce the main interaction behaviors observed in real-world experiments in my host laboratory.
 	
-	In order to study how the simulation features change the global properties of the ensemble we developed a suite of analysis tools.
-	To better understand flocking transitions in the system we used the global polarization, defined as 
-	\begin{equation}
-		P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}} 
-	\end{equation}
-	where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
+	\textbf{Quantitative analysis of collective behaviours.}
+	We studied how the global properties of the ensemble change with the parameters of the simulation, such as the velocity, the velocity distribution, the orientational coupling $\alpha$ and the angular velocity.
+	To this aim, we implemented a suite of analysis tools to study the flocking transitions in the system, the clustering of particles, the alignment of clusters and the amount of long-range order in the ensemble.
+
+	To better understand flocking transitions in the system, we computed the global polarization as $P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}}$, where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
+	AGGIUNGI UNA FRASE SUI RISULTATI
+
 	We know that, with potentials that allow contact between particles, such as Lennard Jones, systems like the one studied here tend to cluster.
 	We then used a clustering algorithm to study how the ensemble separates into sparse particles and living crystalline lattices.
 	The chosen algorithm is DBSCAN, which, with the right parameters, can mimic a common-sense definition of \emph{cluster}.
 	We used maximum cluster size and cluster number to study how order in particles' positions establishes.
-	Once the system is divided in clusters, one can study how the single clusters are aligned, restricting the polarization computation to the single groups.
-	The last tool, that we used to fathom the amount of long-range order in the ensemble, is the well known pair distribution function, radial distribution function, or simply $g(r)$, which is defined \cite{hansen90a} as 
-	\begin{equation}
-		\left\langle \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{N}{}' \delta (\mathbf{r} - \mathbf{r}_j + \mathbf{r}_i) \right\rangle = \rho g(r)
-	\end{equation}.
+	Once the system is divided in clusters, we can study how the single clusters are aligned, restricting the polarization computation to the single groups.
+	AGGIUNGI UNA FRASE SUI RISULTATI
+
+	The last tool that we implemented to fathom the amount of long-range order in the ensemble, is the well known pair distribution function, radial distribution function, or simply $g(r)$, which is defined \cite{hansen90a} as the average number of particles at a distance $r$ from a reference particle, normalized by the density of the system:
+	$\left\langle \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{N}{}' \delta (\mathbf{r} - \mathbf{r}_j + \mathbf{r}_i) \right\rangle = \rho g(r)$.
+	AGGIUNGI UNA FRASE SUI RISULTATI
 	
-	With all of this, we have been able to better understand the effect of velocity, velocity distribution, orientational coupling $\alpha$ and angular velocity when a LJ potential is applied.
+	%%% TOGLIEREI QUESTA FRASE GENERICA, E INCLUDEREI ESEMPI DI RISULTATI SPECIFICI SOPRA
+	% With all of this, we have been able to better understand the effect of velocity, velocity distribution, orientational coupling $\alpha$ and angular velocity when a LJ potential is applied.
 	
-	As a final task, we tried to develop a machine learning tool, based on Graph Neural Networks, that, starting from particles positions and orientations, tries to predict their velocity, separating self-propulsion and interaction, to infer the interaction potential, in the same spirit of \cite{ruiz-garcia_discovering_2024}.
+	\textbf{Inference of interactions from positional data.} 
+	We developed a preliminary version of a machine learning tool, based on Graph Neural Networks, that, starting from particles positions and orientations, could predict their velocity, distinguishing self-propulsion and interactions, to infer the interaction potential, in the same spirit of \cite{ruiz-garcia_discovering_2024}.
+	AGGIUNGI UNA FRASE SUI RISULTATI (deludenti)
+
+	\textbf{Conclusions.}
+	SERVONO DELLE CONCLUSIONI: HO ABBOZZATO, MODIFICA E AGGIUNGI QUALCHE RIFLESSIONE CRITICA, POTENZIALE IMPATTO DEL TUO LAVORO IN QUESTO AMBITO DI RICERCA, E PROSPETTIVE FUTURE
+	We developed a model of Active Brownian Particles with aligning interactions, that can reproduce the main behaviors observed in real-world experiments.
+	We implemented a suite of analysis tools to study the collective behaviors of the system, and we used them to study the effect of different parameters on the system.
+	We also developed a preliminary version of a machine learning tool to infer the interaction potential from positional data.
+
+
 	\printbibliography
 \end{document}
