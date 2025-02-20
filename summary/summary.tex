@@ -9,7 +9,7 @@
 
 
 \addbibresource{summary.bib}
-\title{Thesis Title}
+\title{Collective Behaviors of Interacting Active Bownian Particles: Simulations and Analysis}
 \author{Candidate: Niccolò Picchiarelli \\
 External Supervisor: Prof. Stefano Palagi\footnote{The BioRobotics Institute, Sant'Anna School of Advanced Studies -- Pisa}\\
 Internal Supervisor: Prof. Riccardo Mannella}
@@ -28,6 +28,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	These particles can be modeled as Active Brownian Particles (ABPs), obtained coupling a classic Brownian motion with a deterministic self-propulsion velocity in the direction of the particle orientation.
 	% aggiungi qualcosa sulle interazioni che di solito vengono usate in questi modelli
 	The ABPs model stood out for its simplicity and capability of showing interesting collective dynamics.
+	Literature has studied what happens when interactions are added to this model, starting from the hard-spheres correction, which avoids superpositions between particles, and inserting further interactions such as long-range central potentials.
 	%%% TOGLIEREI L'EQUAZIONE, NON MI SEMBRA UTILE
 	% This model is , combined in the equations (2D)
 	% \begin{equation}
@@ -46,7 +47,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	\textbf{Potential-based aligning interactions.}
 	Interactions in active particles systems are classified in two categories: non-aligning, which act only on particles' positions, and aligning, which change particles' orientations and depend on them too.
 	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other, so a model aiming to mimic real world behaviors need to involve some aligning interaction.
-	Starting from an existing preliminary simulation code written in the Julia language \cite{JULIA WEBSITE}, based on ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
+	Starting from an existing preliminary simulation code written in the Julia language \cite{julia}, based on ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
 	
 	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used classic central potentials like $r^{-2}$ and Lennard Jones, but applying them to an off center position on the disk representing the particle.
 	The shifted position is obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
@@ -63,32 +64,36 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	To this aim, we implemented a suite of analysis tools to study the flocking transitions in the system, the clustering of particles, the alignment of clusters and the amount of long-range order in the ensemble.
 
 	To better understand flocking transitions in the system, we computed the global polarization as $P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}}$, where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
-	AGGIUNGI UNA FRASE SUI RISULTATI
+	Using this order parameter, we could get an insight on how a larger positive orientational coupling, as well as the presence of faster particles, can make the system polarize more and faster, while a distribution in angular velocity is capable of disrupting a flocking order. %AGGIUNGI UNA FRASE SUI RISULTATI
 
 	We know that, with potentials that allow contact between particles, such as Lennard Jones, systems like the one studied here tend to cluster.
 	We then used a clustering algorithm to study how the ensemble separates into sparse particles and living crystalline lattices.
 	The chosen algorithm is DBSCAN, which, with the right parameters, can mimic a common-sense definition of \emph{cluster}.
 	We used maximum cluster size and cluster number to study how order in particles' positions establishes.
 	Once the system is divided in clusters, we can study how the single clusters are aligned, restricting the polarization computation to the single groups.
-	AGGIUNGI UNA FRASE SUI RISULTATI
+	Using this statistic, we showed how clustering and flocking are related in most cases, with the exception of velocity distribution, where the system tend to polarize even though its sparsity increases.
 
 	The last tool that we implemented to fathom the amount of long-range order in the ensemble, is the well known pair distribution function, radial distribution function, or simply $g(r)$, which is defined \cite{hansen90a} as the average number of particles at a distance $r$ from a reference particle, normalized by the density of the system:
 	$\left\langle \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{N}{}' \delta (\mathbf{r} - \mathbf{r}_j + \mathbf{r}_i) \right\rangle = \rho g(r)$.
-	AGGIUNGI UNA FRASE SUI RISULTATI
+	Though related to clustering, $g(r)$ made possible for us to see how a system with strongly coupled orientations is capable of developing long range order more efficiently than an ensemble with weaker orientational interaction, even when the same force is applied between particles. 
 	
 	%%% TOGLIEREI QUESTA FRASE GENERICA, E INCLUDEREI ESEMPI DI RISULTATI SPECIFICI SOPRA
 	% With all of this, we have been able to better understand the effect of velocity, velocity distribution, orientational coupling $\alpha$ and angular velocity when a LJ potential is applied.
 	
-	\textbf{Inference of interactions from positional data.} 
+	\textbf{Inference of interactions from positional and orientational data.} 
 	We developed a preliminary version of a machine learning tool, based on Graph Neural Networks, that, starting from particles positions and orientations, could predict their velocity, distinguishing self-propulsion and interactions, to infer the interaction potential, in the same spirit of \cite{ruiz-garcia_discovering_2024}.
-	AGGIUNGI UNA FRASE SUI RISULTATI (deludenti)
+	This tool needs more development in the data preparation part as well as in network training, since our results were not satisfying regarding the comparison between true forces and interactions learned by the GNN.
 
 	\textbf{Conclusions.}
-	SERVONO DELLE CONCLUSIONI: HO ABBOZZATO, MODIFICA E AGGIUNGI QUALCHE RIFLESSIONE CRITICA, POTENZIALE IMPATTO DEL TUO LAVORO IN QUESTO AMBITO DI RICERCA, E PROSPETTIVE FUTURE
+	%SERVONO DELLE CONCLUSIONI: HO ABBOZZATO, MODIFICA E AGGIUNGI QUALCHE RIFLESSIONE CRITICA, POTENZIALE IMPATTO DEL TUO LAVORO IN QUESTO AMBITO DI RICERCA, E PROSPETTIVE FUTURE
 	We developed a model of Active Brownian Particles with aligning interactions, that can reproduce the main behaviors observed in real-world experiments.
 	We implemented a suite of analysis tools to study the collective behaviors of the system, and we used them to study the effect of different parameters on the system.
 	We also developed a preliminary version of a machine learning tool to infer the interaction potential from positional data.
-
+	This work opens the possibility of working with a simple yet descriptive model, that unifies aligning and not aligning interactions.
+	Some more interaction parameters could be added to reproduce the real world behaviors' variety.
+	More work is needed in order to make simulations in quantitative accordance with Janus self-phoretic particles experiments.
+	One step further both for the experimental purpose and modeling is making the inference more accurate: when this tool will give enough confidence in its ability to predict interaction potentials it will be used to infer potentials from experiments, making the model more accurate and complete.
+	
 
 	\printbibliography
 \end{document}
