@@ -4,6 +4,13 @@
 \usepackage[english]{babel}   % document language
 \usepackage{amsmath}          % math symbols
 \usepackage{physics}
+\usepackage{graphicx}		  % images
+\usepackage{wrapfig}          % wrapped figures
+\usepackage{subfig}           % subfigures
+\usepackage{caption}          % required by subfig 
+\usepackage{subcaption}       % captions in subfigures
+
+\graphicspath{{./imgs/}}
 
 \usepackage{geometry}
 \geometry{
@@ -94,10 +101,17 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	We implemented a suite of analysis tools to study the collective behaviors of the system, and we used them to study the effect of different parameters.
 	We also developed a preliminary version of a machine learning tool to infer the interaction potential from positional data.
 	This work opens the possibility of working with a simple yet descriptive model, that unifies aligning and not aligning interactions.
-	Some more interaction parameters could be added to reproduce the real world behaviors' variety.
+	%Some more interaction parameters could be added to reproduce the real world behaviors' variety.
 	More work is needed in order to make simulations in quantitative accordance with Janus self-phoretic particles experiments.
 	One step further both for the experimental purpose and modeling is making the inference more accurate: when this tool will give enough confidence in its ability to predict interaction potentials it will be used to infer potentials from experiments, making the model more accurate and complete.
 	
-
+	\begin{figure}[htp]
+		\centering\
+		\subfloat[][]{\includegraphics[width=.3\textwidth]{situa0.0_oc0.5.png}}
+		\subfloat[][]{\includegraphics[width=.3\textwidth]{situa0.5.png}}
+		\subfloat[][]{\includegraphics[width=.3\textwidth]{situa10.0.png}}
+		%\subfloat[][]{\includegraphics[width=.3\textwidth]{flocking_25.0s}}
+	\end{figure}
+	
 	\printbibliography
 \end{document}
