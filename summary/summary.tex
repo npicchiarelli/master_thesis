@@ -27,7 +27,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	\textbf{Introduction.}
 	\emph{Active Matter} is a term that refers to systems, both at macroscopic and microscopic scales, both natural and artificial, that consist of many independent and interacting \emph{agents}. 
 	These active units can consume energy from the environment or an internal source to convert it to work and movement. 
-	Such systems show peculiar individual and collective behaviors, due to the interactions that may occur between active units and their intrinsic far-from-equilibrium nature \cite{menon_active_2010, ramaswamy_active_2017}.
+	Such systems show peculiar individual and collective behaviors, due to the interactions that may occur between active units and to their intrinsic far-from-equilibrium nature \cite{menon_active_2010, ramaswamy_active_2017}.
 	% qui ho modificato per riferirsi più in generale ad active units e non solo active particles
 	Self-phoretic Janus micro-particles are a class of \emph{active particles} that convert chemical energy into self-propulsion, creating a gradient in the surrounding fluid that makes them move with a preferred direction.
 	These particles are a model system for active matter, and they have been used to study collective behaviors \cite{bechinger_active_2016}, modeling them as Active Brownian Particles (ABPs), obtained adding a deterministic self-propulsion along a given direction to classic Brownian motion.
@@ -47,35 +47,35 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	% Janus spheres are micromotors with an inert hemispheres and a catalytic one, that, catalyzing the decomposition of some fuel, create a gradient in the product concentration field, hence causing a phoretic flow around them that makes them move with a preferred propulsion direction.
 	% Under certain assumptions such micromotors behave as Active Brownian particles, showing fascinating collective motions.
 	
-	The main objective of this thesis work is to build a minimal yet descriptive model, a simulation framework and a set of analysis tools to investigate the emergence of different collective behaviors in active particles systems.
+	The objective of this thesis work is to build a minimal yet descriptive model, a simulation framework and a set of analysis tools to investigate the emergence of different collective behaviors in active particles systems.
 	
 	\textbf{Potential-based aligning interactions.}
 	Interactions in active particles systems are classified in two categories: non-aligning, which act only on particles' positions, and aligning, which change particles' orientations and depend on them too.
-	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other, so a model aiming to mimic real world behaviors need to involve some aligning interaction.
+	Some authors, like \citeauthor{martin-gomez_collective_2018}, showed that an aligning torque in an ABPs system can make it transition from a disordered state to an ordered one where all particles swim in the same direction \cite{martin-gomez_collective_2018}, similarly to what happens in a Vicsek model \cite{vicsek_novel_1995}.
+	% questo l'ho spostato da sotto, mi sembrava avesse più senso qui
+	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other, so a model aiming to mimic real world behaviors needs to involve some aligning interaction.
 	Starting from an existing preliminary simulation code written in the Julia language \cite{julia}, based on ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
 	
-	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used central potentials like $r^{-2}$ and Lennard Jones, applying them to an off center position on the disk representing the particle, obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
+	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used central potentials like $r^{-2}$ and Lennard-Jones (LJ), applying them to an off-center position on the disk representing the particle, obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
 	This approach is motivated by the fact that self-phoretic particles interact by their self-generated fields (hydrodynamic, chemical, electrical) that have an evident anisotropy in the self-propulsion direction.
 	By changing the positions from which forces are computed and to which are applied, this model inserts a lever arm in the interaction, causing a torque to appear among particles.
-	
-	Some authors, like \citeauthor{martin-gomez_collective_2018}, showed that an aligning torque in an ABPs system can make it transition from a disordered state to an ordered one where all particles swim in the same direction, similarly to what happens in a Vicsek model \cite{vicsek_novel_1995}.
-	The model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque.
-	Here, we show that the transition to a flocking state has a similar behavior also in the case of our model when a purely repulsive potential is applied.
-	The developed model has shown to be able to qualitatively reproduce the main interaction behaviors observed in real-world experiments in my host laboratory.
+	Whereas the model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque, here we show that, in the case of a purely repulsive potential, our potential-based model with no explicit torque can show a similar transition to a flocking state.
+	% in questa frase ho fatto un po' di modifiche perché non mi sembrava chiara
+	Moreover, the developed model has shown to be able to qualitatively reproduce the main interaction behaviors observed in real-world experiments in my host laboratory.
 	
 	\textbf{Quantitative analysis of collective behaviours.}
 	We studied how the global properties of the ensemble change with the parameters of the simulation, such as the velocity, the velocity distribution, the orientational coupling $\alpha$ and the angular velocity.
 	To this aim, we implemented a suite of analysis tools to study the flocking transitions in the system, the clustering of particles, the alignment of clusters and the amount of long-range order in the ensemble.
 
-	To better understand flocking transitions in the system, we computed the global polarization as $P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}}$, where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
-	Using this order parameter, we could get an insight on how a larger positive orientational coupling, as well as the presence of faster particles, can make the system polarize more and faster, while a distribution in angular velocity is capable of disrupting a flocking order. %AGGIUNGI UNA FRASE SUI RISULTATI
+	To better understand flocking transitions, we computed the global polarization as $P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}}$, where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
+	Using this order parameter, we could get an insight on how a larger positive orientational coupling, as well as the presence of faster particles, can make the system polarize more and faster, while a distribution in angular velocity can disrupt a flocking order. %AGGIUNGI UNA FRASE SUI RISULTATI
 
-	We know that, with potentials that allow contact between particles, such as Lennard Jones, systems like the one studied here tend to cluster.
+	We know that, with potentials that allow contact between particles, such as LJ, systems like the one studied here tend to cluster.
 	We then used a clustering algorithm to study how the ensemble separates into sparse particles and living crystalline lattices.
 	The chosen algorithm is DBSCAN, which, with the right parameters, can mimic a common-sense definition of \emph{cluster}.
 	We used maximum cluster size and cluster number to study how order in particles' positions establishes.
 	Once the system is divided in clusters, we can study how the single clusters are aligned, restricting the polarization computation to the single groups.
-	Using this statistic, we showed how clustering and flocking are related in most cases, with the exception of velocity distribution, where the system tend to polarize even though its sparsity increases.
+	Using this statistic, we showed how clustering and flocking are related in most cases, with the exception of cases where a velocity distribution is present, in which the system tend to polarize even though its sparsity increases.
 
 	The last tool that we implemented to fathom the amount of long-range order in the ensemble, is the well known pair distribution function, radial distribution function, or simply $g(r)$, which is defined \cite{hansen90a} as the average number of particles at a distance $r$ from a reference particle, normalized by the density of the system:
 	$\left\langle \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{N}{}' \delta (\mathbf{r} - \mathbf{r}_j + \mathbf{r}_i) \right\rangle = \rho g(r)$.
