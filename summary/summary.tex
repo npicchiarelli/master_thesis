@@ -38,10 +38,11 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	Such systems show peculiar individual and collective behaviors, due to the interactions that may occur between active units and to their intrinsic far-from-equilibrium nature \cite{menon_active_2010, ramaswamy_active_2017}.
 	% qui ho modificato per riferirsi più in generale ad active units e non solo active particles
 	Self-phoretic Janus micro-particles are a class of \emph{active particles} that convert chemical energy into self-propulsion, creating a gradient in the surrounding fluid that makes them move with a preferred direction.
-	These particles are a model system for active matter, and they have been used to study collective behaviors \cite{bechinger_active_2016}, modeling them as Active Brownian Particles (ABPs), obtained adding a deterministic self-propulsion along a given direction to classic Brownian motion.
+	These particles are a model system for active matter, and they have been used to study collective behaviors \cite{bechinger_active_2016}.
+	They have been modelled as Active Brownian Particles (ABPs), adding a deterministic self-propulsion along a given direction to classic Brownian motion.
 	% aggiungi qualcosa sulle interazioni che di solito vengono usate in questi modelli
 	The ABPs model stood out for its simplicity and capability of showing interesting collective dynamics.
-	Literature has studied what happens when interactions are added to this model, starting from the hard-spheres correction, which avoids superpositions between particles, and inserting further interactions such as long-range central potentials.
+	Literature has studied what happens when interactions are added to this model, such as excluded-volume interaction, which avoids superpositions between particles, and long-range central potentials interactions.
 	%%% TOGLIEREI L'EQUAZIONE, NON MI SEMBRA UTILE
 	% This model is , combined in the equations (2D)
 	% \begin{equation}
@@ -61,19 +62,20 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	Interactions in active particles systems are classified in two categories: non-aligning, which act only on particles' positions, and aligning, which change particles' orientations and depend on them too.
 	Some authors, like \citeauthor{martin-gomez_collective_2018}, showed that an aligning torque in an ABPs system can make it transition from a disordered state to an ordered one where all particles swim in the same direction \cite{martin-gomez_collective_2018}, similarly to what happens in a Vicsek model \cite{vicsek_novel_1995}.
 	% questo l'ho spostato da sotto, mi sembrava avesse più senso qui
-	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other, so a model aiming to mimic real world behaviors needs to involve some aligning interaction.
-	Starting from an existing preliminary simulation code written in the Julia language \cite{julia}, based on ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
+	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other. 
+	Therefore, a model aiming to mimic real world behaviors needs to involve some aligning interaction.
+	Starting from an existing preliminary simulation code written in the Julia language \cite{julia}, based on 2D ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
 	
-	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used central potentials like $r^{-2}$ and Lennard-Jones (LJ), applying them to an off-center position on the disk representing the particle, obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
+	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used central potentials like $r^{-2}$ and Lennard-Jones (LJ), applying them to an off-center position on the 2D particle, obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
 	This approach is motivated by the fact that self-phoretic particles interact by their self-generated fields (hydrodynamic, chemical, electrical) that have an evident anisotropy in the self-propulsion direction.
 	By changing the positions from which forces are computed and to which are applied, this model inserts a lever arm in the interaction, causing a torque to appear among particles.
-	Whereas the model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque, here we show that, in the case of a purely repulsive potential, our potential-based model with no explicitly aligning torque can show a similar transition to a flocking state.
+	Whereas the model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque, here we show that, in the case of a purely repulsive potential, our off-centered potential-based model can show a similar transition to a flocking state.
 	% in questa frase ho fatto un po' di modifiche perché non mi sembrava chiara
 	Moreover, the developed model has shown to be able to qualitatively reproduce the main interaction behaviors observed in real-world experiments in my host laboratory.
 	
 	\textbf{Quantitative analysis of collective behaviors.}
-	We studied how the global properties of the ensemble change with the parameters of the simulation, such as the velocity, the velocity distribution, the orientational coupling $\alpha$ and the angular velocity.
-	To this aim, we implemented a suite of analysis tools to study the flocking transitions in the system, the clustering of particles, the alignment of clusters and the amount of long-range order in the ensemble.
+	We studied how the global properties of the ensemble change with simulation parameters, such as the velocity, the velocity distribution, the off-center parameter $\alpha$ and the angular velocity.
+	To this aim, we implemented a suite of analysis tools to study the flocking and clustering of particles, the alignment of clusters and the amount of long-range order in the ensemble.
 
 	To better understand flocking transitions, we computed the global polarization as $P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}}$, where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
 	Using this order parameter, we could get an insight on how a larger positive orientational coupling, as well as the presence of faster particles, can make the system polarize more and faster, while a broad distribution in angular velocity can disrupt a flocking order. %AGGIUNGI UNA FRASE SUI RISULTATI
@@ -101,7 +103,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	We developed a model of Active Brownian Particles with aligning interactions, that can reproduce the main behaviors observed in real-world experiments.
 	We implemented a suite of analysis tools to study the collective behaviors of the system, and we used them to study the effect of different parameters.
 	We also developed a preliminary version of a machine learning tool to infer the interaction potential from positional data.
-	This work opens the possibility of working with a simple yet descriptive model, that unifies aligning and not aligning interactions.
+	This work opens the possibility for a simple yet descriptive model, that unifies aligning and not aligning interactions.
 	%Some more interaction parameters could be added to reproduce the real world behaviors' variety.
 	More work is needed in order to make simulations in quantitative accordance with Janus self-phoretic particles experiments.
 	One step further both for the experimental purpose and modeling is making the inference more accurate: when this tool will give enough confidence in its ability to predict interaction potentials it will be used to infer potentials from experiments, making the model more accurate and complete.
