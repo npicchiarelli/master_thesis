@@ -62,7 +62,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	Interactions in active particles systems are classified in two categories: non-aligning, which act only on particles' positions, and aligning, which change particles' orientations and depend on them too.
 	Some authors, like \citeauthor{martin-gomez_collective_2018}, showed that an aligning torque in an ABPs system can make it transition from a disordered state to an ordered one where all particles swim in the same direction \cite{martin-gomez_collective_2018}, similarly to what happens in a Vicsek model \cite{vicsek_novel_1995}.
 	% questo l'ho spostato da sotto, mi sembrava avesse più senso qui
-	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in my host laboratory, undergo some interaction torques when close to each other. 
+	It is known from experimental literature \cite{singh_pair_2024}, that Pt-silica Janus particles, like the ones being investigated in the host laboratory, undergo some interaction torques when close to each other. 
 	Therefore, a model aiming to mimic real world behaviors needs to involve some aligning interaction.
 	Starting from an existing preliminary simulation code written in the Julia language \cite{julia}, based on 2D ABPs and excluded-volume interactions, we implemented different potential-based interactions while also enhancing the speed of calculations.
 	
@@ -96,6 +96,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	
 	\textbf{Inference of interactions from positional and orientational data.} 
 	We developed a preliminary version of a machine learning tool, based on Graph Neural Networks, that, starting from particles positions and orientations, could predict their velocity, distinguishing self-propulsion and interactions, to infer the interaction potential, in the same spirit of \cite{ruiz-garcia_discovering_2024}.
+	We worked with two different potentials, elastic and Lennard Jones, in order to show how the characteristic of interaction, especially its range change network's prediction accuracy.
 	This tool needs more development in the data preparation part as well as in network training, since our results were not satisfying regarding the comparison between true forces and interactions learned by the GNN.
 
 	\textbf{Conclusions.}
