@@ -67,16 +67,16 @@ Internal Supervisor: Prof. Riccardo Mannella}
 	Our way to implement aligning interaction in an ABPs model is the main novelty of this work: instead of treating positions and orientations separately, we used central potentials like $r^{-2}$ and Lennard-Jones (LJ), applying them to an off-center position on the disk representing the particle, obtained starting from the center and translating of an amount $\alpha R$, where $R$ is particle's radius and $\alpha \in [-1,1]$, in the direction of self-propulsion.
 	This approach is motivated by the fact that self-phoretic particles interact by their self-generated fields (hydrodynamic, chemical, electrical) that have an evident anisotropy in the self-propulsion direction.
 	By changing the positions from which forces are computed and to which are applied, this model inserts a lever arm in the interaction, causing a torque to appear among particles.
-	Whereas the model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque, here we show that, in the case of a purely repulsive potential, our potential-based model with no explicit torque can show a similar transition to a flocking state.
+	Whereas the model in \cite{martin-gomez_collective_2018} involves a non-superposition force and an explicitly aligning torque, here we show that, in the case of a purely repulsive potential, our potential-based model with no explicitly aligning torque can show a similar transition to a flocking state.
 	% in questa frase ho fatto un po' di modifiche perché non mi sembrava chiara
 	Moreover, the developed model has shown to be able to qualitatively reproduce the main interaction behaviors observed in real-world experiments in my host laboratory.
 	
-	\textbf{Quantitative analysis of collective behaviours.}
+	\textbf{Quantitative analysis of collective behaviors.}
 	We studied how the global properties of the ensemble change with the parameters of the simulation, such as the velocity, the velocity distribution, the orientational coupling $\alpha$ and the angular velocity.
 	To this aim, we implemented a suite of analysis tools to study the flocking transitions in the system, the clustering of particles, the alignment of clusters and the amount of long-range order in the ensemble.
 
 	To better understand flocking transitions, we computed the global polarization as $P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}}$, where $\theta_k$ is the orientation of $k$-th particle with respect to the $x$-axis.
-	Using this order parameter, we could get an insight on how a larger positive orientational coupling, as well as the presence of faster particles, can make the system polarize more and faster, while a distribution in angular velocity can disrupt a flocking order. %AGGIUNGI UNA FRASE SUI RISULTATI
+	Using this order parameter, we could get an insight on how a larger positive orientational coupling, as well as the presence of faster particles, can make the system polarize more and faster, while a broad distribution in angular velocity can disrupt a flocking order. %AGGIUNGI UNA FRASE SUI RISULTATI
 
 	We know that, with potentials that allow contact between particles, such as LJ, systems like the one studied here tend to cluster.
 	We then used a clustering algorithm to study how the ensemble separates into sparse particles and living crystalline lattices.
@@ -113,7 +113,7 @@ Internal Supervisor: Prof. Riccardo Mannella}
 		\subfloat[][]{\includegraphics[width=.25\textwidth]{situa0.5.png}}
 		\subfloat[][]{\includegraphics[width=.25\textwidth]{situa10.0.png}}
 		
-		\caption{(a) schematic of off-center interacting position, black arrow represents self-propulsion direction. (b-d) collective behaviors, from left to right: clustering without flocking with zero self-propulsion velocity, clustering and flocking angular velocity distribution $\mathcal{N}(\SI{0}{\radian\per\second}, \SI{0.5}{\radian\per\second})$, flocking without clustering for self-propulsion velocity distribution $\mathcal{N}(\SI{10}{\um\per\second}, \SI{10}{\um\per\second})$. All simulations are performed under a LJ potential with $\sigma = \SI{4.}{\um}$, $\sigma = \SI{0.1}{\pico\joule}$}
+		\caption{(a) schematic of off-center interacting position, black arrow represents self-propulsion direction. (b-d) collective behaviors, from left to right: clustering without flocking with zero self-propulsion velocity, clustering and flocking angular velocity distribution $\mathcal{N}(\SI{0}{\radian\per\second}, \SI{0.5}{\radian\per\second})$, flocking without clustering for self-propulsion velocity distribution $\mathcal{N}(\SI{10}{\um\per\second}, \SI{10}{\um\per\second})$. All simulations are performed under a LJ potential with (b and d) $\sigma = \SI{4.}{\um}$, $\epsilon = \SI{0.1}{\pico\joule}$, (c) $\sigma = \SI{4.}{\um}$, $\epsilon = \SI{0.25}{\pico\joule}$}
 	\end{figure}
 	
 	\printbibliography
