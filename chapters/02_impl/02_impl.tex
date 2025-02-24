@@ -333,10 +333,24 @@
 		\label{fig:geom_model}
 	\end{figure}
 	
-	{\color{green}\section{Results}}
-	\todo{questa sezione dovrebbe contenere più in generale esempi di simulazioni e in particolare confronti con esperimenti}
-	{\color{brown}\subsection{Qualitative comparison between experiments and simulations}} \label{qualitative}
+	\section{Qualitative Model Validation} \label{qualitative}
 	
+	Since the real interaction forces and torques between self-diffusio-phoretic particles are still a matter of deep investigation, it is not straightforward to check 
+	if a model is accurate or complete.
+	Here, we look into a qualitative comparison between the simulated behaviors and the observed ones, focusing in this case on interactions between pairs or small groups of particles.
 	
-
+	It is important to note that often in experiments clusters of particles are not caused by self-assembly, but are there as a by-product of the fabrication process, during which particles may remain attached.
+	Still, observing how single particles interact with clusters gives some insights on contact behaviors, making particle clumps' presence useful.
+	In principle, it is difficult to create stable clusters in simulations, since our framework does not involve the possibility of physically attached particle, but an attractive potential is needed to mimic observed behaviors.
+	
+	Due to differences and irregularities in the fabrication process, not all particles have the same self-propulsion velocity.
+	In simulations we can reproduce this generating particles' velocity from a distribution.
+	Although particles orientation is difficult to measure in our experimental videos, it is possible to note that some particles are spinning around and some others have both a linear and a rotational self-propulsion, in a Chiral Brownian Particles fashion, \cite{callegari_numerical_2019, bechinger_active_2016}.
+	
+	With all of this said, the ingredients for a simulation that reproduces experimental behaviors are: a short-range potential with an attractive part, a linear and angular velocity distribution.
+	We chose Lennard Jones for its short range attraction, keeping $\sigma = 2R$ with $R$ particle's radius, with negative off-center parameter $\alpha$.
+	Although most videos do not contain enough particles to build a sample velocity distribution, it is noticeable how very fast particles are rare if compared with slow particles.
+	To catch this asimmetry, we generated simulated particles' velocities from an exponential distribution; this is done to maximize the number of collisions as well.
+	Since we do not observe a preferred direction in self-propulsive rotation, particles' angular velocities are generated from a distribution which is symmetric around 0; moreover, few particles present large angular velocities, so we generated them in simulations using a Normal distribution, to have control on its broadness.
+	
 \end{document}
