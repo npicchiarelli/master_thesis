@@ -18,14 +18,25 @@ Node function's input dimension is $n_f + n_m$ where $n_m$ is the output dimensi
 Here it is important to note that the history is not relevant: the network just takes one instant at a time and predicts instantaneous velocities starting from positions and orientations, without knowing what happens before or after.
 Instantaneous velocities are computed dividing the difference of consecutive positions by the integration time interval, then they get checked for big jumps, that happen when periodic boundary condition correction take place.
 
-%The problem of message dimension $n_m$ is tackled in section \ref{literature}
+The problem of message dimension $n_m$ is tackled in section \ref{literature}. 
+Here, we stuck to a 2D message dimension, as is reported in the reference paper \cite{ruiz-garcia_discovering_2024}.
 
 \subsection{Simulations}
-To understand the role of the potential's functional form in prediction results, we tried to train and test the network on two different simulations, one done using a spring potential with $k_s = \SI{e-2}{\newton\per\meter}$ and $x_0 = \SI{4}{\um}$ and the other using a LJ potential with $\sigma = \SI{4}{\um}$ and $\sigma\epsilon = \SI{0.01}{\micro\joule}$.
+To understand the role of the potential's functional form in prediction results, we tried to train and test the network on two different simulations, one done using a spring potential with $k_s = \SI{0.1}{\newton\per\meter}$ and $x_0 = \SI{12}{\um}$ and the other using a LJ potential with $\sigma = \SI{4}{\um}$ and $\epsilon = \SI{0.01}{\pico\joule}$.
 These potential have the difference in range: without limiting our interaction threshold radius, elastic force not only has effect at long distance but its absolute value increases, while LJ is a short range potential.
 We expect the network to perform worse on LJ since it has less relevant interactions to learn from.
 
+These two potentials required different integration steps: \SI{e-3}{\second} for LJ and \SI{5e-2}{\second} for spring potential.
+Both simulations were ran with a velocity of \SI{15}{\um \per \second}, in a \qtyproduct{100 x 100}{\um} box with \num{100} particles of \SI{2}{\um} in radius.
+
 \section{Training and Testing}
+
+We let the two systems evolve for a total simulated time of \SI{1000}{\second}, then instantaneous velocities were computed and finally a sample of \num{1000} equally spaced snapshots was taken from each simulation.
+We divided these snapshots in \num{750} for training and \num{250} for testing.
+The network was trained and tested on each simulation's data separately to have preliminary results.
+
+After training, a minimization process is used to find the best linear transformation that maps message components into the known forces.
+
 \subsection{Spring Potential}
 \subsection{Lennard Jones Potential}
 \section{Conclusions}
