@@ -6,11 +6,14 @@
 	%Simulations of ABPs ensembles offer an interesting possibility: they make it possible to investigate the physical systems without the limitations that an experimental setup would have. 
 	%In simulations it is possible to work in a case with the same number of agents every time, keeping the physical conditions fixed, without all non-idealities, having computational power and time as the only limitation. 
 	%This is crucial to study statistical properties of a system that displays fascinating behaviors.
-	
+	\todo{manca un cappelletto introduttivo che spieghi il focus di questo capitolo, per come lo abbiamo discusso in chat}
+
 	\section{Methods}
-	Our investigation in structure and dynamics is based upon a small, but hopefully complete, set of tools that help unveiling how particles place themselves with respect to one another and how do they move {\color{blue} insert citation about 1994 Nobel, "where atoms are, what atoms do"}.
+	\todo{non chiamerei questa sezione methods, visto che i metodi specifici li descrivi nelle sezioni successive. Potresti chiamarla Analysis functions/tools o Order analysis functions. Oppure integrarle direttamente nei metodi delle varie sezioni.}
+	Our investigation in structure and dynamics is based upon a small yet descriptive set of tools that help unveiling how particles spatially organise and how they move {\color{blue} insert citation about 1994 Nobel, "where atoms are, what atoms do"}.
 	
 		\subsection{Pair Correlation Function}
+		\todo{per cosa usi questa funzione? descrive in qualche modo il clustering? spiegalo}
 		Pair correlation function, \emph{radial distribution function}, or simply $g(r)$ describes the variation of density with respect to distance to a reference in a system; it is a function only of the separation $r_{ij} = \abs{\vb{r}_i - \vb{r}_j}$ between any pair of particles. 
 		It quantifies how particle in an ensemble position one with respect to each other, giving information about the \emph{structure} of the system. 
 		This function plays a key role in physics of matter since it is possible to measure it in radiation-scattering experiments and it is often used in cases where, differently from our problem, particles' positions are not directly accessible.
@@ -23,11 +26,13 @@
 		where the prime on the summation sign means not counting terms with $i = j$. 
 		It is possible to show that the left hand side approaches the value of the overall number density $\rho$ at large distance.
 		
-		In order to compute $g(r)$ in our simulations, we first need to take distances between all pairs of particles (counting twice the same couple) accounting for periodic boundary conditions as any particle became the center of the system, similarly to the periodic interaction method in section \ref{intrange}. 
+		In order to compute $g(r)$ in our simulations, we first need to take distances between all pairs of particles (counting twice the same couple\todo{che intendi?}) accounting for periodic boundary conditions as any particle became the center of the system, similarly to the periodic interaction method in section \ref{intrange}. 
 		Then, to simulate the behavior of a sum of deltas, we divide simulation space in bins by radius, where the area of each bin is computed as the intersection between a circular crown and a square, to respect the geometry of our simulation box without introducing biases. 
 		Now we just normalize by the number of particles and the density to make $g(r) \to 1$ at long distance.
+		\todo{questa è una pratica comune e accettata? perché non normalizzare sulla densità media?}
 		
 		\subsection{Polarization}
+		\todo{sposterei questa più avanti, facendo un'unica sezione di Global and local polarization}
 		Whenever the agents of a system have a preferred axis, as is the case for ABPs, it becomes worthwhile to analyze the order in the orientation degree of freedom of agents. 
 		This is useful especially when particles have non symmetric (in some axis) shape. 
 		Our particles are assumed to be perfectly symmetrical circles (spheres in 3D), but still, the presence of a well defined swimming direction introduces a relevant anisotropy in the system. 
@@ -40,6 +45,7 @@
 		This parameter is $1$ when all particles directions are aligned and $0$ when all particles are pointing in different directions. 
 		
 		\subsection{Cluster Size}
+		\todo{sposterei questa prima della polarizzazione}
 		As discussed in section \ref{literature}, ensembles of ABPs tend to cluster when an attractive interaction is present or conditions (velocity, packing fraction) are right for MIPS to occur. 
 		In most cases, system clusters as a whole, leaving at most some particles in a gaseous phase outside of the cluster. 
 		Observing the evolution of such systems, nonetheless, it is possible to observe long periods of time during which ABPs are only partially clustered, moving in small groups across the simulation boards. 
@@ -72,75 +78,96 @@
 		As mentioned in section \ref{literature}, \citeauthor{martin-gomez_collective_2018}, as well as \citeauthor{negi_emergent_2022} showed how inserting an explicitly aligning interaction in the simulation can make the whole system polarize, meaning all particles move in the same direction. 
 		This phenomenon is called \emph{flocking}.
 		
-		Here, we show how a repulsive off centered interaction, although with limited range, can lead an ABPs system to reach a flocking state. 
-		The selected interaction force is $F(r) = kr^{-2}$, akin to a Coulomb or gravitational force, where $k$ is a constant. 
-		When both the off center magnitude $\alpha$ and the constant $k$ have a positive value, front sides of interacting particles repel each other, meaning that two particle swimming towards each other will tend to align their orientations. 
-		%Here we stress the fact that when all particles in ensemble have the same velocity and clustering is not present, a head-to-head collision is by far the most frequent, and for sure a head-to-tail collision is almost impossible, since two particles with the same directions will chase each other without ever touching.
-		
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=\textwidth]{alignment.png}
-			\caption{Behavior of two particles with aligning interactions, compared with excluded volume steric interaction only \cite{martin-gomez_collective_2018}.}
+			\caption{Behavior of two particles with aligning interactions, compared with excluded volume steric interaction only. Adapted from \cite{martin-gomez_collective_2018}.}
 			\label{fig:alignment}
 		\end{figure}
+		\todo{questa figura è presa dal loro paper? le interazioni allineanti sono esplicite? spiega meglio}	
 		
 		In Figure \ref{fig:alignment}, an example of how the alignment process works. 
-		Differently from our case, the interaction used by \citeauthor{martin-gomez_collective_2018} is an explicitly aligning torque where $T \sim \sin( \theta_{i}-\theta_{j} )$, with particles orientation are \emph{explicitly} included in the expression and $\abs{T}$ has a minimum where $\theta_{i} = \theta_{j}$. 
-		Our alignment comes automatically from applying a force to a non centered position. 
-		In Figure \ref{fig:flock40}, an example of how flocking transition happens with $k = 10$, with an interaction range of \SI{40}{\micro\meter}.
-		\begin{figure}[htp]
-			\centering
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_1.0s.pdf}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_5.0s.pdf}}\\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_10.0s.pdf}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_15.0s.pdf}}\\
-		\end{figure}
-		\begin{figure}[htp]\ContinuedFloat
-			\centering
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_20.0s.pdf}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_25.0s.pdf}}
+		The interaction used by \citeauthor{martin-gomez_collective_2018} is an explicitly aligning torque where $T \sim \sin( \theta_{i}-\theta_{j} )$, with particles orientation are \emph{explicitly} included in the expression and $\abs{T}$ has a minimum where $\theta_{i} = \theta_{j}$~\cite{martin-gomez_collective_2018}. 
+		
+		Differently from their case, here we show how a repulsive off-centered interaction, although with limited range, can lead an ABPs system to reach a flocking state. 
+		The selected interaction force is $F(r) = kr^{-2}$, akin to a Coulomb or gravitational force, where $k$ is a constant. 
+		When both the off-center magnitude $\alpha$ and the constant $k$ have a positive value, front sides of interacting particles repel each other, meaning that two particle swimming towards each other will tend to align their orientations. 
+		%Here we stress the fact that when all particles in ensemble have the same velocity and clustering is not present, a head-to-head collision is by far the most frequent, and for sure a head-to-tail collision is almost impossible, since two particles with the same directions will chase each other without ever touching.
+		Our alignment thus comes automatically from applying a force to a non centered position. 
+		In Figure \ref{fig:flock40}\todo{casino con la numerazione - forse problemi con il ContinuedFloat}, an example of how flocking transition happens with $k = 10$, with an interaction range of \SI{40}{\micro\meter}.
+		% \begin{figure}[htp]
+		% 	\centering
+		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_1.0s.pdf}}
+		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_5.0s.pdf}}\\
+		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_10.0s.pdf}}
+		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_15.0s.pdf}}\\
+		% \end{figure}
+		% \begin{figure}[htp]\ContinuedFloat
+		% 	\centering
+		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_20.0s.pdf}}
+		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_25.0s.pdf}}
 			
-			\caption{Flocking transition: all particles in the system tend to polarize after few seconds. Images a, b, c, d, e, f correspond to situation after \qtylist{1;5;10;15;20;25}{\second}}
+		% 	\caption{Flocking transition: all particles in the system tend to polarize after few seconds. Images a, b, c, d, e, f correspond to situation after \qtylist{1;5;10;15;20;25}{\second}}
+		% 	\label{fig:flock40}
+		% \end{figure}
+		\todo{perché hai spezzato questa figura in 2? La numerazione della figura è sbagliata. Ho commentato le due figure e ne ho fatta una unica (risolvendo anche il problema numerazione)... vedi se può andare. I numeri sugli assi sono illeggibili, tanto vale non metterli proprio.}
+
+		\begin{figure}[hbtp]
+			\centering
+			\subfloat{\includegraphics[width=.33\textwidth]{coulombrange40/flocking_1.0s.pdf}}
+			\subfloat{\includegraphics[width=.33\textwidth]{coulombrange40/flocking_5.0s.pdf}}
+			\subfloat{\includegraphics[width=.33\textwidth]{coulombrange40/flocking_10.0s.pdf}}\\
+			\subfloat{\includegraphics[width=.33\textwidth]{coulombrange40/flocking_15.0s.pdf}}
+			\subfloat{\includegraphics[width=.33\textwidth]{coulombrange40/flocking_20.0s.pdf}}
+			\subfloat{\includegraphics[width=.33\textwidth]{coulombrange40/flocking_25.0s.pdf}}
+			\caption{Flocking transition: all particles in the system tend to polarize after few seconds. Images from top left to bottom right correspond to situation after \qtylist{1;5;10;15;20;25}{\second}}
 			\label{fig:flock40}
 		\end{figure}
+		\todo{ancor meglio se con i secondi direttamenti sulle immagini}
 		
 		\subsection{Methods}	
 		We studied flocking as a II order phase transition, using the global polarization $P$ as order parameter and varying $\alpha$, to change the magnitude of orientations coupling. 
-		The range of interaction is \SI{5}{\micro\meter}, which, being $2.5R$, with $R$ particle radius, is enough to make particles interact only with one layer of particles around them, simulating a nearest-neighbor interaction. 
+		The range of interaction is \SI{5}{\micro\meter}, which, being $2.5R$, with $R$ particle radius, is enough to make particles interact only with one layer of particles around them, simulating a nearest-neighbor interaction.
+		\todo{quant'è $k$? sarebbe forse utile avere un grafico della forza vs. distanza; inoltre spiega perché hai scelto questi valori fissi per il potenziale e hai variato solo $\alpha$ e la velocità}
 		Though interactions range is so short, a long-range order establishes for large enough $\alpha$, making the whole ensemble polarize.
 		
 		Integration step is \SI{5e-2}{\second} and simulation is \num{2e5} steps long, for a resulting simulation time of \SI{e4}{\second}, enough to let the system thermalize and reach a steady state as shown in Figure \ref{fig:polar_therm}.
 		For each parameter set, we performed one simulation only: in this aspect, our analysis differs from the one done by \citeauthor{martin-gomez_collective_2018}, where means and standard deviations are computed over independent realizations.
 		We believe that, with fixed simulation time, making one longer simulation is more convenient than more shorter ones, since the system has to thermalize only once, letting us waste less data.
 		When everything is done in one simulation, some resampling technique is required to compute an estimate of the error as will be explained shortly.
-		We proceeded to analyze data as follows: after discarding the first \num{2e4} steps as thermalization, polarization history is treated using a blocking and then a JackKnife resampling.
+		We proceeded to analyze data as follows: after discarding the first \num{2e4} steps (\SI{1000}{\second}) as thermalization, polarization history is treated using a blocking and then a JackKnife resampling.
 		
-		\begin{figure}[htp]
+		\begin{figure}[hbtp]
 			\centering
 			\includegraphics[width= \singfigwidth]{phasetrans/thermalization_v10.pdf}
 			\caption{History of polarization for $v = \SI{10}{\um\per\second}$, and several values of the off center coupling. Black dashed line is the number of points we discarded.}
 			\label{fig:polar_therm}
 		\end{figure}
+		\todo{sistema i valori di off-center; mostra polarizzazione tra 0 e 1; metti direttamente i secondi sull'asse delle x; colori difficilmente distinguibili}
 		
 		Blocking means grouping all the history in subsets of subsequent points and replacing each of them with their average.
 		This process is executed in order to compute an estimate of the standard deviation for observables of interest, calculating it as if each block was independent from the others. 
 		Choosing the block size is a matter of discussion: a large size will result in blocks with smaller correlation, but the small number of the obtained bins will make oscillations larger. 
 		In theory, the value of the standard deviation will saturate to its \emph{real} value increasing the size, but in reality one has to make some trade off between oscillations and auto-correlation.
 
-		Blocking only won't solve the fact that all data comes from the same sample.
-		In order to have good estimators for means and variances of relevant observables we need a resampling technique, such as the well-known Boootstrap or, as we used, JackKnife, where we replace each point with the mean of all the other points in the history.
+		Blocking only will not solve the fact that all data comes from the same sample.
+		In order to have good estimators for means and variances of relevant observables we need a resampling technique, such as the well-known Bootstrap or, as we used, JackKnife, where we replace each point with the mean of all the other points in the history.
 		Resulting sample standard deviations for polarization and susceptivity are plotted in Figure \ref{fig:blocksize} as a function of block size.
+		\todo{non hai introdotto la suscettività, spiega cosa è e perché la calcoli nella sezione dove descrivi la polarizzazione}
 		
-		\begin{figure}[htp]
+		\begin{figure}[hbtp]
 			\centering
 			\includegraphics[width= \singfigwidth]{phasetrans/blocksize_v10.pdf}
 			\caption{Standard deviation of polarization and susceptivity versus blocking size. Black dashed line is the block size of 2500 points that was used for this work. For this plot, $v = \SI{10}{\um\per\second}$, $\alpha = 0.25$.}.
 			\label{fig:blocksize}
 		\end{figure}
+		\todo{non ho capito, hai usato il blocking o il jackknife?}
+
 
 		
 		\subsection{Results}
 		As a result, Figure \ref{fig:phasetrans} shows the expected behavior of a II order phase transition: as the order parameter $P$ gets with a discontinuity from 0 to 1, its susceptibility diverges to a peak when $\alpha$ approaches critical value and then returns back close to zero (see, as a reference, Figure \ref{fig:martin_flocking3}).
+		\todo{presenta e discuti i risultati in maniera più dettagliata; non si capisce quale tecnica di resampling hai usato; spiega meglio cosa rappresentano i grafici e come sono stati ottenuti}
 		
 		\begin{figure}[htp]
 			\centering
@@ -148,6 +175,7 @@
 			\caption{Diagrams for polarization and relative susceptivity for the transition to ordered phase.}
 			\label{fig:phasetrans}
 		\end{figure}
+		\todo{perché lo stile di questta figura è così diverso da quello delle altre? mancano le unità di misura delle velocità}	
 		
 		\section{Clustering and Local Order}
 		Lennard Jones (LJ) is the potential which has the best chance of representing well real world dynamics (see section \ref{qualitative}), so it is worthwhile to study it in detail, to see how it affects individual and collective behaviors of ABPs ensembles. 
