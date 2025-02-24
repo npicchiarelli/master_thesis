@@ -185,6 +185,7 @@
 		Thus, to better resemble reality, we added aforementioned features in simulations, and then studied how such features can change collective behaviors of an ensemble of self-propelled particles.
 		
 		In the following, where not differently reported, the interaction used is Lennard Jones with parameters $\sigma = 2R$, with $R$ particle's radius, and strength parameter $\epsilon \sigma = \SI{0.1}{\micro\joule}$.
+		\todo{anche qui un grafico di forza vs. distanza sarebbe utile; spiega perché hai scelto questi valori fissi per il potenziale; il range di interazione quant'è?}
 		Simulations involved $250$ particles with $R = \SI{2}{\um}$ in a square of \SI{175}{\um} side, for a resulting packing fraction of $\sim 0.1$.
 		Simulation time is 1000 s but shorter times are showed in graphs as needed.
 		Integration step can vary with parameters, to ensure the best trade-off between stability in the simulations and execution speed, but for most simulations \SI{5e-3}{\second} was chosen as integration interval and when different values are used they are declared in sections.
@@ -198,17 +199,9 @@
 		\subsection{Velocity}
 		\label{velocity}
 		In order to study the effect of velocity, we first computed all the quantities of interest in the case of passive particles with an aligning LJ interaction, and then added a self propulsion velocity. 
-		An active speed makes the system non-isotropic, giving a preferred direction to particles, so we also investigated how velocity interacts with the sign of the directional coupling parameter $\alpha$, repeating the analysis for positive and negative values of it.
+		An active speed makes the system non-isotropic, giving a preferred direction to particles, so we also investigated how velocity interacts with the sign of the directional coupling parameter $\alpha$, repeating the analysis for positive and negative values.
 		
-		In Figure \ref{fig:lj_velocity_pol} it is noticeable how an ensemble of passive particles with an aligning interaction has a baseline local polarization, while the global is almost zero. 
-		Adding self-propulsion has the consequence of making the system polarize, with a transient length that depends on the velocity: faster particles tend to align faster. 
-		A noteworthy characteristic is that particles with interacting position on the back do not tend to align at all.
-		
-		This can also be noticed in Figures \ref{fig:lj_velocity_situa} and \ref{fig:lj_velocity_cluster}, where, when the off center position is on the back, velocity tends to hinder clustering, leading to a more sparse final situation. 
-		This can be due to the aforementioned fact about velocity: all particles have the same velocity so a head-to-tail collision is unlikely, as a consequence the interacting positions of two contacting particles will always be at a distance $>2R$ where interaction is pretty weak.
-		Radial distribution functions in Figure \ref{fig:lj_velocity_rdf} show how a particles which swim with their interacting position on the back tend to develop less long range order, regardless their velocity.
-		
-		\begin{figure}[htp]
+		\begin{figure}[hbtp]
 			\centering\
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/situa10.0_oc0.5.png}}
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/situa20.0_oc0.5.png}}\\
@@ -219,40 +212,51 @@
 			\label{fig:lj_velocity_situa}
 		\end{figure}
 		
-		\begin{figure}[htp]
+		In Figure \ref{fig:lj_velocity_pol} it is noticeable how an ensemble of passive particles with an aligning interaction has a baseline local polarization, while the global is almost zero. 
+		Adding self-propulsion has the consequence of making the system polarize, with a transient duration that depends on the velocity: faster particles tend to align faster. 
+		A noteworthy characteristic is that particles with interacting position on the back do not tend to align at all.
+		
+		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/polar10.0_oc0.5.png}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/polar20.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/polar10.0_oc-0.5.png}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/polar20.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/polar10.0_oc0.5.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/polar20.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/polar10.0_oc-0.5.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/polar20.0_oc-0.5.png}}\\
 			
 			\caption{Local (blue) and global (green) polarization corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_pol}
 		\end{figure}
+		\todo{Polarizzazione: uniforma assi y dei subplot}
 		
-		\begin{figure}[htp]
+		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/cluster10.0_oc0.5.png}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/cluster20.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/cluster10.0_oc-0.5.png}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/cluster20.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/cluster10.0_oc0.5.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/cluster20.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/cluster10.0_oc-0.5.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/cluster20.0_oc-0.5.png}}\\
 			
 			\caption{Maximum cluster size and number of clusters corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_cluster}
 		\end{figure}
+		\todo{Cluster: uniforma assi y dei subplot (sembrano leggermente diversi)}
+
+		This can also be noticed in Figures \ref{fig:lj_velocity_situa} and \ref{fig:lj_velocity_cluster}, where, when the off center position is on the back, velocity tends to hinder clustering, leading to a more sparse final situation. 
+		This can be due to the aforementioned fact about velocity: all particles have the same velocity so a head-to-tail collision is unlikely, as a consequence the interacting positions of two contacting particles will always be at a distance $>2R$ where interaction is pretty weak.
+		Radial distribution functions in Figure \ref{fig:lj_velocity_rdf} show how a particles which swim with their interacting position on the back tend to develop less long range order, regardless their velocity.
 		
-		\begin{figure}[htp]
+		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/rdf10.0_oc0.5.png}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/rdf20.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/rdf10.0_oc-0.5.png}}
-			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_velocity/rdf20.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/rdf10.0_oc0.5.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/rdf20.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/rdf10.0_oc-0.5.png}}
+			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_velocity/rdf20.0_oc-0.5.png}}\\
 			
 			\caption{Radial distribution function at last instant of simulation corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_rdf}
 		\end{figure}
-		\subsection{Velocity Distribution}
-		A simple way to add some complexity into the model is not to generate all particles with the same velocity, but to initialize them with their self propulsion speed constant but sampled from some distribution. 
+
+		\subsection{Velocity Distribution}\todo{quant'è $alpha$?}
+		A simple way to add some complexity into the model is to generate particles with different velocities, initializing them with their self-propulsion speed constant but sampled from some distribution. 
 		This way collisions are more likely and in a greater variety of directions' configurations.
 		
 		In order to study the effect of a velocity distribution in an ABPs ensemble, we performed simulations generating velocities from a normal distribution, keeping the mean constant at \SI{10}{\um \per \second} and changing the standard deviation in \qtylist{1; 2; 5; 10}{\um \per \second}.
@@ -311,7 +315,7 @@
 			\label{fig:lj_vdist_rdf}
 		\end{figure}
 		
-		\subsection{Orientation Coupling}
+		\subsection{Orientation Coupling}\todo{questa la metterei prima della sezione sulla distribuzione di velocità, così hai per primi i due parametri, e poi le distribuzioni}
 		To understand the role of the orientational coupling parameter $\alpha$, we performed simulations with velocity \SI{20}{\um\per\second}, varying $\alpha$ between \numlist{-0.75; 0.75} in \num{0.25} increments. 
 		Here, a large magnitude of the coupling with positive sign means making the interacting positions of two particles closer when they are moving towards each other in a head to head fashion.
 		For this reason, when $\alpha = 0.75$, integration step is decreased to \SI{2.5e-4}{\second} to avoid instabilities due to the LJ nonlinearity.
@@ -320,6 +324,7 @@
 		
 		With $\alpha = 0.25$ system tends to polarize, both locally and globally, but still it does not cluster as a whole. 
 		Some peaks at short distance start to rise in the $g(r)$ (Figure \ref{fig:lj_oc_rdf}), showing the onset of short range order, though they are not in the typical positions of a hexagonal close packed lattice.
+		\todo{anche qui la numerazione fa casino a causa della figura spezzata}
 		
 		At $\alpha = 0.5$ polarization is almost total and all particles in the system tend to be part of the same cluster.
 		Radial distribution function shows the onset of long range order, with high and narrow peaks, both at short and long distance.
@@ -355,6 +360,7 @@
 			\caption{Representative simulation snapshots corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_situa}
 		\end{figure}
+		\todo{Situa: riunire figura}
 		
 		\begin{figure}[htp]
 			\centering\
@@ -373,6 +379,7 @@
 			\caption{Local (blue) and global (green) polarization for corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_pol}
 		\end{figure}
+		\todo{Polarizzazione: uniforma assi y dei subplot (limite 1); riunire figura}
 		
 		\begin{figure}[htp]
 			\centering\
@@ -391,8 +398,9 @@
 			\caption{Maximum cluster size and cluster number corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_clust}
 		\end{figure}
+		\todo{Cluster: uniforma assi y dei subplot (sembrano leggermente diversi); riunire figura}
 		
-				\begin{figure}[htp]
+		\begin{figure}[htp]
 			\centering\
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf-0.75.png}}
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf-0.5.png}}\\
@@ -409,9 +417,10 @@
 			\caption{Radial distribution function at last instant of simulation corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_rdf}
 		\end{figure}
+		\todo{RDF: riunire figura}
 	
 		
-		\subsection{Angular Velocity}
+		\subsection{Angular Velocity}\todo{quant'è $alpha$?}
 		Simulations relative to this section are performed with a Lennard Jones strength parameter of $\epsilon \sigma = \SI{0.25}{\micro\joule}$.
 		The influence of rotational self propulsion was studied generating particles' angular velocity from a normal distribution.
 		To avoid inserting a bias in the system the mean is kept fixed at \SI{0}{\radian\per\second}, while changing the standard deviation in \qtylist{0.5; 1;2}{\radian\per\second}.
@@ -427,7 +436,7 @@
 		
 		Further broadening the angular velocity distribution makes it impossible for the ensemble to develop long range order, as $g(r)$ shows.
 		Polarization is completely hindered as well, both locally and globally, as graphs and situation plots show.
-		
+		\todo{uniforma assi y all'interno di ogni figura}
 		\begin{figure}[htp]
 			\centering\
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/situa0.0.png}}
@@ -482,4 +491,7 @@
     
     We can conclude that the suite of tools we developed offer a fast and efficient way to study at least some of the collective behaviors featured in a systems like the one we are interested in.
     Though not complete, this set of parameters can reveal more insights about ensembles of ABPs.
+
+	\todo{commento sui comportamenti attesi da un sistema con parametri simili a quelli reali}
+
     \end{document}
