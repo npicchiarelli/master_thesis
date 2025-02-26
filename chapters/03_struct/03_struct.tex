@@ -6,54 +6,44 @@
 	%Simulations of ABPs ensembles offer an interesting possibility: they make it possible to investigate the physical systems without the limitations that an experimental setup would have. 
 	%In simulations it is possible to work in a case with the same number of agents every time, keeping the physical conditions fixed, without all non-idealities, having computational power and time as the only limitation. 
 	%This is crucial to study statistical properties of a system that displays fascinating behaviors.
-	\todo{manca un cappelletto introduttivo che spieghi il focus di questo capitolo, per come lo abbiamo discusso in chat}
+	%\todo{manca un cappelletto introduttivo che spieghi il focus di questo capitolo, per come lo abbiamo discusso in chat}
+	This chapter focuses on the development of tools to study ensembles of Active Brownian Particles with aligning interactions, and how these tools can be used to study collective behaviors of ABPS systems.
 
-	\section{Methods}
-	\todo{non chiamerei questa sezione methods, visto che i metodi specifici li descrivi nelle sezioni successive. Potresti chiamarla Analysis functions/tools o Order analysis functions. Oppure integrarle direttamente nei metodi delle varie sezioni.}
-	Our investigation in structure and dynamics is based upon a small yet descriptive set of tools that help unveiling how particles spatially organise and how they move {\color{blue} insert citation about 1994 Nobel, "where atoms are, what atoms do"}.
+	\section{Analysis Functions}
+	%\todo{non chiamerei questa sezione methods, visto che i metodi specifici li descrivi nelle sezioni successive. Potresti chiamarla Analysis functions/tools o Order analysis functions. Oppure integrarle direttamente nei metodi delle varie sezioni.}
+	Our investigation in structure and dynamics is based upon a small yet descriptive set of tools that help unveiling how particles spatially organise and how they move.
 	
 		\subsection{Pair Correlation Function}
-		\todo{per cosa usi questa funzione? descrive in qualche modo il clustering? spiegalo}
-		Pair correlation function, \emph{radial distribution function}, or simply $g(r)$ describes the variation of density with respect to distance to a reference in a system; it is a function only of the separation $r_{ij} = \abs{\vb{r}_i - \vb{r}_j}$ between any pair of particles. 
-		It quantifies how particle in an ensemble position one with respect to each other, giving information about the \emph{structure} of the system. 
-		This function plays a key role in physics of matter since it is possible to measure it in radiation-scattering experiments and it is often used in cases where, differently from our problem, particles' positions are not directly accessible.
+		%\todo{per cosa usi questa funzione? descrive in qualche modo il clustering? spiegalo}
+		Pair correlation function, \emph{radial distribution function}, or simply $g(r)$ describes particles' density distribution with respect to a reference point in the system.
+		Therefore, $g(r)$ is a function only of the separation $r_{ij} = \abs{\vb{r}_i - \vb{r}_j}$ between particles' pairs. 
+		It quantifies how particle in an ensemble position one with respect to each other, giving information about the \emph{structure} of the system.
+		Here we will use it to get insights about the onset of long range order in the system.
+		This function plays a key role in physics of matter since it is possible to measure it in radiation-scattering experiments \cite{hansen90a} and it is often used in cases where, differently from our problem, particles' positions are not directly accessible.
 		
 		It is possible to derive definitions for $g(r)$ starting from first principles, like phase-space distribution functions, as it is done in \cite{hansen90a}. 
-		Here we will use the Dirac's $\delta$-based expression, since it the most useful in cases where particle's positions are known,
+		Here we will use the Dirac's $\delta$-based expression, which is most reliable measure when particles positions are well known,
 		\begin{equation}
 			\left\langle \frac{1}{N} \sum_{i=1}^{N} \sum_{j=1}^{N}{}' \delta (\mathbf{r} - \mathbf{r}_j + \mathbf{r}_i) \right\rangle = \rho g(r)
 		\end{equation}
 		where the prime on the summation sign means not counting terms with $i = j$. 
 		It is possible to show that the left hand side approaches the value of the overall number density $\rho$ at large distance.
 		
-		In order to compute $g(r)$ in our simulations, we first need to take distances between all pairs of particles (counting twice the same couple\todo{che intendi?}) accounting for periodic boundary conditions as any particle became the center of the system, similarly to the periodic interaction method in section \ref{intrange}. 
-		Then, to simulate the behavior of a sum of deltas, we divide simulation space in bins by radius, where the area of each bin is computed as the intersection between a circular crown and a square, to respect the geometry of our simulation box without introducing biases. 
-		Now we just normalize by the number of particles and the density to make $g(r) \to 1$ at long distance.
-		\todo{questa è una pratica comune e accettata? perché non normalizzare sulla densità media?}
-		
-		\subsection{Polarization}
-		\todo{sposterei questa più avanti, facendo un'unica sezione di Global and local polarization}
-		Whenever the agents of a system have a preferred axis, as is the case for ABPs, it becomes worthwhile to analyze the order in the orientation degree of freedom of agents. 
-		This is useful especially when particles have non symmetric (in some axis) shape. 
-		Our particles are assumed to be perfectly symmetrical circles (spheres in 3D), but still, the presence of a well defined swimming direction introduces a relevant anisotropy in the system. 
-		
-		For global polarization, we use the following definition
-		\begin{equation}
-			P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}} 
-		\end{equation}
-		where $\theta_k$ is the orientation of $k$-th particle. 
-		This parameter is $1$ when all particles directions are aligned and $0$ when all particles are pointing in different directions. 
+		In order to compute $g(r)$ in our simulations, we first need to take distances between all pairs of particles accounting for periodic boundary conditions.
+		Then, to simulate the behavior of a sum of deltas, we divide simulation space in bins by radius, where the area of each bin is computed as the intersection between a circular crown and a square, to respect the geometry of our simulation box without introducing biases.
+		After counting the number of particles in each bin, we normalize by the average density to make $g(r) \to 1$ at long distance.
+		%\todo{questa è una pratica comune e accettata? perché non normalizzare sulla densità media?}
 		
 		\subsection{Cluster Size}
-		\todo{sposterei questa prima della polarizzazione}
+		%\todo{sposterei questa prima della polarizzazione}
 		As discussed in section \ref{literature}, ensembles of ABPs tend to cluster when an attractive interaction is present or conditions (velocity, packing fraction) are right for MIPS to occur. 
-		In most cases, system clusters as a whole, leaving at most some particles in a gaseous phase outside of the cluster. 
-		Observing the evolution of such systems, nonetheless, it is possible to observe long periods of time during which ABPs are only partially clustered, moving in small groups across the simulation boards. 
+		In most cases, particles form one big cluster while some of them remain in a gaseous phase outside of said cluster. 
+		The way system form a big cluster is often through the formation of small clusters throughout the simulation box. These small clusters are dynamic in the size and stable enough to observe for long time periods.
 		
-		It is possible to extract some information about partial clusters from the $g(r)$, but, being originally created to study systems a whole, it is not the optimal tool. 
-		In order to get some insight about partial clustering, which often happens as a transient state before global clustering, we developed the cluster size analysis. 
+		It is possible to extract some information about small clusters from the $g(r)$, however, it is more suited for global structure formation study than for the local cluster formation.
+		In order to get some insight about partial clustering, we developed the cluster size analysis. 
 		
-		Our method was built using DBSCAN, a density-based clustering algorithm, which was originally created for data-science but, with the right parameters, can become useful for physics. 
+		Our method was built using DBSCAN \cite{ester_density-based_1996}, a density-based clustering algorithm, which was originally created for data-science but, with the right parameters, can become useful for physics. 
 		DBSCAN starts from a point and adds to the cluster associated with that point all the others which are at a distance of less than a threshold. 
 		A point having more than $Mp$ points in its vicinity is said \emph{core point} or \emph{seed}. 
 		A point in the vicinity of a \emph{core point} is a \emph{border point}. 
@@ -68,23 +58,36 @@
 			\label{fig:dbscan}
 		\end{figure}
 		
+		\subsection{Local and Global Polarization}
+		%\todo{sposterei questa più avanti, facendo un'unica sezione di Global and local polarization}
+		Whenever the agents of a system have a directed motion, as is the case for ABPs, it is worthwhile to analyze the order in the orientation degree of freedom of agents.  
+		
+		For global polarization, we use the following definition \cite{caprini_spontaneous_2020}
+		\begin{equation}
+			P = \frac{1}{N} \abs{\sum_{k=1}^{N} e^{i \theta_k(t)}} 
+		\end{equation}
+		where $\theta_k$ is the orientation of $k$-th particle. 
+		This parameter is $1$ when all particles are aligned and $0$ when they are pointing in random directions. 
+		
+		In the phase transition section we will use the polarization susceptivity $\chi(P) = N_P(\langle P^2 \rangle - \langle P \rangle^2)$.
+		For phase transition like the one we analyze, from disordered to flocking phase, the susceptivity of an order parameter has a peak in the proximity of the critical value for the transition, in this case, the orientational coupling parameter.
 		\subsection{Local Polarization}
-		As explained in previous section, local properties are useful to observe, in particular in transients. 
-		When aligning interactions are present and packing fraction is small or we are in a transient, small clusters of particles tend to align their directions, so that measuring the global polarization $P$ would get in the same result of a disordered system, close to $0$. 
+		As explained in previous section, local properties could provide crucial information about the emergence and properties of global self-organization in the system. 
+		When aligning interactions are present and packing fraction is small or we are in a transient, small clusters of particles tend to align their directions, which in terms of global polarization order parameter would correspond to a disordered state, i.e. $P = 0$. 
 		We can exploit the fact that clustering algorithms assign points to clusters and then measure how polarized the single groups are, meaning we compute a local polarization order parameter. 
 		Averaging over clusters, this parameter $\bar{P}$ will be close to $1$ even if $P$ is kept low by the different orientations of clusters, making it a good parameter to study local properties and short range interactions.
 		
 		\section{Flocking as a Phase Transition}
-		As mentioned in section \ref{literature}, \citeauthor{martin-gomez_collective_2018}, as well as \citeauthor{negi_emergent_2022} showed how inserting an explicitly aligning interaction in the simulation can make the whole system polarize, meaning all particles move in the same direction. 
+		As mentioned in section \ref{literature}, \citeauthor{martin-gomez_collective_2018}, as well as \citeauthor{negi_emergent_2022} \cite{martin-gomez_collective_2018, negi_emergent_2022} showed how inserting an explicitly aligning interaction in the simulation can make the whole system polarize, meaning all particles move in the same direction. 
 		This phenomenon is called \emph{flocking}.
 		
 		\begin{figure}[htp]
 			\centering
 			\includegraphics[width=\textwidth]{alignment.png}
-			\caption{Behavior of two particles with aligning interactions, compared with excluded volume steric interaction only. Adapted from \cite{martin-gomez_collective_2018}.}
+			\caption{Behavior of two particles with explicitly aligning interactions, compared with excluded volume steric interaction only. Adapted from \cite{martin-gomez_collective_2018}.}
 			\label{fig:alignment}
 		\end{figure}
-		\todo{questa figura è presa dal loro paper? le interazioni allineanti sono esplicite? spiega meglio}	
+		%\todo{questa figura è presa dal loro paper? le interazioni allineanti sono esplicite? spiega meglio}	
 		
 		In Figure \ref{fig:alignment}, an example of how the alignment process works. 
 		The interaction used by \citeauthor{martin-gomez_collective_2018} is an explicitly aligning torque where $T \sim \sin( \theta_{i}-\theta_{j} )$, with particles orientation are \emph{explicitly} included in the expression and $\abs{T}$ has a minimum where $\theta_{i} = \theta_{j}$~\cite{martin-gomez_collective_2018}. 
@@ -92,25 +95,8 @@
 		Differently from their case, here we show how a repulsive off-centered interaction, although with limited range, can lead an ABPs system to reach a flocking state. 
 		The selected interaction force is $F(r) = kr^{-2}$, akin to a Coulomb or gravitational force, where $k$ is a constant. 
 		When both the off-center magnitude $\alpha$ and the constant $k$ have a positive value, front sides of interacting particles repel each other, meaning that two particle swimming towards each other will tend to align their orientations. 
-		%Here we stress the fact that when all particles in ensemble have the same velocity and clustering is not present, a head-to-head collision is by far the most frequent, and for sure a head-to-tail collision is almost impossible, since two particles with the same directions will chase each other without ever touching.
 		Our alignment thus comes automatically from applying a force to a non centered position. 
-		In Figure \ref{fig:flock40}\todo{casino con la numerazione - forse problemi con il ContinuedFloat}, an example of how flocking transition happens with $k = 10$, with an interaction range of \SI{40}{\micro\meter}.
-		% \begin{figure}[htp]
-		% 	\centering
-		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_1.0s.pdf}}
-		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_5.0s.pdf}}\\
-		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_10.0s.pdf}}
-		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_15.0s.pdf}}\\
-		% \end{figure}
-		% \begin{figure}[htp]\ContinuedFloat
-		% 	\centering
-		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_20.0s.pdf}}
-		% 	\subfloat[][]{\includegraphics[width=.4\textwidth]{coulombrange40/flocking_25.0s.pdf}}
-			
-		% 	\caption{Flocking transition: all particles in the system tend to polarize after few seconds. Images a, b, c, d, e, f correspond to situation after \qtylist{1;5;10;15;20;25}{\second}}
-		% 	\label{fig:flock40}
-		% \end{figure}
-		\todo{perché hai spezzato questa figura in 2? La numerazione della figura è sbagliata. Ho commentato le due figure e ne ho fatta una unica (risolvendo anche il problema numerazione)... vedi se può andare. I numeri sugli assi sono illeggibili, tanto vale non metterli proprio.}
+		In Figure \ref{fig:flock40}\, an example of how flocking transition happens in our simulations with $k = 10$, with an interaction range of \SI{40}{\micro\meter}.
 
 		\begin{figure}[hbtp]
 			\centering
@@ -123,27 +109,28 @@
 			\caption{Flocking transition: all particles in the system tend to polarize after few seconds. Images from top left to bottom right correspond to situation after \qtylist{1;5;10;15;20;25}{\second}}
 			\label{fig:flock40}
 		\end{figure}
-		\todo{ancor meglio se con i secondi direttamenti sulle immagini}
+		%\todo{ancor meglio se con i secondi direttamenti sulle immagini}
 		
 		\subsection{Methods}	
 		We studied flocking as a II order phase transition, using the global polarization $P$ as order parameter and varying $\alpha$, to change the magnitude of orientations coupling. 
-		The range of interaction is \SI{5}{\micro\meter}, which, being $2.5R$, with $R$ particle radius, is enough to make particles interact only with one layer of particles around them, simulating a nearest-neighbor interaction.
-		\todo{quant'è $k$? sarebbe forse utile avere un grafico della forza vs. distanza; inoltre spiega perché hai scelto questi valori fissi per il potenziale e hai variato solo $\alpha$ e la velocità}
+		We have $k = 1.$ and the range of interaction is \SI{5}{\micro\meter}, which, being $2.5R$, with $R$ particle radius, is enough to make particles interact only with one layer of particles around them, simulating a nearest-neighbor interaction.
+		%\todo{quant'è $k$? sarebbe forse utile avere un grafico della forza vs. distanza; inoltre spiega perché hai scelto questi valori fissi per il potenziale e hai variato solo $\alpha$ e la velocità}
 		Though interactions range is so short, a long-range order establishes for large enough $\alpha$, making the whole ensemble polarize.
 		
 		Integration step is \SI{5e-2}{\second} and simulation is \num{2e5} steps long, for a resulting simulation time of \SI{e4}{\second}, enough to let the system thermalize and reach a steady state as shown in Figure \ref{fig:polar_therm}.
+		Every \num{100} steps, global polarization is computed and stored in a vector that, from now on, will be called the \emph{polarization history} vector.
 		For each parameter set, we performed one simulation only: in this aspect, our analysis differs from the one done by \citeauthor{martin-gomez_collective_2018}, where means and standard deviations are computed over independent realizations.
 		We believe that, with fixed simulation time, making one longer simulation is more convenient than more shorter ones, since the system has to thermalize only once, letting us waste less data.
 		When everything is done in one simulation, some resampling technique is required to compute an estimate of the error as will be explained shortly.
-		We proceeded to analyze data as follows: after discarding the first \num{2e4} steps (\SI{1000}{\second}) as thermalization, polarization history is treated using a blocking and then a JackKnife resampling.
+		We proceeded to analyze data as follows: after discarding the first \num{2e4} steps (\SI{1000}{\second}) as thermalization, the polarization history vector is treated using both a blocking and a JackKnife resampling.
 		
 		\begin{figure}[hbtp]
 			\centering
 			\includegraphics[width= \singfigwidth]{phasetrans/thermalization_v10.pdf}
-			\caption{History of polarization for $v = \SI{10}{\um\per\second}$, and several values of the off center coupling. Black dashed line is the number of points we discarded.}
+			\caption{Temporal evolution of polarization for $v = \SI{10}{\um\per\second}$, and several values of the off center coupling. Black dashed line is the number of points we discarded.}
 			\label{fig:polar_therm}
 		\end{figure}
-		\todo{sistema i valori di off-center; mostra polarizzazione tra 0 e 1; metti direttamente i secondi sull'asse delle x; colori difficilmente distinguibili}
+		%\todo{sistema i valori di off-center; mostra polarizzazione tra 0 e 1; metti direttamente i secondi sull'asse delle x; colori difficilmente distinguibili}
 		
 		Blocking means grouping all the history in subsets of subsequent points and replacing each of them with their average.
 		This process is executed in order to compute an estimate of the standard deviation for observables of interest, calculating it as if each block was independent from the others. 
@@ -153,21 +140,27 @@
 		Blocking only will not solve the fact that all data comes from the same sample.
 		In order to have good estimators for means and variances of relevant observables we need a resampling technique, such as the well-known Bootstrap or, as we used, JackKnife, where we replace each point with the mean of all the other points in the history.
 		Resulting sample standard deviations for polarization and susceptivity are plotted in Figure \ref{fig:blocksize} as a function of block size.
-		\todo{non hai introdotto la suscettività, spiega cosa è e perché la calcoli nella sezione dove descrivi la polarizzazione}
+		%\todo{non hai introdotto la suscettività, spiega cosa è e perché la calcoli nella sezione dove descrivi la polarizzazione}
+		
+		For increasing block size, standard deviation of relevant observables approaches its limit value, while oscillations around this value increase as the number of blocks becomes smaller.
+		We used \num{2500} as a block size, to saturate the standard deviation while containing the amplitude of oscillations, as is explained in \ref{fig:blocksize}.
 		
 		\begin{figure}[hbtp]
 			\centering
 			\includegraphics[width= \singfigwidth]{phasetrans/blocksize_v10.pdf}
-			\caption{Standard deviation of polarization and susceptivity versus blocking size. Black dashed line is the block size of 2500 points that was used for this work. For this plot, $v = \SI{10}{\um\per\second}$, $\alpha = 0.25$.}.
+			\caption{Standard deviation of polarization and susceptivity versus blocking size. Black dashed line is the block size of 2500 points that was used for this work. For this plot, $v = \SI{10}{\um\per\second}$, $\alpha = 0.25$. Both a blocking procedure and a JackKnife resampling are used here.}.
 			\label{fig:blocksize}
 		\end{figure}
-		\todo{non ho capito, hai usato il blocking o il jackknife?}
+		%\todo{non ho capito, hai usato il blocking o il jackknife?}
 
 
 		
 		\subsection{Results}
-		As a result, Figure \ref{fig:phasetrans} shows the expected behavior of a II order phase transition: as the order parameter $P$ gets with a discontinuity from 0 to 1, its susceptibility diverges to a peak when $\alpha$ approaches critical value and then returns back close to zero (see, as a reference, Figure \ref{fig:martin_flocking3}).
-		\todo{presenta e discuti i risultati in maniera più dettagliata; non si capisce quale tecnica di resampling hai usato; spiega meglio cosa rappresentano i grafici e come sono stati ottenuti}
+		
+		For every value of $\alpha$, polarization is taken as the mean of the polarization history vector, with thermalization cut off, while we computed susceptivity using both a blocking and a K
+		As a result, Figure \ref{fig:phasetrans} shows the expected behavior of a II order phase transition: as polarization $P$ jumps with a discontinuity from 0 to 1, its susceptivity has a peak when $\alpha$ approaches critical value and then returns back to zero (see, as a reference, Figure \ref{fig:martin_flocking3}).
+		
+		%\todo{presenta e discuti i risultati in maniera più dettagliata; non si capisce quale tecnica di resampling hai usato; spiega meglio cosa rappresentano i grafici e come sono stati ottenuti}
 		
 		\begin{figure}[htp]
 			\centering
@@ -175,31 +168,35 @@
 			\caption{Diagrams for polarization and relative susceptivity for the transition to ordered phase.}
 			\label{fig:phasetrans}
 		\end{figure}
-		\todo{perché lo stile di questta figura è così diverso da quello delle altre? mancano le unità di misura delle velocità}	
+		%\todo{perché lo stile di questta figura è così diverso da quello delle altre? mancano le unità di misura delle velocità}
+		
+		Here we notice how the susceptivity peak shifts up and to the right for decreasing velocity.
 		
 		\section{Clustering and Local Order}
-		Lennard Jones (LJ) is the potential which has the best chance of representing well real world dynamics (see section \ref{qualitative}), so it is worthwhile to study it in detail, to see how it affects individual and collective behaviors of ABPs ensembles. 
-		In order to do that, we investigated both global and local polarization, as well as clustering, to better understand the effects of the different model parameters on both positional and orientational degrees of freedom.
-		As discussed in section \ref{qualitative}, in reality not all particles move with the same self-propulsion velocity because of imperfections in fabrication processes.
-		For the same reason, some particles show a nonzero angular velocity that makes their dynamics more well-explained by a chiral Brownian motion \cite{callegari_numerical_2019}.
-		Thus, to better resemble reality, we added aforementioned features in simulations, and then studied how such features can change collective behaviors of an ensemble of self-propelled particles.
+		Lennard Jones (LJ) is a standard potential in interacting ABPs analysis and it has a chance of representing well real world dynamics (see section \ref{qualitative}), thus making it important to study its effects on ABPs collective dynamics. 
+		To quantify this effect in various situations, we investigated both global and local polarization, as well as clustering, to better understand the effects of the different model parameters on both positional and orientational degrees of freedom.
+		As discussed in section \ref{qualitative}, in experiments not all particles move with the same self-propulsion velocity because of imperfections in fabrication processes.
+		For the same reason, some particles show a nonzero angular velocity that makes their dynamics more well-explained by a Chiral Brownian motion \cite{callegari_numerical_2019}.
+		Thus, to capture these experimental observations, we added aforementioned features in simulations, and then studied how such features can change collective behaviors of an ensemble of self-propelled particles.
 		
-		In the following, where not differently reported, the interaction used is Lennard Jones with parameters $\sigma = 2R$, with $R$ particle's radius, and strength parameter $\epsilon \sigma = \SI{0.1}{\micro\joule}$.
-		\todo{anche qui un grafico di forza vs. distanza sarebbe utile; spiega perché hai scelto questi valori fissi per il potenziale; il range di interazione quant'è?}
+		From now, unless otherwise stated, the interaction used is Lennard Jones with parameters $\sigma = 2R$, and strength parameter $\epsilon  = \SI{0.1}{\pico\joule}$.
+		The value for $\sigma$ is kept fixed to respect the natural units of the system, while the strength parameter is enough to make the system cluster with the right parameters while keeping the integration step not too low.
+		Interaction range here is \SI{40}{\um}, or $10\sigma$; we chose this value not for physical reasons but for speed sake: because it is the cutoff distance after which LJ force magnitude becomes smaller than $10^{-6}\abs{F_{min}}$, where $F_{min}$ is the minimum value  of the force, computing forces smaller than that will be completely irrelevant for our purpose and just make simulations heavy.
+		%\todo{anche qui un grafico di forza vs. distanza sarebbe utile; spiega perché hai scelto questi valori fissi per il potenziale; il range di interazione quant'è?}
 		Simulations involved $250$ particles with $R = \SI{2}{\um}$ in a square of \SI{175}{\um} side, for a resulting packing fraction of $\sim 0.1$.
 		Simulation time is 1000 s but shorter times are showed in graphs as needed.
 		Integration step can vary with parameters, to ensure the best trade-off between stability in the simulations and execution speed, but for most simulations \SI{5e-3}{\second} was chosen as integration interval and when different values are used they are declared in sections.
 		
-		For every parameters set, we simulated five different starting conditions, randomly generated.
+		For every parameters set, we simulated five randomly generated starting conditions.
 		When distributions are involved in the simulation, e.g.\ for linear and angular velocity, probability distribution functions are resampled at every repetition.
-		For cluster size and number, as well as polarizations, lines in graphs are averages of those five simulations, with ribbons around them represent standard deviations around the mean.
-		{\color{blue} Radial distribution functions are plotted for the final instant of just one of the simulations.}
+		For cluster size and number, as well as polarization figures, lines in graphs are averages of those five simulations, with ribbons around them represent standard deviations around the mean.
+		Radial distribution functions are plotted for the final instant of just one of the simulations.
 		Transient time for polarization is measured as the time it takes for this order parameter to reach \num{95} \% of its maximum.
 		
 		\subsection{Velocity}
 		\label{velocity}
 		In order to study the effect of velocity, we first computed all the quantities of interest in the case of passive particles with an aligning LJ interaction, and then added a self propulsion velocity. 
-		An active speed makes the system non-isotropic, giving a preferred direction to particles, so we also investigated how velocity interacts with the sign of the directional coupling parameter $\alpha$, repeating the analysis for positive and negative values.
+		This active velocity results in non-isotropic system, giving a preferred, giving a preferred direction to particles, so we also investigated how velocity interacts with the sign of the directional coupling parameter $\alpha$, repeating the analysis for positive and negative values.
 		
 		\begin{figure}[hbtp]
 			\centering\
@@ -214,7 +211,7 @@
 		
 		In Figure \ref{fig:lj_velocity_pol} it is noticeable how an ensemble of passive particles with an aligning interaction has a baseline local polarization, while the global is almost zero. 
 		Adding self-propulsion has the consequence of making the system polarize, with a transient duration that depends on the velocity: faster particles tend to align faster. 
-		A noteworthy characteristic is that particles with interacting position on the back do not tend to align at all.
+		A noteworthy characteristic is that particles with interacting position on the back do not tend to align globally, and local polarization does not rise over the baseline value.
 		
 		\begin{figure}[hbtp]
 			\centering\
@@ -226,7 +223,7 @@
 			\caption{Local (blue) and global (green) polarization corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_pol}
 		\end{figure}
-		\todo{Polarizzazione: uniforma assi y dei subplot}
+		%\todo{Polarizzazione: uniforma assi y dei subplot}
 		
 		\begin{figure}[hbtp]
 			\centering\
@@ -238,10 +235,10 @@
 			\caption{Maximum cluster size and number of clusters corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_cluster}
 		\end{figure}
-		\todo{Cluster: uniforma assi y dei subplot (sembrano leggermente diversi)}
+		%\todo{Cluster: uniforma assi y dei subplot (sembrano leggermente diversi)}
 
 		This can also be noticed in Figures \ref{fig:lj_velocity_situa} and \ref{fig:lj_velocity_cluster}, where, when the off center position is on the back, velocity tends to hinder clustering, leading to a more sparse final situation. 
-		This can be due to the aforementioned fact about velocity: all particles have the same velocity so a head-to-tail collision is unlikely, as a consequence the interacting positions of two contacting particles will always be at a distance $>2R$ where interaction is pretty weak.
+		We anticipate the following explanation for this: For same velocity particles, head to tail collision is unlikely because interacting positions of these particles will always be at a distance $> 2R$, where interactions are relatively weak.
 		Radial distribution functions in Figure \ref{fig:lj_velocity_rdf} show how a particles which swim with their interacting position on the back tend to develop less long range order, regardless their velocity.
 		
 		\begin{figure}[hbtp]
@@ -255,20 +252,23 @@
 			\label{fig:lj_velocity_rdf}
 		\end{figure}
 
-		\subsection{Velocity Distribution}\todo{quant'è $alpha$?}
-		A simple way to add some complexity into the model is to generate particles with different velocities, initializing them with their self-propulsion speed constant but sampled from some distribution. 
+		\subsection{Velocity Distribution}
+		A simple way to add experiments inspired complexity into the model is to initialize particles with different self propulsion velocity. 
 		This way collisions are more likely and in a greater variety of directions' configurations.
+		In this sections, we used the standard potential with an off center parameter $\alpha = 0.5$.
 		
-		In order to study the effect of a velocity distribution in an ABPs ensemble, we performed simulations generating velocities from a normal distribution, keeping the mean constant at \SI{10}{\um \per \second} and changing the standard deviation in \qtylist{1; 2; 5; 10}{\um \per \second}.
-		To avoid having particles that swim backwards with respect to their self propulsion direction, random speeds are actually generated from a truncated distribution with a cutoff at \SI{0}{\um \per \second}.
+		To implement, different velocities we used normal distribution at mean velocity 10um/s while a changing
+		
+		To implement, different velocities we used normal distribution, keeping the mean constant at \SI{10}{\um \per \second} while changing the standard deviation in \qtylist{1; 2; 5; 10}{\um \per \second}.
+		To avoid having particles that swim backwards with respect to their self propulsion direction, the distribution was truncated at zero.
 		
 		Considerations about collisions could lead to the expectation that, with a velocity distribution, particles will cluster more easily in a MIPS fashion.
-		In fact, both cluster size and $g(r)$ (Figures \ref{fig:lj_vdist_clust} and \ref{fig:lj_vdist_rdf}) show how adding different velocities to the system tends to hinder packing, leading in the end to a more sparse system.
+		In fact, both cluster size and $g(r)$ (Figures \ref{fig:lj_vdist_clust} and \ref{fig:lj_vdist_rdf}) show how adding different velocities to the system tends to hinder packing, leading in the end to a more sparse system, compared to a constant velocity case.
 		
-		From the polarization standpoint, increasing the broadness of the distribution tends to slightly reduce the amount of total alignment in the system, while local polarization remains higher. 
-		An interesting fact is that, although alignment and clustering are often related, here a drastic downfall of clustering does not reflect in a big difference in polarization, resulting in a sparse system with a remarkable amount of alignment.
+		From the polarization standpoint, increasing the broadness of the velocity distribution tends to slightly reduce the amount of total alignment in the system, while local polarization remains higher. 
+		A remarkable observation is that although alignment and clustering are often related, here a drastic downfall of clustering does not reflect in a big difference in polarization, resulting in a sparse system with a high alignment.
 		This is immediately noticeable, in addition to the graphs in Figures \ref{fig:lj_vdist_pol} and \ref{fig:lj_vdist_clust}, in the snapshot in panel (d) of Figure \ref{fig:lj_vdist_situa}.
-		As seen in previous section, faster velocities make transient times shorter and this case makes no exception.
+		In line with previous section, faster velocities make transient times shorter.
 		
 		\begin{figure}[htp]
 			\centering\
@@ -315,16 +315,16 @@
 			\label{fig:lj_vdist_rdf}
 		\end{figure}
 		
-		\subsection{Orientation Coupling}\todo{questa la metterei prima della sezione sulla distribuzione di velocità, così hai per primi i due parametri, e poi le distribuzioni}
+		\subsection{Orientation Coupling}%\todo{questa la metterei prima della sezione sulla distribuzione di velocità, così hai per primi i due parametri, e poi le distribuzioni}
 		To understand the role of the orientational coupling parameter $\alpha$, we performed simulations with velocity \SI{20}{\um\per\second}, varying $\alpha$ between \numlist{-0.75; 0.75} in \num{0.25} increments. 
-		Here, a large magnitude of the coupling with positive sign means making the interacting positions of two particles closer when they are moving towards each other in a head to head fashion.
+		Here, a  high positive coupling value with positive sign means making the interacting positions of two particles closer when they are moving towards each other in a head to head fashion.
 		For this reason, when $\alpha = 0.75$, integration step is decreased to \SI{2.5e-4}{\second} to avoid instabilities due to the LJ nonlinearity.
 		
-		Results relative to \num{0} coupling show how clustering and polarization are related in this case: not only the absence of an alignment interaction hinders system's polarization as expected, but at this level, large scale clustering does not realize although an attractive force is inserted in simulations.
+		Results relative to zero coupling show how clustering and polarization are related in this case: not only the absence of an alignment interaction hinders system's polarization as expected, but at this level, large scale clustering does not realize although an attractive force is inserted in simulations.
 		
 		With $\alpha = 0.25$ system tends to polarize, both locally and globally, but still it does not cluster as a whole. 
 		Some peaks at short distance start to rise in the $g(r)$ (Figure \ref{fig:lj_oc_rdf}), showing the onset of short range order, though they are not in the typical positions of a hexagonal close packed lattice.
-		\todo{anche qui la numerazione fa casino a causa della figura spezzata}
+		%\todo{anche qui la numerazione fa casino a causa della figura spezzata}
 		
 		At $\alpha = 0.5$ polarization is almost total and all particles in the system tend to be part of the same cluster.
 		Radial distribution function shows the onset of long range order, with high and narrow peaks, both at short and long distance.
@@ -349,10 +349,6 @@
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa-0.5.png}}\\
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa-0.25.png}}
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.0.png}}\\
-		\end{figure}
-		\newpage
-		\begin{figure}[htp]\ContinuedFloat
-			\centering\
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.25.png}}
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.5.png}}\\
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_oc/situa0.75.png}}
@@ -360,7 +356,7 @@
 			\caption{Representative simulation snapshots corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_situa}
 		\end{figure}
-		\todo{Situa: riunire figura}
+		%\todo{Situa: riunire figura}
 		
 		\begin{figure}[htp]
 			\centering\
@@ -379,7 +375,7 @@
 			\caption{Local (blue) and global (green) polarization for corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_pol}
 		\end{figure}
-		\todo{Polarizzazione: uniforma assi y dei subplot (limite 1); riunire figura}
+		%\todo{Polarizzazione: uniforma assi y dei subplot (limite 1); riunire figura}
 		
 		\begin{figure}[htp]
 			\centering\
@@ -398,7 +394,7 @@
 			\caption{Maximum cluster size and cluster number corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_clust}
 		\end{figure}
-		\todo{Cluster: uniforma assi y dei subplot (sembrano leggermente diversi); riunire figura}
+		%\todo{Cluster: uniforma assi y dei subplot (sembrano leggermente diversi); riunire figura}
 		
 		\begin{figure}[htp]
 			\centering\
@@ -406,10 +402,6 @@
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf-0.5.png}}\\
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf-0.25.png}}
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf0.0.png}}\\
-		\end{figure}
-		
-		\begin{figure}\ContinuedFloat
-			\centering
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf0.25.png}}
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf0.5.png}}\\
 			\subfloat[][]{\includegraphics[width=.5\textwidth]{lj_oc/rdf0.75.png}}
@@ -417,11 +409,11 @@
 			\caption{Radial distribution function at last instant of simulation corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_rdf}
 		\end{figure}
-		\todo{RDF: riunire figura}
+
 	
 		
-		\subsection{Angular Velocity}\todo{quant'è $alpha$?}
-		Simulations relative to this section are performed with a Lennard Jones strength parameter of $\epsilon \sigma = \SI{0.25}{\micro\joule}$.
+		\subsection{Angular Velocity}
+		Simulations relative to this section are performed with a Lennard Jones strength parameter of $\epsilon = \SI{0.25}{\pico\joule}$, off centered with $\alpha = 0.5$.
 		The influence of rotational self propulsion was studied generating particles' angular velocity from a normal distribution.
 		To avoid inserting a bias in the system the mean is kept fixed at \SI{0}{\radian\per\second}, while changing the standard deviation in \qtylist{0.5; 1;2}{\radian\per\second}.
 		This simulations tend to be less stable than ones without angular velocity, thus we needed to decrease the integration step to \SI{2.5 e-3}{\second}.
@@ -436,7 +428,7 @@
 		
 		Further broadening the angular velocity distribution makes it impossible for the ensemble to develop long range order, as $g(r)$ shows.
 		Polarization is completely hindered as well, both locally and globally, as graphs and situation plots show.
-		\todo{uniforma assi y all'interno di ogni figura}
+		%\todo{uniforma assi y all'interno di ogni figura}
 		\begin{figure}[htp]
 			\centering\
 			\subfloat[][]{\includegraphics[width=.4\textwidth]{lj_av/situa0.0.png}}
@@ -492,6 +484,6 @@
     We can conclude that the suite of tools we developed offer a fast and efficient way to study at least some of the collective behaviors featured in a systems like the one we are interested in.
     Though not complete, this set of parameters can reveal more insights about ensembles of ABPs.
 
-	\todo{commento sui comportamenti attesi da un sistema con parametri simili a quelli reali}
+	%\todo{commento sui comportamenti attesi da un sistema con parametri simili a quelli reali}
 
     \end{document}
