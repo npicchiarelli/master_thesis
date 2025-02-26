@@ -34,10 +34,64 @@ Both simulations were ran with a velocity of \SI{15}{\um \per \second}, in a \qt
 We let the two systems evolve for a total simulated time of \SI{1000}{\second}, then instantaneous velocities were computed and finally a sample of \num{1000} equally spaced snapshots was taken from each simulation.
 We divided these snapshots in \num{750} for training and \num{250} for testing.
 The network was trained and tested on each simulation's data separately to have preliminary results.
+We tried the same procedure explained in \cite{ruiz-garcia_discovering_2024}, where two particles are considered as linked in the graph if their distance is less than some threshold, and then increasing the threshold in subsequent training loops.
+In our case, after learning with the first threshold distance, loss does not decrease and test results do not improve, so what follows refers to a threshold distance of \SI{20}{\um}.
 
-After training, a minimization process is used to find the best linear transformation that maps message components into the known forces.
+After each epoch, the network is used to predict velocities on the test set, which contain data with the same potential used in training, saving the message function outputs.
+Then, a minimization process is used to find the best linear transformation that maps message components into the known forces.
+This is done to see how results change with the epochs.
 
-\subsection{Spring Potential}
-\subsection{Lennard Jones Potential}
-\section{Conclusions}
+\section{Results} \label{4results}
+As showed in Figure \ref{fig:learning_curve}, in both cases loss decreases in the 100 epochs of training, meaning that the network is in fact learning.
+
+\begin{figure}[b]
+	\centering
+	\subfloat{\includegraphics[width=\subfigwidth]{sp_lc.png}}
+	\subfloat{\includegraphics[width=\subfigwidth]{lj_lc.png}}
+	\caption{\textbf{NOT DEFINITIVE IMAGES} Learning curve for elastic potential (left) and Lennard Jones (right). Loss is the absolute difference between predicted and ground truth velocities.}
+	\label{fig:learning_curve}
+\end{figure}
+Regarding the message-force plot, a working network with the right linear transformation should show points on the $x = y$ line, being the message components in perfect correspondence with a rotation of the force components as \ref{fig:cranmer1} shows.
+In Figure \ref{fig:lincomb} we reported the qualitatively best results, since the loss scoring in this case does not reflect a prediction quality.
+
+
+\begin{figure}[tp]
+	\centering
+	\subfloat[][]{\includegraphics[width=\subfigwidth]{sp_res1.png}}
+	\subfloat[][]{\includegraphics[width=\subfigwidth]{lj_res1.png}}
+	\caption{\textbf{NOT DEFINITIVE IMAGES} Representative message-force plots of early epochs of training for spring potential (left) and Lennard Jones (right).}
+	\label{fig:lincomb}
+\end{figure}
+
+As the animation in \cite{cranmer_discovering_2020} shows, as the network learns, the message-force graphs should show a better agreement between what is learned by the GNN and ground-truth.
+In our case, as it is shown in fig \ref{fig:lincomb_last}, in the case of spring potential, the message-force plot has all the points on a vertical line, showing no correspondence between the learned results and ground-truth forces.
+This could be caused by a tendency to overfit on the presented data, since loss is decreasing while test result are worse.
+
+Anyway, it is possible to notice a difference between the two potentials: in the case of Lennard Jones, few points are outside the vertical line and they position in an horizontal cloud around it, while for the elastic potential most points are scattered around an horizontal cloud and a density increase can be observed in diagonal lines.
+
+\begin{figure}[tp]
+	\centering
+	\subfloat[][]{\includegraphics[width=\subfigwidth]{sp_reslast.png}}
+	\subfloat[][]{\includegraphics[width=\subfigwidth]{lj_reslast.png}}
+	\caption{\textbf{NOT DEFINITIVE IMAGES} Representative message-force plots of last epoch of training for spring potential (left) and Lennard Jones (right).}
+	\label{fig:lincomb_last}
+\end{figure}
+
+\section{Conclusions to Chapter 4}
+
+Here we presented the preliminary version and results of a machine learning tool that predicts forces between interacting ABPs, in the spirit of the ActiveNet system developed by \citeauthor{ruiz-garcia_discovering_2024}.
+
+As shown in section \ref{4results}, more work is needed in order to make this tool work as expected.
+In particular, training for longer with more simulation snapshots is certainly needed in order to get the right accuracy.
+Retraining process with increasing threshold distance must be perfected, in order to get at the same level of the reference paper.
+
+After making the training process work as desired, the next step is to retrain the network with snapshots taken from simulations with different potentials, in order to increase its generalization capability.
+
+Moreover, testing with experimental data will need some more adjustments.
+In an experimental setting, defects inherited from the fabrication process like stuck particles and particle clumps can make it harder for a machine learning tool to work properly.
+In the case of experimental data collected in Microscale Robotics Lab, it is hard to measure particles' orientation, since the two hemispheres of silica Janus particles are not clearly distinguishable, though a difference in color is noticeable.
+Moreover, these particles are free to rotate in three dimensions and nothing prevents them from pointing one hemisphere to the microscope objective, not showing the separation line.
+
+We can state that these results, though certainly not satisfying, can be a starting point to further developments of this tool, getting it to work as expected.
+With the potentials inferred from experiments, we will be able to model particles in a more accurate and complete way, to simulate them and use simulated data back in a simulation driven inference fashion.
 \end{document}
