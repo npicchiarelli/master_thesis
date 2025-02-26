@@ -92,7 +92,7 @@
 	\section{Methods}
 	All the simulation and analysis code for this thesis was written in \julia\ \cite{julia}, except for the machine learning and inference part, where the Graph Network definition and training makes use of Python libraries like PyTorch \cite{pytorch} and PyTorch-geometric \cite{pyg}, along with standard scientific computing tools like NumPy \cite{numpy} and Pandas \cite{pandas}.
 	
-	{\color{brown}The Heun algorithm} was chosen as the standard integration scheme for all the simulations, and integration steps vary with the different potentials and are indicated case by case. 
+	The Heun algorithm was chosen as the standard integration scheme for all the simulations, and integration steps vary with the different potentials and are indicated case by case. 
 	All the simulations were performed with real units, so that particles have a radius of \SI{2}{\um} and the value for solvent viscosity is kept fixed at \SI{1e-3}{\pascal\second}. 
 	If not indicated, standard temperature for simulations is held fixed at \SI{300}{\kelvin}.
 	
@@ -197,7 +197,7 @@
 	Spring, Coulomb, Lennard Jones, Yukawa, Weeks-Chandler-Anderson are just few examples of the myriad of central potentials that are used to model interactions in physics. 
 	The central potential is the basis of this thesis too, and having a fast implementation is crucial to simulate interactions in dense systems. 
 	
-	The first step {\color{brown}to apply a potential} is to compute a distance matrix between the coordinates of all particles. 
+	The first step to apply a potential is to compute a distance matrix between the coordinates of all particles. 
 	Then a function $F(d)$, only of inter-particle distance $d$, is applied to all the entries of this matrix to get the magnitude of the force between each pair of particles. 
 	In 2D, radial direction for the force can be computed from distance matrices both for $x$ and $y$ coordinates. 
 	If $d^x_{i,j} = x_i - x_j$ and $d^y_{i,j} = y_i - y_j$, then Euclidean distance is $d_{i,j} = \sqrt{(d^x_{i,j})^2 + (d^y_{i,j})^2}$, and if $\varphi_{i,j}$ is the radial direction from particle $i$ to particle $j$, then
@@ -254,10 +254,10 @@
 		\caption{Tested interaction forces for given values of their parameters.}
 		\label{fig:potentials}
 	\end{figure}
-	\todo{figura dei 3 potenziali un po' piccola (soprattutto il testo), e forse sarebbe meglio mettere le tre curve nello stesso grafico (se resci a dargli range di forze simile)}
+	%\todo{figura dei 3 potenziali un po' piccola (soprattutto il testo), e forse sarebbe meglio mettere le tre curve nello stesso grafico (se resci a dargli range di forze simile)}
 	
-	\todo{perché le figure de grafici in png e non in pdf / svg  o altri formati vettoriali?}
-	\todo{è vero che abbiamo detto che i grafici sono più belli senza griglia, ma sarebbe utile avere almeno una linea orizzontale a zero, o spostare l'asse orizzontale in modo che passi per zero}
+	%\todo{perché le figure de grafici in png e non in pdf / svg  o altri formati vettoriali?}
+	%\todo{è vero che abbiamo detto che i grafici sono più belli senza griglia, ma sarebbe utile avere almeno una linea orizzontale a zero, o spostare l'asse orizzontale in modo che passi per zero}
 		
 	\subsection{Interaction Range} \label{intrange}
 	In some situations is useful to have a way to restrict the force computation only to particles closer than a threshold distance.
@@ -265,9 +265,9 @@
 	One could do this to imitate a topological interaction at short range, where a particle only interacts with its nearest neighbors. 
 	In the case of circular particles (or spherical in 3D), setting the range to $3R$ is enough to get this effect, since two particles in contact will have their centers at $2R$ and no other particle can be at less than $3R$ in the same directions. 
 	This way, central particle will interact with 6 other particles at most (this is the number of nearest neighbors for hexagonal close packing order 2D) giving the effect of a nearest neighbor interaction in the case of contact. 
-	Clearly, this is not a \emph{true} topological interaction, where two nearest neighbors interact regardless {\color{brown}of} their distance, but it can give similar effects if applied in high packing fraction cases, where particles come in contact.
+	Clearly, this is not a \emph{true} topological interaction, where two nearest neighbors interact regardless of their distance, but it can give similar effects if applied in high packing fraction cases, where particles come in contact.
 	
-	{\color{brown}Moreover, when dealing with fast decreasing potentials, the magnitude of the force between two distant particles can be effectively negligible and even lower than the numerical precision.}
+	Moreover, when dealing with fast decreasing potentials, the magnitude of the force between two distant particles can be effectively negligible and even lower than the numerical precision.
 	If this is the case, it is obviously pointless to look into pairs of particles which are more than a certain distance apart. 
 	One can compute this distance for any given potential, provided some reference magnitude. 
 	An example is given in Figure \ref{fig:force_zero}.
@@ -277,7 +277,7 @@
 		\caption{Cutoff for Lennard Jones force at $1/10$ of the minimum. The cutoff distance is $\sim 1.9\sigma$}
 		\label{fig:force_zero}
 	\end{figure}
-	\todo{se confronti la dimensione del font di questa figura (cutoff) con quello della figura precedente (potenziali), noterai che sono diversi. sarebbe meglio uniformarli, come discutevamo l'altro giorno}
+	%\todo{se confronti la dimensione del font di questa figura (cutoff) con quello della figura precedente (potenziali), noterai che sono diversi. sarebbe meglio uniformarli, come discutevamo l'altro giorno}
 	This is of paramount importance for speed. 
 	While a complete calculation of all the possible forces between $n$ particles is an $\order{n^2}$ algorithm (the actual number of possible interactions is $n(n-1)$), the number of particles in a box of given area is constant in $n$ if density remains fixed, so, scaling up the number of particles in the same conditions will be less demanding in terms of computational power.
 	
@@ -295,16 +295,16 @@
 		\label{fig:periodicint}
 	\end{figure}
 	
-	\todo{i numeri sugli assi della figura su periodic interaction sono illeggibili}
+	%\todo{i numeri sugli assi della figura su periodic interaction sono illeggibili}
 
 	\subsection{Aligning Interactions} \label{alignint}
 
 	There are several examples in literature of aligning interactions applied to ABPs systems \cite{martin-gomez_collective_2018, callegari_numerical_2019}.
 	Most of them involve applying a torque which explicitly depends on the difference between the orientation angle of the two interacting particles; some of them have a constant torque which is applied to particles closer than a certain distance.
-	{\color{brown}To the best of our knowledge, nobody have implemented interactions in a way that unifies the central force interactions and the aligning interactions.}
+	To the best of our knowledge, nobody have implemented interactions in a way that unifies the central force interactions and the aligning interactions.
 	
 	The model used in this thesis aims to keep a minimal amount of parameters while coupling positions and orientations of interacting particles, actually using only one more parameter than a force-only model.
-	{\color{brown}When applying a central potential interaction to a set of particles, the distances $r$ between particles are calculated with respect to the particles' centers and the computed interaction force $F^i(r)$ is applied to the particles centers as $\left[F^i_x\, F^i_y\right]$ (2D simulations).}
+	When applying a central potential interaction to a set of particles, the distances $r$ between particles are calculated with respect to the particles' centers and the computed interaction force $F^i(r)$ is applied to the particles centers as $\left[F^i_x\, F^i_y\right]$ (2D simulations).
 	Here every particle is identified by two positions: its center of mass, which lies in its geometric center, and an interaction center, which is translated with respect to the center of mass of an amount $\alpha R$ in the direction of self-propulsion, so that the off center position of each particle writes:
 	\begin{equation}
 		\vec{x}_{oc} = \vec{x}_{c} + \alpha R 
@@ -315,21 +315,21 @@
 	\end{equation}
 	%\todo{ho messo $\vec{x}_{c}$ invece di $\vec{x}_{cm}$ perché mi sembrava che cm richiamasse centimetri}
 	where $\theta$ is the self-propulsion direction, $R$ is the particle's radius, and $-1 < \alpha < 1$. 
-	{\color{green}Compared to the self-propulsion direction, the off-center position is on the front half of the particle when $\alpha > 0$ and on the back half when $\alpha < 0$.}
-	{\color{brown}Distances, and hence forces, are thus computed between the off-center positions. 
-	Applying forces off center results also in an effective torque applied to the particle, leading to both translational (repulsive/attractive) and rotational (aligning) effects, coupling the two degrees of freedom.}
+	Compared to the self-propulsion direction, the off-center position is on the front half of the particle when $\alpha > 0$ and on the back half when $\alpha < 0$.
+	Distances, and hence forces, are thus computed between the off-center positions. 
+	Applying forces off center results also in an effective torque applied to the particle, leading to both translational (repulsive/attractive) and rotational (aligning) effects, coupling the two degrees of freedom.
 	%\todo{possiamo effettivamente parlare di degrees of freedom in questo contesto? Secondo me sì}
 	
 	The idea is to take into account the underlying particle's asymmetry not only in terms of self-propulsion but also in terms of interactions. 
 	It is a fact that the two faces of a Janus particle have different physical and chemical properties, which make them interact differently depending on the angle between their orientations and the line connecting their centers \cite{singh_pair_2024}. 
-	{\color{brown}This can be due to a plethora of effects like chemical gradients, electrical forces, hydrodynamics or fabrication defects that would be hard to model in details and effectively impossible to simulate for even a few particles.
-	This model takes only the asymmetry and uses it along with standard potentials, to create a minimal dry framework that mimics such a complex wet dynamics.} 
+	This can be due to a plethora of effects like chemical gradients, electrical forces, hydrodynamics or fabrication defects that would be hard to model in details and effectively impossible to simulate for even a few particles.
+	This model takes only the asymmetry and uses it along with standard potentials, to create a minimal dry framework that mimics such a complex wet dynamics.
 	In doing so, we also show that this model displays some interesting statistical mechanics properties.
 	
 	\begin{figure}[htp]
 		\centering
 		\includegraphics[width=\textwidth]{singpart_draw.png}
-		\caption{\color{brown}Red point: position from which interaction distances are calculated and to which force is applied. In this case, interacting position is at $-0.5R$ from particle's center, {\it i.e.}\ on the back side compared to  the direction of self propulsion.}
+		\caption{Red point: position from which interaction distances are calculated and to which force is applied. In this case, interacting position is at $-0.5R$ from particle's center, {\it i.e.}\ on the back side compared to  the direction of self propulsion.}
 		\label{fig:geom_model}
 	\end{figure}
 	
@@ -337,20 +337,76 @@
 	
 	Since the real interaction forces and torques between self-diffusio-phoretic particles are still a matter of deep investigation, it is not straightforward to check 
 	if a model is accurate or complete.
-	Here, we look into a qualitative comparison between the simulated behaviors and the observed ones, focusing in this case on interactions between pairs or small groups of particles.
+	Here, we look into a qualitative comparison between simulated and experimental behaviors, focusing on interactions between pairs or small groups of particles.
 	
 	It is important to note that often in experiments clusters of particles are not caused by self-assembly, but are there as a by-product of the fabrication process, during which particles may remain attached.
-	Still, observing how single particles interact with clusters gives some insights on contact behaviors, making particle clumps' presence useful.
-	In principle, it is difficult to create stable clusters in simulations, since our framework does not involve the possibility of physically attached particle, but an attractive potential is needed to mimic observed behaviors.
-	
-	Due to differences and irregularities in the fabrication process, not all particles have the same self-propulsion velocity.
-	In simulations we can reproduce this generating particles' velocity from a distribution.
-	Although particles orientation is difficult to measure in our experimental videos, it is possible to note that some particles are spinning around and some others have both a linear and a rotational self-propulsion, in a Chiral Brownian Particles fashion, \cite{callegari_numerical_2019, bechinger_active_2016}.
-	
-	With all of this said, the ingredients for a simulation that reproduces experimental behaviors are: a short-range potential with an attractive part, a linear and angular velocity distribution.
+	Nonetheless, studying single particles' interaction with clusters gives useful insights on contact behaviors.
+	Our simulation framework does not have the possibility of physically attached particles, which might need a high attractive potential to mimic experimentally observed clumps.
 	We chose Lennard Jones for its short range attraction, keeping $\sigma = 2R$ with $R$ particle's radius, with negative off-center parameter $\alpha$.
+	
+	Furthermore, due to differences and irregularities in the fabrication process, not all particles have the same self-propulsion velocity.
+	In simulations we reproduced these inhomogeneous velocities generating them from a distribution.
 	Although most videos do not contain enough particles to build a sample velocity distribution, it is noticeable how very fast particles are rare if compared with slow particles.
-	To catch this asimmetry, we generated simulated particles' velocities from an exponential distribution; this is done to maximize the number of collisions as well.
+	To catch this asymmetry, we generated simulated particles' velocities from an exponential distribution, allowing us to maximize the number of collisions.
+	Also, particles orientation is difficult to measure in our experiments but some particles rotate around their axis, thus having both linear and rotational self-propulsion, like  Chiral Brownian Particles \cite{callegari_numerical_2019, bechinger_active_2016}.
 	Since we do not observe a preferred direction in self-propulsive rotation, particles' angular velocities are generated from a distribution which is symmetric around 0; moreover, few particles present large angular velocities, so we generated them in simulations using a Normal distribution, to have control on its broadness.
+	
+	\subsection{Qualitative Comparison between Simulations and Experiments}	
+	
+	Both the simulations we will refer to have been run in a \qtyproduct{150 x 150}{\um} box, with an exponential distribution in velocity characterized by its scale (mean) $\beta = 12/\log(50) \approx \SI{3.07}{\um \per \second}$.
+	This parameter is found as an empiric guess in order to have match experimental fractions of slow and fast particles.
+	With the same line of thinking, we chose to generate angular velocities from a normal distribution centered around zero with $\sigma = \SI{0.01}{\radian\per\second}$.
+	Lennard Jones strength parameter is different for the two simulations and we will discuss it later.
+	
+	As showed by Figure \ref{fig:doub9}, the typical two body interaction in our experiments works as follows: two particle approach each other, they come in contact, then they undergo some interaction-driven rotation and they separate.
+	This tendency to slide and rotate on each other is pretty evident and it pushed us to implement aligning interactions in simulations.
+	\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width = \textwidth]{qual/doub9.png}
+		\label{fig:doub9}
+		\caption{In the blue circle, formation and dissolution of a 2-particles cluster.}
+	\end{figure}
+	
+	Figure \ref{fig:simdoub} shows how this behavior is captured in a simulation with Lennard Jones strength $\epsilon = \SI{0.1}{\pico\joule}$ and off center parameter $\alpha = -0.5$.
+	As the interaction takes place, one of the two particles gets rotated to the right, and its motion continues in that direction.
+	It is evident how the sliding contact behavior takes place as the result of the interplay between particles' self-propulsion, hard-spheres correction and attractive interaction potential.
+	\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width = \textwidth]{qual/simdoub.png}
+		\label{fig:simdoub}
+		\caption{In the blue circle, formation and dissolution of a 2-particles cluster.}
+	\end{figure}
+	
+	Both in experiments and simulations, we also observe some other dynamics: one is the approach of the two particles that then keep rotating around each other, the other is the medium range (no contact) deflection of particles' trajectories.
+	
+	\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width = \textwidth]{qual/trip17.png}
+		\label{fig:trip17}
+		\caption{In the blue circle, direct formation and dissolution of 3-particles cluster.}
+	\end{figure}
+	
+	\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width = \textwidth]{qual/trip9.png}
+		\label{fig:trip9}
+		\caption{In the blue circle, formation and dissolution of 3-particles cluster starting from a couple.}
+	\end{figure}
+	
+	Regarding triplets we have two different behaviors, the less frequent one is the direct formation (Figure \ref{fig:trip17}) of a three particles' cluster while in the most frequent one (Figure \ref{fig:trip9}) two particles get together and then a third particle joins the cluster.
+	
+	In simulations the direct triplet formation is pretty rare and we almost never observed it.
+	With a Lennard Jones strength $\epsilon = \SI{0.3}{\pico\joule}$ and an off center parameter $\alpha = -0.7$, the observed triplet forms starting from a two particle cluster, then rotates on itself and breaks apart (Figure \ref{fig:simtrip}).
+	Here we observe that the sliding behavior of particles upon each other is kept also in higher order clusters.
+	
+	\begin{figure}[hbtp]
+		\centering
+		\includegraphics[width = \textwidth]{qual/simtrip.png}
+		\label{fig:simtrip}
+		\caption{In the blue circle, formation and dissolution of 3-particles cluster starting from a couple.}
+	\end{figure}
+
+	We note that in the simulated situations, with $\epsilon = \SI{0.1}{\pico\joule}$, $\alpha = -0.5$, with the observed packing fraction, no macroscopic clustering nor flocking is observed, as experiments show, while in the other case, with larger strength and orientational coupling the system tends to cluster after a while.
+	These stronger parameters are only used in order to get noticeable clusters faster, while we are aware that do not reflect the experimental behavior at steady state.
 	
 \end{document}
