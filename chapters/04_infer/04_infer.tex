@@ -59,6 +59,18 @@ Here, we chose a message dimension $n_m = 2$, as reported in the reference paper
 Some trials with $n_m = 100$ and L1 regularization were made, in the spirit of \cite{cranmer_discovering_2020}, but in the message extraction it was not possible to limit the maximum standard deviation to two message components, as, ordering them by variance, the most important components changed from epoch to epoch, not leading to a stable reduction in message size. 
 %\todo{perché 2? spiega; in realtà abbiamo provato anche altro, spiega perché alla fine abbiamo scelto 2}
 
+\subsection{GNN Implementation}
+The Graph Network is defined as an object of class \verb|MessagePassing|, which is a base class in PyTorch Geometric.
+Once this object is defined the two DNNs for message and node functions must be added into it and the base methods of \verb|MessagePassing| will take care of propagating the information in the graph network.
+
+This is imported as a model in the training code, that, using the PyTorch package, has all the tools to train the network.
+Data preparation consists of taking the snapshots of positions and orientations, in our case we used 750 equally spaced snapshots for training and 250 for testing, and transferring them to a PyTorch Tensor object.
+In order to store information in a graph structure, we used the \verb|DataLoader| primitive of PyTorch Geometric, that takes the node features (positions and orientations) along with the \verb|edge_index| matrix, which represents the adjacency matrix of the graph (i.e. which are the linked nodes).
+We used a batch size of 64 graphs for training.
+
+Training consisted of 100 epochs (see below) and we used \verb|Adam| optimizer as a standard choice.
+Learning rate was dynamically changed with a \verb|OneCycleLR| scheduler with default settings, being \num{1e-3} the initial value.
+
 \subsection{Simulations}
 To understand the role of the potential's functional form in prediction results, we trained and tested the network on two different simulations, one done using a spring potential with $k_s = \SI{0.1}{\newton\per\meter}$ and $x_0 = \SI{12}{\um}$ and the other using a LJ potential with $\sigma = \SI{4}{\um}$ and $\epsilon = \SI{0.01}{\pico\joule}$.
 \todo{aggiungi grafici dei potenziali/forze calcolati con questi parametri}
