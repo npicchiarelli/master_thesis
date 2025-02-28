@@ -8,13 +8,14 @@ Our goal is to infer the one-body (self-propulsion) and the two-body forces (int
 Such systems present a high degree of complexity and a full understanding of the actual interactions has yet to be reached; in this situation, machine learning could be the way of inferring systems' dynamic laws from the observation of simulated and experimental behaviors, with nothing more than some simple assumptions as an underlying model.
 
 As explained in section \ref{literature}, one could use as input some global attribute of the system, such as the radial distribution function, but, as showed by \citeauthor{bag_interaction_2021}, this approach does not work well in out-of-equilibrium cases where an active velocity is present, since when a self-propulsion is present the structure may reflect an attractive interaction applied to an equilibrium case.
+\todo{io ho capito, ma spiega meglio}
 
 \section{Methods}
 The tool we propose is based on a Graph Neural Network (GNN) that takes as input the positions and orientations of a set of active particles and tries to predict the resulting velocities.
 Here, we tried to replicate the approach used by \citeauthor{ruiz-garcia_discovering_2024}, where a vector of positions and orientations of a set of active particles is given as input to a Graph Neural Network which tries to predict resulting velocities.
 Both in our work and in the reference paper the objective is to train a network on simulated data and then use it to predict interaction potential in experiments.
-The main difference in in the experimental setup used: \citeauthor{ruiz-garcia_discovering_2024} used snapshots taken from electro-phoretic Janus particles, where some control is held on the system via an external electric field.
-This is not the case in the host lab, where autonomous self-diffusio-phoretic Janus particles are used.
+The main difference is in the experimental setup used: \citeauthor{ruiz-garcia_discovering_2024} used snapshots taken from electrophoretic Janus particles, where some control is held on the system via an external electric field.
+This is not the case in the host lab, where autonomous self-diffusiophoretic Janus particles are used.
 Simulation framework is also different: in the reference work particles are simulated using a modified version of LAAMPS \cite{thompson_lammps_2022} molecular dynamics simulator, while our simulation code is made in-house as explained in \ref{chap:int_impl}.
 
 In principle, one could also use a Dense Neural Network (DNN) to learn a high-dimensional nonlinear function that maps a $3N_p$ vector (in 2D, with $N_p$ number of particles) of all particles' positions and orientations into a $2N_p$ vector of velocities, but a Network like this would struggle to adapt to cases with different $N_p$, especially if the number of particles is changing, as happens in experimental settings. 
