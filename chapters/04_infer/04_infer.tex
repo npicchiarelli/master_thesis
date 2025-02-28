@@ -2,13 +2,13 @@
 \graphicspath{{./imgs/}}
 
 \begin{document}
-\chapter{Discovering Interaction Laws using Machine Learning}
+\chapter{Discovering Interaction Laws}
 %\todo{machine learning analysis è molto generico... cerca un altro titolo}    
 Our goal is to infer the one-body (self-propulsion) and the two-body forces (interactions) that take place in ensembles of active particles using a machine learning tool.
 Such systems present a high degree of complexity and a full understanding of the actual interactions has yet to be reached; in this situation, machine learning could be the way of inferring systems' dynamic laws from the observation of simulated and experimental behaviors, with nothing more than some simple assumptions as an underlying model.
 
-As explained in section \ref{literature}, one could use as input some global attribute of the system, such as the radial distribution function, but, as showed by \citeauthor{bag_interaction_2021}, this approach does not work well in out-of-equilibrium cases where an active velocity is present, since when a self-propulsion is present the structure may reflect an attractive interaction applied to an equilibrium case.
-\todo{io ho capito, ma spiega meglio}
+As explained in section \ref{literature}, one could use as input some global attribute of the system, such as the radial distribution function, but, as showed by \citeauthor{bag_interaction_2021}, this approach does not work well in out-of-equilibrium cases where an active velocity is present, since self-propulsion may make the system cluster in a MIPS (Motility Induced Phase Separation) fashion and thus the structure may reflect that of an equilibrium system where an attractive interaction is applied.
+%\todo{io ho capito, ma spiega meglio}
 
 \section{Methods}
 The tool we propose is based on a Graph Neural Network (GNN) that takes as input the positions and orientations of a set of active particles and tries to predict the resulting velocities.
@@ -81,6 +81,7 @@ We expect the network to perform worse on LJ since it has less relevant interact
 
 These two potentials required different integration steps: \SI{e-3}{\second} for LJ and \SI{5e-2}{\second} for spring potential.
 Both simulations were ran with a particle velocity of \SI{15}{\um \per \second}, in a \qtyproduct{100 x 100}{\um} box with \num{100} particles of \SI{2}{\um} in radius.
+Interacting position corresponds to particles' center, since at this level we are interested in just inferring forces.
 
 \section{Training and Testing}
 
@@ -151,8 +152,11 @@ As shown in section \ref{4results}, more work is needed in order to make this to
 In particular, training for longer with more simulation snapshots is certainly needed in order to get the right accuracy.
 In reference paper, the problem of data amount is tackled comparing errors in cases with different simulation temperature.
 It is clear how with higher temperature noise tends to increase and more data is needed in order to have accurate estimates of the self-propulsion and interaction forces.
-In general, we can say that the amount of particles in our simulations (100) is pretty low if compared with what \citeauthor{ruiz-garcia_discovering_2024} have used (2500).
+In general, we can say that, due to computational time limitations, the amount of particles in our simulations (100) is pretty low if compared with what \citeauthor{ruiz-garcia_discovering_2024} have used (2500).
 Knowing that the number of edges in an undirected graph is quadratic with the number of nodes, the number of total interactions to learn from is extremely low in our case if compared with the reference paper.
+While ActiveNet authors used a molecular dynamics simulator, made to simulate a high number of particles, our simulation framework was built to simulate conditions akin to the ones we see in experiments, thus it is optimized for a low packing fraction and low number of particles setting.
+Moreover, our aim was to train the network in such conditions to make it more adaptable to the analysis of experimental data.
+In the end this caused a big difference in the amount of data used for training.
 
 Retraining process with increasing threshold distance must be perfected, in order to get at the same level of the reference paper.
 For all that was said in previous sections, it might be a good choice to start training with lower threshold distances, since \SI{20}{\um} already contains most of the significant interactions for the selected potentials. 

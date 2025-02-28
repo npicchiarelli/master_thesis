@@ -3,6 +3,7 @@
 
 \begin{document}
 \chapter{Conclusions}
+
 In this thesis work we investigated how modeling and analysis tools can expand our knowledge regarding active particles systems.
 To do so, we built on top of a simulation framework able to manage most of the features needed in a \emph{dry} ABPs computer experiment, such as steric interactions and interplay between particles and confinement, adding two-body aligning interactions.
 The main novelty here is the modeling technique: instead of applying an explicit torque, we applied a force to an off-center position that results (in the overdamped regime) both in a linear velocity applied \emph{to} the center of mass and in an angular velocity \emph{with respect to} the center of mass, thus automatically applying an aligning interaction torque.
@@ -18,6 +19,8 @@ In future developments, this could be useful to insert screening effects that pa
 Regarding the similarity with experimental behaviors, our simulations perform well for two-particles interactions, showing that an aligning interaction is taking place as claimed by \cite{singh_pair_2024}, while three bodies dynamics such as rotation of a triplet occur with a faster time scale in simulations, although dynamic is similar.
 looking at videos from the host laboratory, probably a stronger, but shorter range interaction is needed to get experimental clustering without the whole system self-organizing in a big clump.
 
+We showed that a system with a repulsive interaction and an interacting position off-centered to the front of the swimming particles presents a phase transition to flocking.
+As stated in section \ref{3concl} this would put this kind of system in the set of 
 As results in chapter 3 show, in the explored cases an interacting position on the back, coupled with an attractive potential does not let the system flock.
 This is in good agreement with experimental observations where flocking was never observed, encouraging us to trust our model, since it qualitatively resembles the fact that the interacting part of a Janus particle is on its catalytic side and Pt-silica Janus particles are known to swim with platinum hemisphere on the back.
 A short-range attraction is not able to align two particles that swim towards each other, as observed through this thesis.
