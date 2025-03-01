@@ -73,8 +73,14 @@ Training consisted of 100 epochs (see below) and we used \verb|Adam| optimizer a
 Learning rate was dynamically changed with a \verb|OneCycleLR| scheduler with default settings, being \num{1e-3} the initial value.
 
 \subsection{Simulations}
-To understand the role of the potential's functional form in prediction results, we trained and tested the network on two different simulations, one done using a spring potential with $k_s = \SI{0.1}{\newton\per\meter}$ and $x_0 = \SI{12}{\um}$ and the other using a LJ potential with $\sigma = \SI{4}{\um}$ and $\epsilon = \SI{0.01}{\pico\joule}$.
-\todo{aggiungi grafici dei potenziali/forze calcolati con questi parametri}
+To understand the role of the potential's functional form in prediction results, we trained and tested the network on two different simulations, one done using a spring potential with $k_s = \SI{0.1}{\newton\per\meter}$ and $x_0 = \SI{12}{\um}$ and the other using a LJ potential with $\sigma = \SI{4}{\um}$ and $\epsilon = \SI{0.01}{\pico\joule}$ (Figure \ref{fig:mlpotentials}).
+
+\begin{figure}[htp]
+	\includegraphics[width=\textwidth]{mlpotentials.png}
+	\label{fig:mlpotentials}
+	\caption{Potential used in GNN training.}
+\end{figure}
+%\todo{aggiungi grafici dei potenziali/forze calcolati con questi parametri}
 These potential have the difference in range: without limiting our interaction threshold radius, elastic force not only has effect at long distance but its absolute value increases, while LJ is a short range potential.
 In simulations, interaction range is not limited in order to have the maximum amount of interacting particles as possible.
 We expect the network to perform worse on LJ since it has less relevant interactions to learn from.
