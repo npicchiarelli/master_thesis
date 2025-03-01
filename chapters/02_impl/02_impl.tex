@@ -248,10 +248,8 @@
 	
 	\begin{figure}[htp]
 		\centering
-		\subfloat[][]{\includegraphics[width=\subfigwidth]{spring.png}}\quad
-		\subfloat[][]{\includegraphics[width=\subfigwidth]{coulomb.png}}\quad
-		\subfloat[][]{\includegraphics[width=\subfigwidth]{lj.png}}
-		\caption{Tested interaction forces for given values of their parameters.}
+		\includegraphics[width = \textwidth]{potentials.png}
+		\caption{Tested interaction forces for given values of their parameters. For simplicity here, everything is kept non-dimensional.}
 		\label{fig:potentials}
 	\end{figure}
 	%\todo{figura dei 3 potenziali un po' piccola (soprattutto il testo), e forse sarebbe meglio mettere le tre curve nello stesso grafico (se resci a dargli range di forze simile)}
@@ -406,7 +404,21 @@
 		\caption{In the blue circle, formation and dissolution of 3-particles cluster starting from a couple.}
 	\end{figure}
 
-	We note that in the simulated situations, with $\epsilon = \SI{0.1}{\pico\joule}$, $\alpha = -0.5$, with the observed packing fraction, no macroscopic clustering nor flocking is observed, as experiments show, while in the other case, with larger strength and orientational coupling the system tends to cluster after a while.
-	These stronger parameters are only used in order to get noticeable clusters faster, while we are aware that do not reflect the experimental behavior at steady state.
+	We note that in the simulated situations, with $\epsilon = \SI{0.1}{\pico\joule}$, $\alpha = -0.5$, with the observed packing fraction, no macroscopic clustering nor flocking is observed, as experiments show, while in the other case, with larger strength and off-center parameter the system tends to cluster after a while.
+	These stronger parameters are only used in order to get noticeable clusters faster, while we are aware that they do not reflect the experimental behavior at steady state.
+	
+	\section{Conclusions to Chapter 2}
+	We developed a simulation framework for systems of ABPs that features both steric and long-range interactions.
+	To this, we applied a model for aligning interactions that tries to unify forces and torques, aiming to a minimal, yet descriptive representation of self-phoretic Janus particles.
+	
+	We adapted our software to perform simulations with periodic boundary conditions, integrating steric and long-range interactions with such prescription.
+	
+	From the optimization standpoint, although our code works well with small numbers of particles and packing fraction, some work is needed in order to scale it up for larger systems.
+	One could implement a $\order{n \log(n)}$ algorithm \cite{barnes_hierarchical_1986} for force calculation, but, as explained in section \ref{intrange}, limiting the range of interactions is a strong optimization on its own.
+	This optimization would only make sense for potentials that go to zero with distance, while a hierarchical algorithm like the aforementioned one would be useful for longer range interaction forces, where an all-to-all calculation must be performed.
+	
+	We qualitatively validated our simulations on experimental data, trying to match two- and three-bodies interactions with encouraging results.
+	At this point we are missing some tools to analyze quantitatively our simulated system, investigating how features like off-center parameter, velocity, velocity distribution and angular self-propulsion change collective behaviors of ABPs ensembles.
+	The development and utilization of such tools will be illustrated in the following chapters.
 	
 \end{document}
