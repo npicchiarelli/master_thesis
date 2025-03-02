@@ -7,7 +7,7 @@
 
 	All the code work in this thesis is built on top of an existing code written and used in Microscale Robotics Lab, which can be found in repository \cite{sharma_simulations_2023}.
     Existing code performed simulations on 2D active Brownian particles moving in open or closed boundary featuring confinement. 
-	Original code used an Euler integrator to perform dry simulations of Active Brownian Particles ensembles with the only interaction being the steric hard spheres correction. 
+	Original code used an Euler integrator to perform dry simulations of Active Brownian Particles ensembles with the only interaction being the steric hard-spheres correction. 
 	Moreover, it could simulate variously shaped hard boundaries as well as periodic and open boundary conditions.
 	
 	\section{Simulation Framework}
@@ -21,7 +21,7 @@
 			\item Force computation at time $n$, starting from positions at time $n$
 			\item Generation of the needed random numbers for noise
 			\item Integrator step: one step of the integration algorithm to get the ensemble at time $n+1$
-			\item Application of boundary conditions and hard spheres correction 
+			\item Application of boundary conditions and hard-spheres correction 
 			\item File writing of positions and orientations of all particles in ensemble %\todo{ad ogni passo scrivi nel file? Sì}
 			\item Computation and file writing of time-dependent global properties, e.g.\ polarization, pair correlation function etc.	%\todo{questo ultimo step lo fai nel ciclo o fuori? non fa tanto parte della simulazione quanto dell'analisi}
 		\end{enumerate}
@@ -37,7 +37,7 @@
 	%\todo{magari spiega perché scrivi i dati in un file e non li mantieni in memoria, o fai riferimento a dove lo spieghi}
 	
 	In point 2.\ particles position are randomly initialized, with a uniform distribution in the simulation space. 
-	We need to make sure that particles are not superimposed to avoid nonphysical effects, thus we utilize the hard spheres correction (see section \ref{hs}) right after the generation of particles' positions.% \todo{come lo fai?}
+	We need to make sure that particles are not superimposed to avoid nonphysical effects, thus we utilize the hard-spheres correction (see section \ref{hs}) right after the generation of particles' positions.% \todo{come lo fai?}
 	At this point it is possible to compute forces and torques acting on every particle, which are needed to compute positions at the next step.
 	
 	From the computational point of view, our simulation framework is based upon object oriented programming: particle ensemble is initialized as an instance of the ABPE class, which holds all the variables that define the state of the system at a certain time \ref{tab:ABPE2}. 
@@ -96,10 +96,10 @@
 	All the simulations were performed with real units, so that particles have a radius of \SI{2}{\um} and the value for solvent viscosity is kept fixed at \SI{1e-3}{\pascal\second}. 
 	If not indicated, standard temperature for simulations is held fixed at \SI{300}{\kelvin}.
 	
-	All simulations were performed in a two-dimensional square environment, where particles are disks, featuring periodic boundary conditions and a non-superposition condition (hard spheres correction). 
+	All simulations were performed in a two-dimensional square environment, where particles are disks, featuring periodic boundary conditions and a non-superposition condition (hard-spheres correction). 
 	Given that positions are simulated in open periodic boundary, all interactions are calculated periodically too, taking the shortest between the in-box and the periodic distance.
 	
-	\section{Boundary Conditions and Hard Spheres Correction}
+	\section{Boundary Conditions and Hard-Spheres Correction}
 	%\todo{tutta questa sezione la sposterei prima di quella precedente, visto che l'implementazione delle interazioni è il contributo principale di questo lavoro}
 	\subsection{Boundary Conditions}
 	Original code featured open, periodic or hard boundary conditions. 
@@ -124,13 +124,13 @@
 		\end{algorithmic}
 	\end{algorithm}
 	
-	\subsection{Hard Spheres Correction}
+	\subsection{Hard-Spheres Correction}
 	\label{hs}
-	Original simulation code featured just steric hard spheres correction as interactions among particles, which are enough to study clustering, MIPS and boundary accumulation.
-	The hard spheres correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
+	Original simulation code featured just steric hard-spheres correction as interactions among particles, which are enough to study clustering, MIPS and boundary accumulation.
+	The hard-spheres correction follows algorithm \ref{alg:hardsphere} according to \cite{callegari_numerical_2019}.
 	
 	\begin{algorithm}[htp]
-		\caption{The hard spheres correction algorithm} \label{alg:hardsphere}	
+		\caption{The hard-spheres correction algorithm} \label{alg:hardsphere}	
 		\begin{algorithmic}[1]
 			\ForAll{couples of particles $\{i, j\}$}
 			\State{$d_{i,j} \gets d(\mathbf{r}_{i}, \mathbf{r}_{j})$} \Comment{$d\left(\cdot,\cdot \right)$ is the Euclidean distance}
@@ -148,7 +148,7 @@
 		\centering
 		\includegraphics[width = \textwidth]{callegari_volpe_2019_hardsphere.png}
 		\label{fig:hardsphere}
-		\caption{If in one step two particles superimpose, hard spheres correction moves them at one diameter distance \cite{callegari_numerical_2019}}
+		\caption{If in one step two particles superimpose, hard-spheres correction moves them at one diameter distance \cite{callegari_numerical_2019}}
 	\end{figure}
 	
 	This operation involves calculating the distance matrix of a set of $\mathtt{N_p}$ particles, i.e.\ computing $\mathtt{N_p}^2$ distances.
@@ -158,7 +158,7 @@
 	
 	In the work cited in section \ref{literature}, \citeauthor{martin-gomez_collective_2018} use a steep repulsive potential $\sim r^{-12}$ to simulate the excluded volume.
 	In principle, since it does not require cycling, this approach seems faster, especially if one has to compute interactions.
-	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard spheres correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
+	During the development of this thesis some tests were run and, with all integration algorithms, even though computing the excluded volume effect is actually faster than applying a hard-spheres correction, the steep potentials involved require a much smaller time step (1 or 2 orders of magnitude), making the simulation slower.
 	
 	Separating superimposing particles in a way to keep them in contact may seem a strong assumption, since it is simulating a perfectly inelastic collision.
 	This choice arise due to the finite contact time and micron sized physics of the active particles under study.
@@ -167,19 +167,19 @@
 	This long collision time encouraged us to implement inelastic collision in simulations.
 	
 	\subsection{Modified Periodic Boundary Steric Interactions}
-	Since hard spheres corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
+	Since hard-spheres corrections were implemented to study ABPs in confinement rather than open periodic boundary, this interaction could not take periodicity into account leading to possible superpositions at boundaries.
 	
 	When boundary conditions are periodic, not taking them into account in steric interactions may cause some problems, on top of being not formally correct.
-	With the hard spheres correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
+	With the hard-spheres correction as it was described in section \ref{hs}, particles are separated when their distance is less than their diameter.
 	With periodic boundary conditions, a particles is reflected {\it e.g.}, on the left hand side only when its center is out of the right hand side by more than one particle radius ($R$).
 	This may leave a \emph{frame} of size $R$ around the boundary where inter-particle periodic distance can be less then $2R$. 
 	
 	When combined with potentials that feature a \emph{soft} non-superposition condition, like a diverging positive force at a $2R$ distance, this can lead to pairs of particles sticking out of the border on opposite sides and superimposing a lot before one of them gets reflected on the other side, but when this happens, the force between them diverges, resulting in nonphysical situations like particles moving far outside the box.
 	
-	To address this issue, we propose a modified version of hard spheres corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
+	To address this issue, we propose a modified version of hard-spheres corrections where distances are not computed in a Euclidean fashion, but $x$ and $y$ components are separately checked.
 	For a box of size $L$, we compute $\Delta x = min \left\{ \abs{x_1-x_2}, \abs{x_1-x_2}-L \right\}$, and the same for $y$, which is the right periodic distance between any given pair of particles.
 	If $\Delta x < 2R$, particles are guaranteed to superimpose when periodic boundary condition is applied.
-	To eliminate this superposition, we implemented the hard spheres correction as in section \ref{hs} to superimposing pairs at the boundary.
+	To eliminate this superposition, we implemented the hard-spheres correction as in section \ref{hs} to superimposing pairs at the boundary.
 	This method allows us to identify superpositions at the boundaries, thus giving the possibility to form clusters starting from a \emph{nucleation site} on the border. 
 	
 	\begin{figure}[htp]
@@ -363,7 +363,7 @@
 		\centering
 		\includegraphics[width = \textwidth]{qual/doub9.png}
 		\label{fig:doub9}
-		\caption{In the blue circle, formation and dissolution of a 2-particles cluster.}
+		\caption{In the orange circle, formation and dissolution of a 2-particles cluster.}
 	\end{figure}
 	
 	Figure \ref{fig:simdoub} shows how this behavior is captured in a simulation with Lennard Jones strength $\epsilon = \SI{0.1}{\pico\joule}$ and off center parameter $\alpha = -0.5$.
@@ -373,7 +373,7 @@
 		\centering
 		\includegraphics[width = \textwidth]{qual/simdoub.png}
 		\label{fig:simdoub}
-		\caption{In the blue circle, formation and dissolution of a 2-particles cluster.}
+		\caption{In the orange circle, formation and dissolution of a 2-particles cluster.}
 	\end{figure}
 	
 	Both in experiments and simulations, we also observe some other dynamics: one is the approach of the two particles that then keep rotating around each other, the other is the medium range (no contact) deflection of particles' trajectories.
@@ -382,14 +382,14 @@
 		\centering
 		\includegraphics[width = \textwidth]{qual/trip17.png}
 		\label{fig:trip17}
-		\caption{In the blue circle, direct formation and dissolution of 3-particles cluster.}
+		\caption{In the orange circle, direct formation and dissolution of 3-particles cluster.}
 	\end{figure}
 	
 	\begin{figure}[hbtp]
 		\centering
 		\includegraphics[width = \textwidth]{qual/trip9.png}
 		\label{fig:trip9}
-		\caption{In the blue circle, formation and dissolution of 3-particles cluster starting from a couple.}
+		\caption{In the orange circle, formation and dissolution of 3-particles cluster starting from a couple.}
 	\end{figure}
 	
 	Regarding triplets we have two different behaviors, the less frequent one is the direct formation (Figure \ref{fig:trip17}) of a three particles' cluster while in the most frequent one (Figure \ref{fig:trip9}) two particles get together and then a third particle joins the cluster.
@@ -402,7 +402,7 @@
 		\centering
 		\includegraphics[width = \textwidth]{qual/simtrip.png}
 		\label{fig:simtrip}
-		\caption{In the blue circle, formation and dissolution of 3-particles cluster starting from a couple.}
+		\caption{In the orange circle, formation and dissolution of 3-particles cluster starting from a couple.}
 	\end{figure}
 
 	We note that in the simulated situations, with $\epsilon = \SI{0.1}{\pico\joule}$, $\alpha = -0.5$, with the observed packing fraction, no macroscopic clustering nor flocking is observed, as experiments show, while in the other case, with larger strength and off-center parameter the system tends to cluster after a while.
