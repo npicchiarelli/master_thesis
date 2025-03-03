@@ -36,6 +36,14 @@ The node function's input dimension is $n_f + n_m$ where $n_m$ is the output dim
 In Newtonian dynamics, an acceleration is the result of a force, while in low-Reynolds number regime there is a linear relation between force and velocity.
 In this regime, it is convenient to use velocity as a target function to infer force's characteristics.
 Overdamped regime is one of the basic assumptions made to build this tool, together with the fact that we neglect many-body interactions, focusing only on one- and two-body forces.
+A schematic of our GNN's structure is in Figure \ref{fig:schema_gnn}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{schema_gnn.png}
+	\caption{Schematic of our GNN.}
+	\label{fig:schema_gnn}
+\end{figure}
 %\todo{ma uno schemino? due equazioni? spiega meglio}
 %\todo{approfondisci questo discorso velocità/accelerazione...}
 
@@ -110,9 +118,9 @@ As showed in Figure \ref{fig:learning_curve}, in both cases loss decreases in th
 
 \begin{figure}[b]
 	\centering
-	\subfloat{\includegraphics[width=\subfigwidth]{sp_lc.png}}
-	\subfloat{\includegraphics[width=\subfigwidth]{lj_lc.png}}
-	\caption{\textbf{NOT DEFINITIVE IMAGES} Learning curve for elastic potential (left) and Lennard Jones (right). Loss is the absolute difference between predicted and ground truth velocities.}
+	\subfloat{\includegraphics[width=\subfigwidth]{GRAFICO_sp_lc.png}}
+	\subfloat{\includegraphics[width=\subfigwidth]{GRAFICO_lj_lc.png}}
+	\caption{Learning curve for elastic potential (left) and Lennard Jones (right). Loss is the absolute difference between predicted and ground truth velocities.}
 	\label{fig:learning_curve}
 \end{figure}
 
@@ -127,9 +135,9 @@ In Figure \ref{fig:lincomb} we reported the qualitatively best results, since th
 
 \begin{figure}[tp]
 	\centering
-	\subfloat[][]{\includegraphics[width=\textwidth]{sp_res1.png}}\\
-	\subfloat[][]{\includegraphics[width=\textwidth]{lj_res1.png}}
-	\caption{\textbf{NOT DEFINITIVE IMAGES} Representative message-force plots of early epochs of training for spring potential (left) and Lennard Jones (right).}
+	\subfloat[][]{\includegraphics[width=\textwidth]{DEFINITIVO_sp_res1.png}}\\
+	\subfloat[][]{\includegraphics[width=\textwidth]{DEFINITIVO_lj_res1.png}}
+	\caption{Representative message-force plots of early epochs of training for spring potential (a) and Lennard Jones (b).}
 	\label{fig:lincomb}
 \end{figure}
 
@@ -143,9 +151,9 @@ Anyway, it is possible to notice a difference between the two potentials in Figu
 
 \begin{figure}[tp]
 	\centering
-	\subfloat[][]{\includegraphics[width=\textwidth]{sp_reslast.png}}\\
-	\subfloat[][]{\includegraphics[width=\textwidth]{lj_reslast.png}}
-	\caption{\textbf{NOT DEFINITIVE IMAGES} Representative message-force plots of last epoch of training for spring potential (left) and Lennard Jones (right).}
+	\subfloat[][]{\includegraphics[width=\textwidth]{DEFINITIVO_sp_reslast.png}}\\
+	\subfloat[][]{\includegraphics[width=\textwidth]{DEFINITIVO_lj_reslast.png}}
+	\caption{Representative message-force plots of last epoch of training for spring potential (a) and Lennard Jones (b).}
 	\label{fig:lincomb_last}
 \end{figure}
 
