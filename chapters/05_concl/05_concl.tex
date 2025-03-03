@@ -8,26 +8,27 @@ In this thesis work we investigated how modeling and analysis tools can expand o
 To do so, we built on top of a simulation framework able to manage most of the features needed in a \emph{dry} ABPs computer experiment, such as steric interactions and interplay between particles and confinement, adding two-body aligning interactions.
 The main novelty here is the modeling technique: instead of applying an explicit torque, we applied a force to an off-center position that results (in the overdamped regime) both in a linear velocity applied \emph{to} the center of mass and in an angular velocity \emph{with respect to} the center of mass, thus automatically applying an aligning interaction torque.
 
-{\color{blue} To the best of our knowledge, this approach was not tried before in ABPs systems simulations, although a similar idea could be found in \cite{ostapenko_curvature-guided_2018}, where both a torque and a force and a torque are applied in a microswimmer interacting with a confinement.
+{\color{blue} To the best of our knowledge, this approach was not tried before in ABPs systems simulations, although a similar idea could be found in \cite{ostapenko_curvature-guided_2018}, where both a force and a torque are applied in a microswimmer interacting with a confinement.
 That work though analyzes single particle behaviors, and the only interaction is with a wall.}
+\todo{perché blu?}
 
-All of this was built to integrate seamlessly with periodic boundary conditions,in order to have particles interacting across the simulation space, making the movement-accessible space interaction-accessible as well.
+All of this was built to integrate seamlessly with periodic boundary conditions, in order to have particles interacting across the simulation space, making the movement-accessible space interaction-accessible as well.
 Hard-spheres correction was made periodic too, resulting in the elimination of the artifact that kept particles from accumulating across simulation box boundaries.
-Inserting a threshold range in interactions allowed to lighten the simulation, resulting in reduced execution times, as well as simulating topological interactions and study the effect that interaction range have on the system.
+Inserting a threshold range in interactions allowed to lighten\todo{lighten sembra una traduzione letterale dall'italiano... esprimiti meglio} the simulation, resulting in reduced execution times, as well as simulating topological interactions and study the effect that interaction range have on the system.
 In future developments, this could be useful to insert screening effects that particles may exert on each other, as well as solvent-driven ones, that limit the range of interactions in a physical experiment.
 
-Regarding the similarity with experimental behaviors, our simulations perform well for two-particles interactions, showing that an aligning interaction is taking place as claimed by \cite{singh_pair_2024}, while three bodies dynamics such as rotation of a triplet occur with a faster time scale in simulations, although dynamic is similar.
-looking at videos from the host laboratory, probably a stronger, but shorter range interaction is needed to get experimental clustering without the whole system self-organizing in a big clump.
+Regarding the similarity with experimental behaviors, our simulations perform well for two-particles interactions, showing that an aligning interaction is taking place as claimed by \cite{singh_pair_2024}, while three bodies dynamics such as rotation of a triplet occur with a faster time scale in simulations, although qualitatively similar.
+Looking at videos from experiments done in the host laboratory, probably a stronger, but shorter range interaction is needed to get experimental clustering without the whole system self-organizing in a single large cluster.
 
 We showed that a system with a repulsive interaction and an interacting position off-centered to the front of the swimming particles presents a phase transition to flocking.
-As stated in section \ref{3concl} this would put this kind of system in the set of 
+As stated in section \ref{3concl} this would put this kind of system in the set of \todo{manca un pezzo...}
 As results in chapter 3 show, in the explored cases an interacting position on the back, coupled with an attractive potential does not let the system flock.
 This is in good agreement with experimental observations where flocking was never observed, encouraging us to trust our model, since it qualitatively resembles the fact that the interacting part of a Janus particle is on its catalytic side and Pt-silica Janus particles are known to swim with platinum hemisphere on the back.
 A short-range attraction is not able to align two particles that swim towards each other, as observed through this thesis.
-As literature \cite{sharan_pair_2023} shows, copper particles swim towards their copper hemisphere and they show a longer range in interactions, as well as a strong repulsion.
+As literature \cite{sharan_pair_2023} shows, Cu-silica Janus particles (also being studied in the host laboratory) swim towards their copper hemisphere and they show a longer interaction range compared to Pt-silica ones, as well as a stronger repulsion.
 This could make them similar to the repulsive particles we simulated in section \ref{phasetrans} and, if aligning interactions take place between them, they could be a good case study for flocking.
 
-From the point of view of the host project, CELLOIDS, flocking could be an interesting behavior since the capacity to control the direction of a whole set of particles is crucial to steer the micro-robot to its objective.
+From the point of view of the host project, CELLOIDS, flocking could be an interesting behavior since the capacity to control the direction of a whole set of particles is crucial to steer a particles-filled microrobot to its objective.
 Still, making an ensemble of active particles polarize without the presence of an external field is not an easy task and a deeper investigation, both \emph{in vitro} and \emph{in silico} will be needed to reach such a goal.
 As we showed in sections \ref{velocity} and \ref{veldist}, the presence of faster particles (high Péclet number) makes flocking transition faster, spreading the information about orientation faster across the system.
 This fact would be useful in an experimental setting, but it needs to be better studied without periodic boundary conditions, since we are still unaware of the effect of a confinement.
@@ -36,14 +37,17 @@ We showed how an angular velocity is able to disrupt global polarization in a sy
 Nonetheless, we observed the system keep some local polarization in oriented domains in which each particle rotates on its axis.
 An interesting development of this observations would be labeling each particle with the angular velocity it was generated with.
 With linear velocity distributions it is pretty evident how slower particles tend to cluster, leaving faster particles in a free state, and it would be remarkable if chiral particles would undergo some spontaneous demixing or segregation process, where particles with similar angular velocity tend to aggregate.
+\todo{interessante: c'è un motivo per cui non è stato possibile fare questa analisi?}
 
 More work needs to be done in order to make the inference tool work as needed, both in data preparation and network training.
 Once working on a single potential, this tool should be trained to generalize on any potential and tested with simulations before applying it to experimental data.
 It should also be able to work in situations where some collective behaviors take place to shed more light on this phenomena from an experimental standpoint.
 ActiveNet \cite{ruiz-garcia_discovering_2024} authors stated that their tool has the capacity to generalize to aligning interactions, as well as active angular velocities, an that would be the next step for us, since that is the only tool which has not been tested with active and two-body torques, among the ones presented in this work.
 
-As a general objective, we are aware that all the work presented here needs to be repeated in cases where a confinement is present, with several shapes, to make it useful in micro-robots designing and testing.
+As a general objective, the work presented here could be implemented in cases where a confinement is present, with several shapes, to make it useful in microrobots designing and testing.
 Experimenting with different types of interactions, aligning and not aligning, between particles and boundary will be crucial to apply this knowledge to real cases.
-A further advancement would be exploring the effect of soft confinements, which will need their own modeling and simulation framework, in order to simulate the encapsulation of Janus particles inside Giant Unilamellar Vesicles.
+A further advancement would be exploring the effect of soft confinements, which will need their own modeling and simulation framework, in order to simulate the encapsulation of Janus particles inside Giant Unilamellar Vesicles and realize active particles-based cell-lke microrobots.
+
+\todo{concludi con quello che il mondo delle particelle attive/sistemi complessi guadagna da questo lavoro}
 
 \end{document}
