@@ -77,7 +77,7 @@
 		Averaging over clusters, this parameter $\bar{P}$ will be close to $1$ even if $P$ is kept low by the different orientations of clusters, making it a good parameter to study local properties and short range interactions.
 		
 		\section{Flocking as a Phase Transition} \label{phasetrans}
-		As mentioned in section \ref{literature}, \citeauthor{martin-gomez_collective_2018}, as well as \citeauthor{negi_emergent_2022} \cite{martin-gomez_collective_2018, negi_emergent_2022} showed how inserting an explicitly aligning interaction in the simulation can make the whole system polarize, meaning all particles move in the same direction. 
+		As mentioned in section \ref{literature}, \citeauthor{martin-gomez_collective_2018}, and \citeauthor{negi_emergent_2022} \cite{martin-gomez_collective_2018, negi_emergent_2022} showed how inserting an explicitly aligning interaction in the simulation can make the whole system polarize, meaning all particles move in the same direction. 
 		This phenomenon is called \emph{flocking}.
 		
 		\begin{figure}[htp]
@@ -195,6 +195,7 @@
 		For cluster size and number, as well as polarization figures, lines in graphs are averages of those five simulations, with ribbons around them represent standard deviations around the mean.
 		Radial distribution functions are plotted for the final instant of just one of the simulations.
 		Transient time for polarization is measured as the time it takes for this order parameter to reach \num{95} \% of its maximum.
+		In simulation snapshots, both color and the arrow inside of a particle represent its orientation, and particles' placeholders are plotted with their diameter in scale, as explained in section \ref{qualitative}.
 		
 		\subsection{Velocity}
 		\label{velocity}
@@ -218,9 +219,9 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/polar10.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/polar20.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/polar10.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/polar10.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/polar20.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/polar10.0_oc-0.5.png}}\\
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
@@ -228,7 +229,7 @@
 		\begin{figure}
 			\centering
 			\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/polar20.0_oc-0.5.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/polar20.0_oc-0.5.png}}
 			\caption{Local (blue) and global (green) polarization corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_pol}
 		\end{figure}
@@ -236,9 +237,9 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/cluster10.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/cluster20.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/cluster10.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/cluster10.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/cluster20.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/cluster10.0_oc-0.5.png}}\\
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
@@ -246,7 +247,7 @@
 			\centering
 			\ContinuedFloat
 
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/cluster20.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/cluster20.0_oc-0.5.png}}\\
 
 			\caption{Maximum cluster size and number of clusters corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_cluster}
@@ -259,16 +260,16 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/rdf10.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/rdf20.0_oc0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/rdf10.0_oc-0.5.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/rdf10.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/rdf20.0_oc0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/rdf10.0_oc-0.5.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}
 			\centering
 			\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_velocity/rdf20.0_oc-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_velocity/rdf20.0_oc-0.5.png}}\\
 			
 			\caption{Radial distribution function at last instant of simulation corresponding to values of velocity and $\alpha$: (a) $v = \SI{10}{\um \per \second} \alpha = 0.5$, (b) $v = \SI{20}{\um \per \second} \alpha = 0.5$, (c) $v = \SI{10}{\um \per \second} \alpha = -0.5$, (d) $v = \SI{20}{\um \per \second} \alpha = -0.5$.}
 			\label{fig:lj_velocity_rdf}
@@ -305,16 +306,16 @@
 		
 		\begin{figure}[htp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/polar1.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/polar2.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/polar5.0.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/polar1.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/polar2.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/polar5.0.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}
 			\centering
 			\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/polar10.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/polar10.0.png}}\\
 			
 			\caption{Local (blue) and global (green) polarization for a normal velocity distribution with $\mu = \SI{10}{\um\per\second}$ and standard deviation: (a) $\sigma = \SI{1}{\um\per\second}$, (b) $\sigma = \SI{2}{\um\per\second}$, (c) $\sigma = \SI{5}{\um\per\second}$, (d) $\sigma = \SI{10}{\um\per\second}$}
 			\label{fig:lj_vdist_pol}
@@ -322,16 +323,16 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/cluster1.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/cluster2.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/cluster5.0.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/cluster1.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/cluster2.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/cluster5.0.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}[t]
 			\centering
 			\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/cluster10.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/cluster10.0.png}}\\
 			
 			\caption{Maximum cluster size and number of clusters for a normal velocity distribution with $\mu = \SI{10}{\um\per\second}$ and standard deviation: (a) $\sigma = \SI{1}{\um\per\second}$, (b) $\sigma = \SI{2}{\um\per\second}$, (c) $\sigma = \SI{5}{\um\per\second}$, (d) $\sigma = \SI{10}{\um\per\second}$}
 			\label{fig:lj_vdist_clust}
@@ -340,16 +341,16 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/rdf1.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/rdf2.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/rdf5.0.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/rdf1.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/rdf2.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/rdf5.0.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}
 			\centering
 			\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_vdist/rdf10.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_vdist/rdf10.0.png}}\\
 			
 			\caption{Radial distribution function at last instant of simulation for a normal velocity distribution with $\mu = \SI{10}{\um\per\second}$ and standard deviation: (a) $\sigma = \SI{1}{\um\per\second}$, (b) $\sigma = \SI{2}{\um\per\second}$, (c) $\sigma = \SI{5}{\um\per\second}$, (d) $\sigma = \SI{10}{\um\per\second}$.}
 			\label{fig:lj_vdist_rdf}
@@ -406,18 +407,18 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar-0.75.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar-0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar-0.25.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar-0.75.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar-0.25.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}[hbtp]
 			\ContinuedFloat
 			\centering
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar0.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar0.25.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar0.25.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar0.5.png}}\\
 			\caption[]{}
 		\end{figure}
 		
@@ -425,7 +426,7 @@
 			\ContinuedFloat
 			\centering
 			
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/polar0.75.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/polar0.75.png}}
 			
 			\caption{Local (blue) and global (green) polarization for corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_pol}
@@ -434,25 +435,25 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster-0.75.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster-0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster-0.25.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster-0.75.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster-0.25.png}}\\
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 			\begin{figure}[hbtp]
 				\ContinuedFloat
 				\centering
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster0.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster0.25.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster0.25.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster0.5.png}}\\
 			%\captionsetup{list=false}
 			\caption[]{}
 			\end{figure}
 			\begin{figure}[t]
 				\ContinuedFloat
 				\centering
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/cluster0.75.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/cluster0.75.png}}
 			
 			\caption{Maximum cluster size and cluster number corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_clust}
@@ -461,21 +462,21 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf-0.75.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf-0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf-0.25.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf-0.75.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf-0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf-0.25.png}}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}\ContinuedFloat
 			\centering
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf0.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf0.25.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf0.25.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf0.5.png}}\\
 			\caption[]{}
 		\end{figure}
 		\begin{figure}\ContinuedFloat
 			\centering
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_oc/rdf0.75.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_oc/rdf0.75.png}}
 			
 			\caption{Radial distribution function at last instant of simulation corresponding to values of off center parameter $\alpha$: (a) $\alpha = -0.75$, (b) $\alpha = -0.5$, (c) $\alpha = -0.25$, (d) $\alpha = 0$, (e) $\alpha = 0.25$, (f) $\alpha = 0.5$, (g) $\alpha = 0.75$}
 			\label{fig:lj_oc_rdf}
@@ -512,16 +513,16 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/polar0.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/polar0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/polar1.0.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/polar0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/polar0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/polar1.0.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}
 		\centering
 		\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/polar2.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/polar2.0.png}}\\
 			
 			\caption{Local (blue) and global (green) polarization for a normal angular velocity distribution with $\mu = \SI{0}{\um\per\second}$ and standard deviation: (a) $\sigma = \SI{0}{\um\per\second}$, (b) $\sigma = \SI{0.5}{\um\per\second}$, (c) $\sigma = \SI{1}{\um\per\second}$, (d) $\sigma = \SI{2}{\um\per\second}$}
 			\label{fig:lj_av_pol}
@@ -529,16 +530,16 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/cluster0.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/cluster0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/cluster1.0.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/cluster0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/cluster0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/cluster1.0.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}
 		\centering
 		\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/cluster2.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/cluster2.0.png}}\\
 			
 			\caption{Maximum cluster size and cluster number for a normal angular velocity distribution with $\mu = \SI{0}{\um\per\second}$ and standard deviation: (a) $\sigma = \SI{0}{\um\per\second}$, (b) $\sigma = \SI{0.5}{\um\per\second}$, (c) $\sigma = \SI{1}{\um\per\second}$, (d) $\sigma = \SI{2}{\um\per\second}$}
 			\label{fig:lj_av_clust}
@@ -546,16 +547,16 @@
 		
 		\begin{figure}[hbtp]
 			\centering\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/rdf0.0.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/rdf0.5.png}}\\
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/rdf1.0.png}}
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/rdf0.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/rdf0.5.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/rdf1.0.png}}
 			%\captionsetup{list=false}
 			\caption[]{}
 		\end{figure}
 		\begin{figure}[t]
 		\centering
 		\ContinuedFloat
-			\subfloat[][]{\includegraphics[width=.9\textwidth]{lj_av/rdf2.0.png}}\\
+			\subfloat[][]{\includegraphics[width=.8\textwidth]{lj_av/rdf2.0.png}}\\
 			
 			\caption{Radial distribution function at last instant of simulation for a normal angular velocity distribution with $\mu = \SI{0}{\um\per\second}$ and standard deviation: (a) $\sigma = \SI{0}{\um\per\second}$, (b) $\sigma = \SI{0.5}{\um\per\second}$, (c) $\sigma = \SI{1}{\um\per\second}$, (d) $\sigma = \SI{2}{\um\per\second}$}
 			\label{fig:lj_av_rdf}

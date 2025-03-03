@@ -348,7 +348,7 @@
 	Although most videos do not contain enough particles to build a sample velocity distribution, it is noticeable how very fast particles are rare if compared with slow particles.
 	To catch this asymmetry, we generated simulated particles' velocities from an exponential distribution, allowing us to maximize the number of collisions.
 	Also, particles orientation is difficult to measure in our experiments but some particles rotate around their axis, thus having both linear and rotational self-propulsion, like  Chiral Brownian Particles \cite{callegari_numerical_2019, bechinger_active_2016}.
-	Since we do not observe a preferred direction in self-propulsive rotation, particles' angular velocities are generated from a distribution which is symmetric around 0; moreover, few particles present large angular velocities, so we generated them in simulations using a Normal distribution, to have control on its broadness.
+	Since we do not observe a preferred direction in self-propulsive rotation, particles' angular velocities are generated from a distribution which is symmetric around 0; moreover, few particles present large angular velocities, so we generated them in simulations using a normal distribution, to have control on its broadness.
 	
 	\subsection{Qualitative Comparison between Simulations and Experiments}	
 	
@@ -367,6 +367,8 @@
 	\end{figure}
 	
 	Figure \ref{fig:simdoub} shows how this behavior is captured in a simulation with Lennard Jones strength $\epsilon = \SI{0.1}{\pico\joule}$ and off center parameter $\alpha = -0.5$.
+	Simulation snapshots show particles as circles with their diameter in scale, so that when two circles touch particles are in contact too.
+	Both the triangle inside particles' placeholders and their color represent orientation.
 	As the interaction takes place, one of the two particles gets rotated to the right, and its motion continues in that direction.
 	It is evident how the sliding contact behavior takes place as the result of the interplay between particles' self-propulsion, hard-spheres correction and attractive interaction potential.
 	\begin{figure}[hbtp]

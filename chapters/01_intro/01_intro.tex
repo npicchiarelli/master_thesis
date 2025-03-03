@@ -14,7 +14,7 @@
 	One of the models that can be created adding deterministic properties along the stochastic behavior of a Brownian motion is Active Brownian Particles (ABPs).
 	
 	Active particles are distinguished by their ability to extract energy from the environment and use it to autonomously propel themselves, thus making them a fundamental model for non-equilibrium active matter systems.	
-	The motility mechanism can be mechanic, like cilia or flagella used by micro-organisms, or thermo- and chemodynamic, like phoresis of various nature \citeauthor{moran_phoretic_2017}.
+	The motility mechanism can be mechanic, like cilia or flagella used by micro-organisms, or thermo- and chemodynamic, like phoresis of various nature \cite{moran_phoretic_2017}.
 	
 	Incorporating self-propulsion within the Brownian framework enables the emergence of numerous novel behaviors, among which self-organization being noteworthy and the subject of this thesis. 
 	Across different systems, details about a single particle may differ, especially in propulsion mechanisms, nonetheless it is possible to build minimal statistical physics models that mimic real world dynamics, leading the way to the discovery of new physics as well as methods to analyze real living beings' behaviors and new ideas in material science. 
@@ -30,13 +30,13 @@
 		\omissis it would be interesting in surgery if you could swallow the surgeon. You put the mechanical surgeon inside the blood vessel and it goes into the heart and "looks" around. \omissis It finds out which valve is the faulty one and takes a little knife and slices it out. Other small machines might be permanently incorporated in the body to assist some inadequately functioning organ.
 	\end{displayquote}
 	The scaling laws of physical quantities, especially regarding friction and hydrodynamics, makes it challenging to construct a micrometer scale robot which is just a miniaturized version of a macroscopic one.
-	Moving in a fluid for the size and speed of few $\mu\text{m/s}$ we are interested in-meaning, at low Reynolds number ($\mathrm{Re} \equiv \rho v L/\eta$) requires quite a different approach than what we are used to in the macroscopic world.
+	Moving in a fluid for the \unit{\um} size and speed of few \unit{\um \per \second} we are interested in --- meaning, at low Reynolds number ($\mathrm{Re} \equiv \rho v L/\eta$) --- requires quite a different approach than what we are used to in the macroscopic world.
 	When inertia is negligible, it is impossible to swim using a \emph{reciprocal motion}, that is, a cyclic motion that follows the same path forward and back \cite{purcell_life_1977}. 
 	Needless to say that turning a propeller with a miniaturized macroscopic motor won't be optimal at this scale, since its starting torque would be extremely large. 
 	These huge difficulties are encountered if one just wants to swim in a simple fluid. 
 	Using a micro robot inside a human body brings some other challenges in the problem, such as swimming in viscoelastic media like hyaluronic acid lattices or shrinking through the small interstices in between living cells. 
 	Most of the problems we enumerated have been solved by nature already e.g.\ immune cells can overcome pretty much all challenges mentioned in this paragraph. 
-	When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch. \cite{palagi_bioinspired_2018}
+	When trying to tackle said challenges a convenient approach would be imitating what has been already done in billions of years of evolution, instead of developing new strategies from scratch. 
 	%\todo{QUI FAI UN PO' UN GIRO STRANO, DA Feynman ALLO SCALING DELLE GRANDEZZE ALLE CELLULE IMMUNITARIE. DOVRESTI PIUTTOSTO DEFINIRE COSA INTENDIAMO PER MICROROBOT, MAGARI CITANDO ANCHE UN ARTICOLO DI RIFERIMENTO IN MICROROBOTICA.}
 	When talking about microrobots, we need to be clear about what a microrobot \emph{is}. 
 	A \emph{robot} is \enquote{a machine that can perform a complicated series of tasks by itself} \cite{robot_def_oxf}; a microrobot is defined as a robot with
@@ -45,7 +45,7 @@
 	\item some mobility properties
 	\item no tether
 	\end{itemize}
-	and its design needs some key ingredients, such as an actuation to make it motile, some kind of control and a power source to be able to perform desired tasks, as well as some sensing capability, to sample and observe surrounding environment. 
+	and its design needs some key ingredients, such as an actuation to make it motile, some kind of control and a power source to be able to perform desired tasks, as well as some sensing capability, to sample and observe surrounding environment \cite{palagi_bioinspired_2018}. 
 	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system that takes inspiration from the amoeboid propulsion of immune cells. 
 	CELLOIDS’ concept for a microrobot is using a phospholipids GUV (Giant Unilamellar Vesicle), filled with ABPs, as robot's body. 
 	GUV’s walls are deformable and can be pushed from the inside by ABPs, leading to further deformation and, in the end, motility, mimicking the behavior of living cells that can shrink through a biological tissue.
@@ -73,7 +73,7 @@
 	Active matter models can be either \emph{dry} or \emph{wet}: in \emph{dry} models the solvent is not explicitly simulated while \emph{wet} simulations solve equations both for colloidal and fluid particles, including all possible hydrodynamics. 
 	However, details about the hydrodynamic and electro-chemical fields around active particles are still a matter of investigation.
 	Moreover, even if known, they can be realistically simulated only for individual or few particles.
-	In terms of interactions among particles, two main types are reported in the literature: aligning interaction, involving the direction of particles, and non-aligning, which can be central potentials like a hard sphere excluded volume interaction \cite{callegari_numerical_2019}.
+	In terms of interactions among particles, two main types are reported in the literature: aligning interaction, involving the direction of particles, and non-aligning, which are independent on particles' direction of motion \cite{callegari_numerical_2019}.
 	
 	This work aims at a minimal \emph{dry} model that takes into account both aligning and non-aligning interactions in the attempt of matching experimental observations.
 	Here, the term \emph{minimal} means not only that a unique interaction potentials is used to couple both positional and orientational degrees of freedom, but also that this simple model could be enough to simulate real world phenomena without making assumptions on the hydrodynamics and chemistry involved. 

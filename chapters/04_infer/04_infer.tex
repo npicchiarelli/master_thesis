@@ -7,18 +7,18 @@
 Our goal is to infer the one-body (self-propulsion) and the two-body forces (interactions) that take place in ensembles of active particles using a machine learning tool.
 Such systems present a high degree of complexity and a full understanding of the actual interactions has yet to be reached; in this situation, machine learning could be the way of inferring systems' dynamic laws from the observation of simulated and experimental behaviors, with nothing more than some simple assumptions as an underlying model.
 
-As explained in section \ref{literature}, one could use as input some global attribute of the system, such as the radial distribution function, but, as showed by \citeauthor{bag_interaction_2021}, this approach does not work well in out-of-equilibrium cases where an active velocity is present, since self-propulsion may make the system cluster in a MIPS (Motility Induced Phase Separation) fashion and thus the structure may reflect that of an equilibrium system where an attractive interaction is applied.
+As explained in section \ref{literature}, one could use as input some global attribute of the system, such as the radial distribution function, but, as showed by \citeauthor{bag_interaction_2021} \cite{bag_interaction_2021}, this approach does not work well in out-of-equilibrium cases where an active velocity is present, since self-propulsion may make the system cluster in a MIPS (Motility Induced Phase Separation) fashion and thus the structure may reflect that of an equilibrium system where an attractive interaction is applied.
 %\todo{io ho capito, ma spiega meglio}
 
 \section{Methods}
-The tool we propose is based on a Graph Neural Network (GNN) that takes as input the positions and orientations of a set of active particles and tries to predict the resulting velocities.
-Here, we tried to replicate the approach used by \citeauthor{ruiz-garcia_discovering_2024}, where a vector of positions and orientations of a set of active particles is given as input to a Graph Neural Network which tries to predict resulting velocities.
-Both in our work and in the reference paper the objective is to train a network on simulated data and then use it to predict interaction potential in experiments.
+The tool we propose is based on a Graph Neural Network (GNN) that takes as input the positions and orientations of particles and tries to predict the resulting velocities.
+Here, we tried to replicate the approach used by \citeauthor{ruiz-garcia_discovering_2024} \cite{ruiz-garcia_discovering_2024}, where a vector of positions and orientations of active particles is given as input to a Graph Neural Network which predicts resulting velocities.
+Like in \cite{ruiz-garcia_discovering_2024}, our objective is to train a network on simulated data and then use it to predict interaction potential in experiments.
 The main difference is in the experimental setup used: \citeauthor{ruiz-garcia_discovering_2024} used snapshots taken from electrophoretic Janus particles, where some control is held on the system via an external electric field.
-This is not the case in the host lab, where autonomous self-diffusiophoretic Janus particles are used.
-Simulation framework is also different: in the reference work particles are simulated using a modified version of LAAMPS \cite{thompson_lammps_2022} molecular dynamics simulator, while our simulation code is made in-house as explained in \ref{chap:int_impl}.
+This is not the case in the host lab, where autonomous self-diffusiophoretic Janus particles are used, which pose a limitation in long range self organization of the particles.
+Simulation framework is also different: in the reference work particles are simulated using a modified version of LAAMPS \cite{thompson_lammps_2022} molecular dynamics simulator, while our simulation code is in-house built as explained in chapter \ref{chap:int_impl}.
 
-In principle, one could also use a Dense Neural Network (DNN) to learn a high-dimensional nonlinear function that maps a $3N_p$ vector (in 2D, with $N_p$ number of particles) of all particles' positions and orientations into a $2N_p$ vector of velocities, but a Network like this would struggle to adapt to cases with different $N_p$, especially if the number of particles is changing, as happens in experimental settings. 
+In principle, one could also use a Dense Neural Network (DNN) to learn a high-dimensional nonlinear function that maps a $3N_p$ vector (in 2D, with $N_p$ number of particles) of all particles' positions and orientations into a $2N_p$ vector of velocities, but a network like this would struggle to adapt to cases with different $N_p$, especially if the number of particles is changing, as happens in experimental settings. 
 %\todo{qual è il vantaggio di usare una GNN? spiega}
 %\todo{loro lo hanno usato per fare cosa? dati simulati o sperimentali? quali potenziali? spiega}
 %\todo{in cosa il nostro lavoro è simile? in cosa è diverso? spiega}
@@ -30,7 +30,7 @@ In principle, such a structure could be initialized with varying number of nodes
 \subsection{The Graph Neural Network}
 Our GNN is structured as explained in section \ref{literature}, namely with a node and a message function. 
 Both of them have 4 layers, with 300 hidden nodes; each hidden layer has a ReLU (Rectified Linear Unit) activation function, while the output layer of each Network is a simple linear layer without any activation.
-As for Figure \ref{fig:ruiz1}, the input layer of the message function is $2n_f$ dimensional, where $n_f$ is the number of single particle features, namely $x$, $y$, and $\theta$, to have information about positions and orientations of each pair of interacting agents.
+As for Figure \ref{fig:ruiz1}, the input layer of the message function is $2n_f$ dimensional (in 2D), where $n_f$ is the number of single particle features, namely $x$, $y$, and $\theta$, to have information about positions and orientations of each pair of interacting agents.
 Messages are aggregated using sum as an aggregation function (\verb|'add'| in PyG jargon) to respect the physics of the problem.
 The node function's input dimension is $n_f + n_m$ where $n_m$ is the output dimension of the message function; this is done because the node function has the purpose of taking the aggregated message from all the senders (particle inside a threshold distance $\Gamma$) along with the single features of the receiver and trying to predict the receiver's velocity.
 In Newtonian dynamics, an acceleration is the result of a force, while in low-Reynolds number regime there is a linear relation between force and velocity.
@@ -47,7 +47,7 @@ A schematic of our GNN's structure is in Figure \ref{fig:schema_gnn}.
 %\todo{ma uno schemino? due equazioni? spiega meglio}
 %\todo{approfondisci questo discorso velocità/accelerazione...}
 
-If $\xi$ is the edge function and $\phi$ is the node function (see Figure \ref{fig:ruiz1} as a reference), we have that the predicted velocity $\vec{v}_i^p$ takes the form
+If $\xi$ is the edge function and $\psi$ is the node function (see Figure \ref{fig:ruiz1} as a reference), we have that the predicted velocity $\vec{v}_i^p$ takes the form
 \begin{equation}
 	\vec{v}_i^p \equiv \tilde{\psi} \left( \vec{c}_i, \sum_{d_{ij} < \Gamma} \vec{\xi} (\vec{c}_i, \vec{c}_j) \right),
 \end{equation}
@@ -64,7 +64,7 @@ After the computation, all velocities get checked and $L/\Delta t$ is subtracted
 %\todo{questo non è chiaro... spiega meglio; mi ricordo che abbiamo ragionato su come calcolare la velocità: spiega il ragionamento e perché è importante, aggiungi equazioni se necessario}
 
 The problem of message dimension $n_m$ is tackled in section \ref{literature}. 
-Here, we chose a message dimension $n_m = 2$, as reported in the reference paper \cite{ruiz-garcia_discovering_2024}.
+Here, we chose a message dimension $n_m = 2$, as reported in \cite{ruiz-garcia_discovering_2024}.
 Some trials with $n_m = 100$ and L1 regularization were made, in the spirit of \cite{cranmer_discovering_2020}, but in the message extraction it was not possible to limit the maximum standard deviation to two message components, as, ordering them by variance, the most important components changed from epoch to epoch, not leading to a stable reduction in message size. 
 %\todo{perché 2? spiega; in realtà abbiamo provato anche altro, spiega perché alla fine abbiamo scelto 2}
 
@@ -103,7 +103,7 @@ We let the two systems evolve for a total simulated time of \SI{1000}{\second}, 
 We divided these snapshots in \num{750} for training and \num{250} for testing.
 The network was trained and tested on each simulation's data separately to have preliminary results.
 We tried the same procedure explained in \cite{ruiz-garcia_discovering_2024}, where two particles are considered as linked in the graph if their distance is less than some threshold, and then increasing the threshold in subsequent training loops.
-In our case, after learning with the first threshold distance, loss does not decrease and test results do not improve, so what follows refers to a threshold distance of \SI{20}{\um}.
+In our case, after learning with the first threshold distance, loss does not decrease and test results do not improve, so what follows refers to a threshold distance of \SI{20}{\um}, or $10 \times$ particle's radius.
 This threshold was chosen in order to have both repulsion and attraction for the two potentials.
 In reference paper, only distances up to three particle diameters are plotted in the learned force plots, since no additional information can be extracted from the fast-decreasing potentials \citeauthor{ruiz-garcia_discovering_2024} used.
 Lennard Jones is a fast-decreasing potential so it is possible that after this threshold the interaction force is small enough not to have effect on the learning process.
@@ -131,7 +131,7 @@ We work in cases where both the distances between particles and the functional f
 Here we specify that, since the output of the message function is taken as input by the (linear) node function to predict velocity, it will correspond to the actual force only up to a linear transformation.
 A way to compare messages to forces is to compute the ground truth, extract messages from the network and finding the best linear transformation to map one into the other, finding the right parameters that minimize the square difference between the two.
 Regarding the message-force plot, a working network with the right linear transformation should show points on the $x = y$ line, being the message components in perfect correspondence with a rotation of the force components as \ref{fig:cranmer1} shows.
-In Figure \ref{fig:lincomb} we reported the qualitatively best results, since the loss scoring in this case does not reflect a prediction quality.
+In Figure \ref{fig:lincomb}, we reported the qualitatively best results, since the loss scoring in this case does not reflect a prediction quality.
 
 \begin{figure}[tp]
 	\centering
@@ -142,12 +142,12 @@ In Figure \ref{fig:lincomb} we reported the qualitatively best results, since th
 \end{figure}
 
 As the animation in \cite{cranmer_discovering_2020} shows, as the network learns, the message-force graphs should show a better agreement between what is learned by the GNN and ground-truth.
-In our case, as it is shown in fig \ref{fig:lincomb_last}, in the case of spring potential, the message-force plot has all the points on a vertical line, showing no correspondence between the learned results and ground-truth forces.
+In our case, as it is shown in Figure \ref{fig:lincomb_last}, in the case of spring potential, the message-force plot has all the points on a vertical line, showing no correspondence between the learned results and ground-truth forces.
 This could be caused by a tendency to overfit on the presented data, since loss is decreasing while test result are worse.
 
 %\todo{sarebbe interessante vedere dei grafici della forza vs. distanza, ma visto che non riusciamo a mappare le componenti del messaggio alle forze, potremmo dare un'occhiata ai messaggi (norma?) vs. distanza}
 
-Anyway, it is possible to notice a difference between the two potentials in Figure \ref{fig:lincomb}: in the case of Lennard Jones (Panel (b)), few points are outside the vertical line and they position in an horizontal cloud around it, while for the elastic potential (Panel (a)) most points are scattered around an horizontal cloud and a density increase can be observed in diagonal lines.
+Nonetheless, it is possible to notice a difference between the two potentials in Figure \ref{fig:lincomb}: in the case of Lennard Jones (Panel (b)), few points are outside the vertical line and they position in an horizontal cloud around it, while for the elastic potential (Panel (a)) most points are scattered around an horizontal cloud and a density increase can be observed in diagonal lines.
 
 \begin{figure}[tp]
 	\centering
@@ -166,7 +166,7 @@ As shown in section \ref{4results}, more work is needed in order to make this to
 In particular, training for longer with more simulation snapshots is certainly needed in order to get the right accuracy.
 In reference paper, the problem of data amount is tackled comparing errors in cases with different simulation temperature.
 It is clear how with higher temperature noise tends to increase and more data is needed in order to have accurate estimates of the self-propulsion and interaction forces.
-In general, we can say that, due to computational time limitations, the amount of particles in our simulations (100) is pretty low if compared with what \citeauthor{ruiz-garcia_discovering_2024} have used (2500).
+In general, we can say that, due to computational time limitations, the number of particles in our simulations (100) is pretty low if compared with what \citeauthor{ruiz-garcia_discovering_2024} have used (2500).
 Knowing that the number of edges in an undirected graph is quadratic with the number of nodes, the number of total interactions to learn from is extremely low in our case if compared with the reference paper.
 While ActiveNet authors used a molecular dynamics simulator, made to simulate a high number of particles, our simulation framework was built to simulate conditions akin to the ones we see in experiments, thus it is optimized for a low packing fraction and low number of particles setting.
 Moreover, our aim was to train the network in such conditions to make it more adaptable to the analysis of experimental data.
@@ -179,12 +179,12 @@ After making the training process work as desired, the next step is to retrain t
 
 Moreover, testing with experimental data will need some more adjustments.
 In an experimental setting, defects inherited from the fabrication process like stuck particles and particle clumps can make it harder for a machine learning tool to work properly.
-In the case of experimental data collected in the Microscale Robotics Lab, it is hard to measure particles' orientation, since the two hemispheres of silica Janus particles are not clearly distinguishable, though a difference in color is noticeable.
-Moreover, these particles are free to rotate in three dimensions and nothing prevents them from pointing one hemisphere to the microscope objective, not showing the separation line.
+In the case of experimental data collected in the host lab, it is hard to measure particles' orientation, since the two hemispheres of silica Janus particles are not clearly distinguishable, though a difference in color is noticeable.
+Moreover, these particles are free to rotate in three dimensions and can point one hemisphere to the microscope objective, not showing the separation line.
 One workaround to this issue could be taking as particle's orientation the instantaneous angle that its trajectory forms, computing it between two consecutive instants.
 This would be putting all the information about interactions inside self-propulsion, nonetheless if the two time scales are sufficiently different, one might be able to separate the two, leading to an accurate estimate of particles' orientation.
 This approach needs some testing in simulations, when orientations are known, to understand its limitations and advantages.
 
-We can state that these results, though certainly not satisfying, can be a starting point to further developments of this tool, getting it to work as expected in the case of active particles like those under investigation in the host laboratory.
+We anticipate that these outcomes will be a good starting point to further developments of this tool, getting it to work as expected in the case of active particles like those under investigation in the host laboratory.
 With the potentials inferred from experiments, we would be able to model particles in a more accurate and complete way, to simulate them and use simulated data back in a simulation-driven inference fashion.
 \end{document}
