@@ -45,7 +45,7 @@
 	\item some mobility properties
 	\item no tether
 	\end{itemize}
-	and its design needs some key ingredients, such as an actuation to make it motile, some kind of control and a power source to be able to perform desired tasks, as well as some sensing capability, to sample and observe surrounding environment \cite{palagi_bioinspired_2018}. 
+	and its design needs some key ingredients, such as an actuation to make it motile, control and a power source to be able to perform desired tasks, and capability to sense and perceive its environment \cite{palagi_bioinspired_2018}. 
 	The aim of CELLOIDS, the project inside of which this work has taken place, is to build a micro-scale intelligent robotic system that takes inspiration from the amoeboid propulsion of immune cells. 
 	CELLOIDS’ concept for a microrobot is using a phospholipids GUV (Giant Unilamellar Vesicle), filled with ABPs, as robot's body. 
 	GUV’s walls are deformable and can be pushed from the inside by ABPs, leading to further deformation and, in the end, motility, mimicking the behavior of living cells that can shrink through a biological tissue.
@@ -54,10 +54,10 @@
 	When studying motion of a particle in a fluid it is common to take as boundary condition a no-slip condition, i.e.\ the layer of fluid in contact with particle's solid boundary has zero velocity w.r.t.\ the boundary itself, while in the study of phoresis, a small interfacial layer around particle's surface shows, on macroscopic length scales, an apparent finite slip velocity. 
 	Slip velocity is proportional to the local gradient of $\phi$ and the net migration pf the particle is equal in magnitude and opposite in sign to the area average of the slip velocity on particle surface.
 	%\todo{QUESTO LO PUOI SPIEGARE UN PO' MEGLIO... A LEZIONE ABBIAMO PARLATO DI FORESI, VELOCITÀ DI SLIP APPARENTE, ...}
-	When $\phi$ is the concentration of some solute in the fluid, \emph{diffusiophoresis} takes place; CELLOIDS tries to achieve this using as active particles Janus spheres, with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity; this makes the solvent flow around the particle causing it to move. 
-	In particular, the most studied Janus Sphere in this field is a \ch{SiO2} sphere where \ch{Pt} is deposed using a sputtering machine to coat just one hemisphere; the fuel is \ch{H2O2} that is decomposed in 
+	When $\phi$ is the concentration of some solute in the fluid, \emph{diffusiophoresis} takes place; CELLOIDS tries to achieve this using active Janus particles, with an inert hemisphere and a catalytic one, which turns a fuel into some products generating a gradient in the concentration field in its vicinity; this makes the solvent flow around the particle causing it to move. 
+	One of the most studied Janus mircoparticle is \ch{SiO2-Pt}, where \ch{Pt} is deposed on one hemisphere of the particle using a sputtering machine; the fuel is \ch{H2O2} that is decomposed in 
 	\begin{align}
-	\ch{2 H2O2 ->[Pt] 2 H2O + O2}
+	\ch{2 H2O2 ->[Pt] 2 H2O + O2}.
 	\end{align}
 	
 	\section{Objectives}	
@@ -87,12 +87,12 @@
 	
 	\subsection{Objective 2: Analysis} %\todo{nell'analisi c'è anche tutta la parte di analisi quantitativa delle simulazioni... e forse l'inferenza la lascerei a parte}
 	Although qualitative agreement between experiments and simulations plays a significant role, we believe that developing quantitative tools to analyze structure and dynamics of the system we are studying is necessary to understand the ongoing physics.
-	Moreover, with slight adjustments, this tools could easily be adapted to the analysis of experimental data, namely, positions of particles obtained from videos tracking.
+	Moreover, with slight adjustments, these tools could easily be adapted to the analysis of experimental data, namely, positions of particles obtained from videos tracking.
 	
 	Here, we used well-known analysis tools, as well as some novel instruments developed during this thesis work.
 	
 	\subsection{Objective 3: Inference and Deep Learning}
-	The last objective of the project is to build a Deep Learning based tool which, when trained starting from a minimal set of simulation data, is able to infer the interaction potential between couples of particles both in simulated and experimentally observed situations.
+	The last objective of this thesis is to build a Deep Learning based tool which, when trained starting from a minimal set of simulation data, is able to infer the interaction potential between couples of particles both in simulated and experimentally observed situations.
 	
 
 	\section{State of the Art} \label{literature}
@@ -115,7 +115,7 @@
 	
 	Although not strictly related to the present work, \cite{cavagna_empirical_2010, ballerini_interaction_2008} are essential papers for the study of collective motion.
 	In these works, the problem of relating theoretical models and reality is tackled analyzing videos of starling swarms in order to understand characteristics of interactions. %\todo{non capisco questa frase}
-	Understandably, the system studied by \citeauthor{cavagna_empirical_2010, ballerini_interaction_2008} is pretty different from the active Brownian particles ensemble investigated in this project, with the fist difference being the dimensionality (a bird swarm, just like a school of fish moves in a 3D environment), but some of the problems reported in that paper are still present in these days active matter community.
+	Understandably, the system studied by \citeauthor{cavagna_empirical_2010, ballerini_interaction_2008} \cite{cavagna_empirical_2010, ballerini_interaction_2008} is pretty different from the active Brownian particles ensemble investigated in this project, with the first difference being the dimensionality (a bird swarm, just like a school of fish moves in a 3D environment), but some of the problems reported in that paper are still present in these days active matter community.
 	
 	As for the case of self-propelled particles, \cite{martin-gomez_collective_2018} analyzes how an explicit polar aligning interaction can make the system transition to an ordered flocking phase, where almost all particles align their orientation in the same direction, even though an orientational noise is present. 
 	The model is built implementing an aligning torque between particles $i$ and $j$ which goes as $K \sin{(\theta_{i} - \theta_{j})}$, only within a certain distance, and a repulsive potential $\epsilon \left(\frac{\sigma}{r}\right)^{12}$ to take into account the excluded volume.
@@ -146,7 +146,7 @@
 	P_x = \left\langle \left| \frac{1}{N} \sum_{i=1}^N \cos(\theta_i) \right| \right\rangle ; \quad
 	P_y = \left\langle \left| \frac{1}{N} \sum_{i=1}^N \sin(\theta_i) \right| \right\rangle,
  	\end{equation}
- 	it is possible to distinguish between lane-like and band-like behavior in aligned clusters.
+ 	it is possible to distinguish between lane-like and band-like behavior in aligned clusters (Figure \ref{fig:martin_flocking2}).
  
 	 \begin{figure}[htp]
 		 	\centering
@@ -191,10 +191,11 @@
 		\label{fig:caprini1}
 	\end{figure}
 	
-	Going on, the article shows analytically how it is possible to rewrite the equation of motion for the velocity: considering the symmetry in the hexagonal lattice which the particles arrange into, such equation involves a term which depends on the difference between particle's velocity and average velocity of the six surrounding it, thus re-obtaining a Vicsek-like model without a specific aligning interaction.
+	Furthermore, authors derive equation of motion for velocity, considering hexagonal lattice arrangement of particles. 
+	Such equation involves a term which depends on the difference between particle's velocity and average velocity of the six surrounding it, thus re-obtaining a Vicsek-like model without a specific aligning interaction.
 	
-	Some of the first papers cited in this section focus on animal behavior; it is believed that to better represent animal collective motion one have to implement some kind of vision in the model. 
-	\cite{negi_emergent_2022} does so, with an aligning interaction similar to the one in \cite{martin-gomez_collective_2018}, with the difference that the total torque on particle $i$ is calculated taking into account only particles in the \emph{vision cone} of particle $i$, i.e.\ a circular sector with center of mass of $i$ as center as shown in Figure \ref{fig:negi_vision1}, with a given aperture angle and radius. 
+	It is intuitive to think that a good animal collective motion model will have a vision. In ref.\ \cite{negi_emergent_2022} authors implemented this vision with an aligning interaction similar to ref. \cite{martin-gomez_collective_2018}.
+    However, in the two models total torque is calculated differently; in ref.\ \cite{negi_emergent_2022} the total torque on particle $i$ is calculated taking into account only particles in the \emph{vision cone} of particle $i$, i.e.\ a circular sector with center of mass of $i$ as center as shown in Figure \ref{fig:negi_vision1}, with a given aperture angle and radius. 
 	This is useful to see what happens when \emph{nonreciprocal} interactions, i.e.\ particle $i$ feels the effect of particle $j$ but the vice versa is not true.
 	
 	\begin{figure}[htp]
@@ -205,7 +206,7 @@
 	\end{figure}
 	
 	
-	The authors use some tools, such as cluster size distribution, Mean Square Displacement (MSD) and velocity correlation function, to study the properties of a collection of \emph{intelligent} active particles, but they also display some snapshot of the particles' simulation, which are particularly interesting to see what \emph{can} happen when an interaction is acting on the system, both at small and large packing fraction. 
+	The authors use tools, such as cluster size distribution, Mean Square Displacement (MSD) and velocity correlation function, to study the properties of a collection of \emph{intelligent} active particles, but they also display some snapshot of the particles' simulation, which are particularly interesting to see what \emph{can} happen when an interaction is acting on the system, both at small and large packing fraction. 
 	
 	\begin{figure}[htp]
 		\centering
@@ -216,12 +217,12 @@
 	\end{figure}
 	
 	\subsection{Experimental analysis of collective behaviors}
-	The interaction between active particles and their emergent collective behaviours have been studied also in experiments. 
-	\cite{singh_pair_2024} studies what happens when two \ch{SiO2-Pt} Janus particles come together in different configurations; authors model a collision analyzing the overlap between concentration fields around the two particles as well as the torque caused by the interaction between solvent flows around each hemisphere of a pair of Janus microswimmers.%\todo{in che senso ne tengono conto?} 
+	The interaction between active particles and their emergent collective behaviours have been studied also in experiments \cite{singh_pair_2024}. 
+	When two \ch{SiO2-Pt} Janus particles come together in different configurations; authors model a collision analyzing the overlap between concentration fields around the two particles as well as the torque caused by the interaction between solvent flows around each hemisphere of a pair of Janus microswimmers. %\todo{in che senso ne tengono conto?} 
 	Although here we are trying to build a dry active matter simulation --- means, absence of hydrodynamic and medium behavior is not simulated --- papers like this accurately describe the phenomenology of these close encounters, which is essential to build minimal models that mimic real-world behavior. 
 	The main fact, supported both by simulations and experimental evidence, to take away is that chemical and hydrodynamic interactions do not cause reorientation for pairs of particles separated by a long distance, and that leading effects are short-range chemical torques.%\todo{frase non chiara, riscrivere}
 	
-	Dispersing Janus colloids in a \ch{H2O2} solution in a quasi-2D environment, the types of configurations particles can scatter in are limited and categorized by the authors in four dynamical states. 
+	Dispersing Janus colloids in a \ch{H2O2} solution in a quasi-2D environment, the types of configurations particles can scatter in are limited and categorized by \citeauthor{singh_pair_2024} in four dynamical states. 
 	The classification of both approach and departure states, along with a relative frequency histogram is in \ref{fig:singh_pair1}.
 	
 	\begin{figure}[htp]
@@ -233,7 +234,7 @@
 	
 	It is evident from this article that such particles exert a torque on each other at short range and this interaction, which is a product of the intrinsic asymmetry of a Janus colloid, must be considered in order to capture all the dynamics of these micro-swimmers.
 	
-	\cite{maity_spontaneous_2023} investigate what happens with a binary population of active colloidal particles, that is obtained by mixing particles of \qtylist{7;10}{\um} in diameter. 
+	Ref.\ \cite{maity_spontaneous_2023} investigate what happens with a binary population of active colloidal particles, that is obtained by mixing particles of \qtylist{7;10}{\um} in diameter. 
 	These colloids move due to a different mechanism than the one seen before, whose details will not be discussed here, called Quincke instability; with enough particle density, the solvent mediates an aligning interaction which makes the system undergo a Vicsek-like flocking transition that, within a circular confinement, takes place as a vortex motion. 
 	The two populations are distinguished by a difference in diameter and in velocity. 
 	Within some minutes, the initially uniform sample demixes spontaneously, heading to a segregated state where the two populations are well separated and their relative densities have a different radial profile, as shown in Figure \ref{fig:maity1}.
@@ -270,16 +271,16 @@
 	
 	\subsection{Inference of interaction potentials}
 	Inferring interaction potentials starting from experimental or simulated data is challenging and different techniques could be adopted. 
-	Since the real interactions that occur between a pair of colloidal particles are mostly unknown and in principle may involve chemical gradients, hydrodynamics, electromagnetism and all kinds of interplay between these and other mechanisms, it would be extremely useful to have a tool that predicts forces between particles mapping them in terms of some kind of minimal model such as a simple central potential. 
+	Since the real interactions that occur between a pair of colloidal particles are mostly unknown and in principle may involve chemical gradients, hydrodynamics, etc., it is essential to have a method that predicts forces between particles based on a central potential. 
 	Here, we will focus only on inference strategies based on Deep Learning (DL), which have shown particularly promising. 
 	
-	In terms of machine learning model, the simplest approach is using some global attribute of the active particle ensemble to predict the potential via a Deep Neural Network. %\todo{spiega meglio}
+	In terms of machine learning model, the simplest approach is using some global attribute of the active particle ensemble to predict the potential via a Deep Neural Network (DNN). %\todo{spiega meglio}
 	The idea is to concatenate all attributes in a vector and feed it as input to a DNN, that has as target function another vector containing the values of interaction potentials; the loss function to minimize is the difference (absolute or square) between the predicted potential and the ground-truth one.
-	\cite{bag_interaction_2021} aims at doing exactly that, exploiting a fact from statistical and matter physics; as authors claim, they use a theorem saying that \enquote{for the fluids with only pairwise interaction (quantum or classical), the pair potential $V(r)$ that leads to a specific $g(r)$ is unique} and the question of predicting which $V(r)$ causes a specific structural correlation like $g(r)$ or, equivalently, $S(q)$ \enquote{is a well defined one}. 
+	Ref.\ \cite{bag_interaction_2021} aims at doing exactly that, exploiting a fact from statistical and matter physics; as authors claim, they use a theorem saying that \enquote{for the fluids with only pairwise interaction (quantum or classical), the pair potential $V(r)$ that leads to a specific $g(r)$ is unique} and the question of predicting which $V(r)$ causes a specific structural correlation like $g(r)$ or, equivalently, $S(q)$ \enquote{is a well defined one}. 
 	
 	Authors simulated both passive and active Brownian particles to see de difference between equilibrium and non-equilibrium configurations. 
 	All the tested potential were of the form $V(r_{ij}) = 4\varepsilon \left[ \left( \frac{\sigma}{r_{ij}} \right)^a - \lambda \left( \frac{\sigma}{r_{ij}} \right)^b \right]$ with different values of the parameters. 
-	Letting the system reach steady state and then taking $100$ snapshots of the pair correlation function to train the network, the authors show pretty good results regarding the accordance between predicted and real potentials in all the possible phases: gas-like, crystal and liquid-like. (\ref{fig:bag1})
+	Letting the system reach steady state and then taking $100$ snapshots of the pair correlation function to train the network, the authors show a match between predicted and real potentials in all the possible phases: gas-like, crystal and liquid-like. (Figure \ref{fig:bag1})
 	
 	\begin{figure}[htp]
 		\centering
