@@ -449,7 +449,11 @@
 		A simple and effective model to describe the dynamics of active particles is the Active Brownian Particle (ABP) model, which is a generalization of the Brownian particle model.
 		This consists in adding a constant-magnitude self-propulsion velocity $\mathbf{v}$ term to the equations of Brownian motion:
 		\begin{equation}
-			\dot{x} = v \cos{\theta} + \sqrt{2D_t}\dd{W_x} , \quad \dot{y} = v \sin{\theta} + \sqrt{2D_t}\dd{W_y}, \quad \dot{\theta} = \sqrt{2D_r}\dd{W_{\theta}}
+			\begin{cases}
+				\dd{x} = v \cos{\theta} \dd{t} + \sqrt{2D_t}\dd{W_x}, \\
+				\dd{y} = v \sin{\theta}\dd{t} + \sqrt{2D_t}\dd{W_y}, \\
+				\dd{\theta} = \sqrt{2D_r}\dd{W_{\theta}}\\
+			\end{cases}
 		\end{equation}
 		where $\theta$ is the particle orientation and $v$ is the magnitude of the self-propulsion velocity.
 		
@@ -458,10 +462,10 @@
 			\begin{cases}
 				x_{n+1} = x_n + v \cos(\theta) \Delta t + \sqrt{2D_t \Delta t} \, W_{x,n},\\
 				y_{n+1} = y_n + v \sin(\theta) \Delta t + \sqrt{2D_t \Delta t} \, W_{y,n},\\
-				\theta_{n+1} = \theta_n + \omega \Delta t + \sqrt{2D_t \Delta t} \, W_{\theta,n}\\
+				\theta_{n+1} = \theta_n + \omega \Delta t + \sqrt{2D_r \Delta t} \, W_{\theta,n}\\
 			\end{cases}
 		\end{equation}
-		where the case of a deterministic self-propulsion angular velocity $\omega$ is also taken into account.
+		where the case of a deterministic self-propulsion angular velocity $\omega$ is also taken into account \cite{callegari_numerical_2019}.
 		
 		It is possible to insert external forces and torques in the system, where \emph{external} means they are not due to the self-propulsion. 
 		Even though in literature there are examples of uniform external potentials, e.g.\ electric and magnetic fields, being applied on the ABP ensemble as a whole, in this work the only external force is the interaction between particles, which is applied in the low-Reynolds number regime as:
@@ -469,7 +473,7 @@
 			\begin{cases}
 				x_{n+1} = x_n + \left( v \cos(\theta) + \frac{D_t}{k_B T} F_{ext,x} \right) \Delta t + \sqrt{2D_t \Delta t} \, W_{x,n},\\
 				y_{n+1} = y_n + \left( v \sin(\theta) + \frac{D_t}{k_B T} F_{ext,y} \right) \Delta t + \sqrt{2D_t \Delta t} \, W_{y,n},\\
-				\theta_{n+1} = \theta_n +\left(\omega + \frac{D_r}{k_B T}{}T_{ext}\right) \Delta t + \sqrt{2D_t \Delta t} \, W_{\theta,n}\\
+				\theta_{n+1} = \theta_n +\left(\omega + \frac{D_r}{k_B T}{}T_{ext}\right) \Delta t + \sqrt{2D_r \Delta t} \, W_{\theta,n}\\
 			\end{cases}
 		\end{equation}
 		where applying a force or a torque just linearly translates to a linear or angular velocity change, with the respective drag coefficients as proportionality constant.
@@ -622,7 +626,7 @@
 		
 		In order to analyze stochastic behavior, if one is interested in large time behavior, it is possible to study the equilibrium distribution $P(x)$. 
 		In particular, a system described by $\dot{x} = -V'(x) + \sqrt{2D}\xi(t)$, the equilibrium distribution should be $P(x, \infty)_{\text{true}} = N \exp(-V(x)/D)$, while a simulated distribution will be $P(x, \infty)_{\text{true}} = N' \exp(-\qty(V(x) + hS(h,x))/D)$, with an error $S$. It is possible to show \cite{mannella_integration_2011} that for Euler $S(h,x) = (V')^2/4 - DV''/2$ while Heun has $S(h,x) = \order{h}$.
-		For Heun error does not depend on the value of potential and its derivatives but only on integration step, making it possible to get more accurate estimates of the equilibrium distribution.%\todo{quindi? spiega anche per qualcuno che non è né te né Mannella :)}
+		For Heun error does not depend on the value of potential and its derivatives but only on integration step, making it possible to get more accurate estimates of the equilibrium distribution.
 		
 		Analyses suggest that Heun scheme is among the most convenient algorithms, since higher order schemes do not do better, but they are much more expensive to implement on a computer. 
 		
