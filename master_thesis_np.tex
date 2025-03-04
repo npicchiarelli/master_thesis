@@ -1,4 +1,4 @@
-\documentclass[a4paper]{book} % type of document
+\documentclass[a4paper, titlepage]{book} % type of document
 \usepackage[T1]{fontenc}      % font encoding
 \usepackage[utf8]{inputenc}   % sepcial chars from keyboard
 \usepackage[english]{babel}   % document language
@@ -24,7 +24,9 @@
 \usepackage{siunitx}
 \usepackage{physics}
 %\usepackage{ulem}
-\usepackage{todonotes}
+%\usepackage{todonotes}
+
+\usepackage[normal, onlyinclude]{frontespizio}
 
 \makeatletter
 
@@ -37,7 +39,7 @@
 \usepackage{hyperref}
 \hypersetup{hidelinks}
 
-\graphicspath{ {./chapters/01_intro/imgs/} {./chapters/02_impl/imgs/} {./chapters/03_struct/imgs/} {./chapters/04_infer/imgs/} {./chapters/05_concl/imgs/}}
+\graphicspath{ {./chapters/01_intro/imgs/} {./chapters/02_impl/imgs/} {./chapters/03_struct/imgs/} {./chapters/04_infer/imgs/} {./chapters/05_concl/imgs/} {./imgs}}
 \input{command_def}
 
 \addbibresource{./chapters/01_intro/01_intro.bib}
@@ -60,12 +62,26 @@
 \begin{document}
 	
 	\frontmatter
-	\maketitle
+	%\maketitle
+	
+	\begin{frontespizio}
+
+		\Universita{Pisa}
+		\Dipartimento{Fisica}
+		\Corso[Laurea Magistrale]{Fisica}
+		\Titolo{Collective Behaviors of Interacting Active Brownian Particles: Simulations and Analysis}
+		\Candidato{Niccolò Picchiarelli}
+		\Relatore{Prof. Stefano Palagi}
+		\Relatore{Prof. Riccardo Mannella}
+		\Annoaccademico{2024-2025}
+		\Logo{./imgs./logo_unipi.png}
+
+	\end{frontespizio}
 	
 	\cleardoublepage
 	\vspace*{\stretch{1}}
 	\begin{flushright}
-		\itshape To Francesco and the man he will become\\
+		{\itshape To Francesco and the man he will become}\\
 	\end{flushright}
 	\vspace{\stretch{2}}
 	\newpage
@@ -81,7 +97,7 @@
 
 	\subfile{./chapters/02_impl/02_impl}
 	
-	\subfile{./chapters/03_struct/03_struct}
+    \subfile{./chapters/03_struct/03_struct}
 	
 	\subfile{./chapters/04_infer/04_infer}
 	
